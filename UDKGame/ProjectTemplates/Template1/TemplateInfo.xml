@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ManifestOptions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MainFilesToExclude>
+	<string>UDKGame/Localization/INT/^UTGame.(.*)</string>	
+	<string>Development/Src/UDKBase/classes/CastlePC.uc</string>
+	<string>Development/Src/UDKBase/classes/CastleGame.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileHUDExt.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileMenuBase.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileMenuDebug.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileMenuControls.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileMenuPause.uc</string>
+	<string>Development/Src/UDKBase/classes/MobileMenuSplash.uc</string>
+	<string>Development/Src/UTEditor</string>
+	<string>Development/Src/UTGame</string>
+	<string>Development/Src/UTGameContent</string>
+	<string>UDKGame/Config/UnrealFrontend.DefaultProfiles</string>
+	<string>UDKGame/Content/^GameAssetDatabase.(.*)</string>
+	<string>UDKGame/Content/Maps</string>
+	<string>UDKGame/Content/Mobile</string>
+	<string>UDKGame/Content/Shared/Effects</string>
+	<string>UDKGame/Content/Showcases</string>
+	<string>UDKGame/Content/TestPackages</string>
+	<string>UDKGame/Content/UT3</string>
+	<string>UDKGame/CookedPC</string>
+	<string>UDKGame/CutdownPackages</string>
+	<string>UDKGame/Flash</string>
+	<string>UDKGame/Script</string>
+  </MainFilesToExclude>
+</ManifestOptions>
