@@ -2,6 +2,8 @@ Binaries
 UDKGame/Content/*.checkpoint
 UDKGame/Content/GlobalShaderCache*.bin
 UDKGame/Content/RefShaderCache*.upk
+UDKGame/Content/Maps/*
+UDKGame/Content/OLGame
 UDKGame/Logs
 UDKGame/Build
 UDKGame/Script
