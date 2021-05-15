@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<GameSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<FileGroups>
+
+		<FileGroup Tag="Executable" Platform="PC">
+			<Files>
+				<FileSet Path="Binaries\P4PopulateDepot.exe" />
+				<FileSet Path="Binaries\UDK.exe" />
+				<FileSet Path="Binaries\UDKLift.exe" />
+				<FileSet Path="Binaries\Win32\UDK.exe" />
+				<FileSet Path="Binaries\Win32\UDK.exe.config" />
+				<FileSet Path="Binaries\Win32\UDK.com" />
+				<FileSet Path="Binaries\Win32\UDKGameDLL.dll" />
+				<FileSet Path="Binaries\Win32\UDKGameDLL.dll.manifest" />
+				<FileSet Path="Binaries\IPhone\UDKGame-iPhone-*.stub" />
+				<FileSet Path="Binaries\iPhone\iPhone*.exe*" />
+				<FileSet Path="Binaries\iPhone\IPAExamine.exe*" />
+				<FileSet Path="Binaries\iPhone\DeploymentServer.exe" />
+				<FileSet Path="Binaries\iPhone\DeploymentInterface.dll" />
+				<FileSet Path="Binaries\iPhone\iPhoneTools*.dll" />
+				<FileSet Path="Binaries\iPhone\BouncyCastle.Crypto.dll" />
+				<FileSet Path="Binaries\iPhone\Ionic.Zip.Reduced.dll" />
+				<FileSet Path="Binaries\iPhone\MobileDeviceInterface.dll" />
+				<FileSet Path="Binaries\iPhone\openssl.exe" />
+				<FileSet Path="Binaries\iPhone\Apple*.pem" />
+				<FileSet Path="Binaries\Mac\UDKGame-Mac-*.stub" />
+				<FileSet Path="Binaries\Mac\Mac*.exe*" />
+				<FileSet Path="Binaries\Mac\MacTools*.dll" />
+				<FileSet Path="Binaries\Mac\Ionic.Zip.Reduced.dll" />
+				<FileSet Path="Binaries\Mac\BouncyCastle.Crypto.dll" />
+				<FileSet Path="Engine\Stats\*.*" />
+				<FileSet Path="Engine\Shaders\Mobile\*.msf" />
+				<FileSet Path="UDKGame\Build\iPhone\IPhone-Info.plist" />
+				<FileSet Path="UDKGame\Build\iPhone\iTunesArtwork" />
+				<FileSet Path="UDKGame\Build\iPhone\Resources\*.*" bIsRecursive="true" />
+				<FileSet Path="UDKGame\ProjectTemplates\*.*" bIsRecursive="true" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="Executable" Platform="Xbox360" bIsForTOC="false">
+			<Files>
+				<FileSet Path="FonixTtsDt*.xex" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="Debug" Platform="PC">
+			<Files>
+				<FileSet Path="Binaries\Win32\UDK.pdb" />
+				<FileSet Path="Binaries\Win32\UDKGameDLL.pdb" />
+				<FileSet Path="Binaries\UDKLift.pdb" />
+				<FileSet Path="Binaries\IPhone\IPhoneTools*.pdb" />
+				<FileSet Path="Binaries\IPhone\iPhonePackager.pdb" />
+				<FileSet Path="Binaries\IPhone\IPAExamine.pdb" />
+				<FileSet Path="Binaries\IPhone\Deployment*.pdb" />
+				<FileSet Path="Binaries\Mac\MacTools*.pdb" />
+				<FileSet Path="Binaries\Mac\MacPackager.pdb" />
+				<FileSet Path="Binaries\%PLATFORM%\BouncyCastle.Crypto.pdb" />
+				<FileSet Path="Binaries\%PLATFORM%\Ionic.Zip.Reduced.pdb" />
+				<FileSet Path="Binaries\IPhone\MobileDeviceInterface.pdb" />
+				<FileSet Path="Binaries\%PLATFORM%\openssl.pdb" />
+				<FileSet Path="Binaries\IPhone\UDKGame-iPhone-*.app.dSYM.zip" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="Win64Executable" Platform="PC">
+			<Files>
+				<FileSet Path="Binaries\Win64\UDK.exe" />
+				<FileSet Path="Binaries\Win64\UDK.exe.config" />
+				<FileSet Path="Binaries\Win64\UDK.com" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="Win64Debug" Platform="PC">
+			<Files>
+				<FileSet Path="Binaries\Win64\UDK.pdb" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="RunTimeEngine" Platform="PC" bIsForTOC="false">
+			<Files>
+				<FileSet Path="Engine\Extras\*.*" />
+				<FileSet Path="Engine\Config\Mobile\*.ini" />
+				<FileSet Path="Engine\Config\IPhone\*.ini" />
+				<FileSet Path="Engine\Config\Mac\*.ini" />
+			</Files>
+		</FileGroup>
+
+		<FileGroup Tag="RunTimeContent" Platform="PC">
+			<Files>
+				<FileSet Path="UDKGame\Config\Mobile\*.ini" />
+				<FileSet Path="UDKGame\Config\IPhone\*.ini" />
+				<FileSet Path="UDKGame\Config\Mac\*.ini" />
+				<FileSet Path="UDKGame\Splash\Mac\*.*" />
+			</Files>
+		</FileGroup>
+
+	</FileGroups>
+
+</GameSettings>
