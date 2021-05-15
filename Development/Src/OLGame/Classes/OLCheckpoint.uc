@@ -1,4 +1,5 @@
 Class OLCheckpoint extends trigger
+    classgroup(OL,Gameplay)
 	placeable;
 	
 var() Name CheckpointName;

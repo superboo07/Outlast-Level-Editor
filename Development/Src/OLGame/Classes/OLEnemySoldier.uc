@@ -8,8 +8,7 @@
 class OLEnemySoldier extends OLEnemyPawn
     native(AI)
     config(Enemy)
-    hidecategories(Navigation)
-	placeable;
+    hidecategories(Navigation);
 
 function PlayLanded(float ImpactVel)
 {

@@ -8,6 +8,7 @@
 class OLGameplayMarker extends Actor
     native
     placeable
+    classgroup(OL,Gameplay)
     hidecategories(Navigation);
 
 var() bool bEnabled;

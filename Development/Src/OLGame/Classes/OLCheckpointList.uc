@@ -8,6 +8,7 @@
 class OLCheckpointList extends Actor
     native
     placeable
+    classgroup(OL,Menu)
     hidecategories(Navigation);
 
 enum OutlastGameType

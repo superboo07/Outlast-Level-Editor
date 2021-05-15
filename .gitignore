@@ -1,6 +1,7 @@
 /Binaries
 UDKGame/Content/GlobalShaderCache*.bin
 UDKGame/Content/RefShaderCache*.upk
+UDKGame/Content/GameAssetDatabase.checkpoint
 UDKGame/Content/Maps/Custom
 UDKGame/Content/OLGame
 UDKGame/Logs/*
