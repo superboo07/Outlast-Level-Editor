@@ -1,6 +1,16 @@
-Binaries
+/Binaries
 UDKGame/Content/GlobalShaderCache*.bin
 UDKGame/Content/RefShaderCache*.upk
 UDKGame/Content/Maps/Custom
 UDKGame/Content/OLGame
 UDKGame/Logs/*
+UDKGame/Script/*
+UDKGame/Config/UDKEditor.ini
+UDKGame/Config/UDKEditorKeyBindings.ini
+UDKGame/Config/UDKEditorUserSettings.ini
+UDKGame/Config/UDKEngine.ini
+UDKGame/Config/UDKGame.ini
+UDKGame/Config/UDKInput.ini
+UDKGame/Config/UDKLightmass.ini
+UDKGame/Config/UDKSystemSettings.ini
+UDKGame/Config/UDKUI.ini
