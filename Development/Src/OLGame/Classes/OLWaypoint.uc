@@ -9,6 +9,7 @@
 class OLWaypoint extends NavigationPoint
     native(AI)
     hidecategories(Navigation,Lighting,LightColor,Force)
+    classgroup(OL,AI)
 	placeable;
 
 var() float WaitTime;

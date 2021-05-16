@@ -9,6 +9,7 @@ class OLPushableObject extends Actor
     native
     placeable
     hidecategories(Navigation)
+    classgroup(OL,Ingredient)
     implements(Interface_NavMeshPathObstacle);
 
 enum PushableMaterial

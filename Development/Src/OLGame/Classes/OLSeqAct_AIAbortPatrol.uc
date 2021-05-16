@@ -13,4 +13,5 @@ class OLSeqAct_AIAbortPatrol extends SequenceAction
 defaultproperties
 {
     ObjName="Abort Patrol"
+    ObjCategory="Outlast"
 }

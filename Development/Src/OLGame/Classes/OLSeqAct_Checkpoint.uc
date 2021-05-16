@@ -8,6 +8,7 @@
 class OLSeqAct_Checkpoint extends SequenceAction
     native
     forcescriptorder(true)
+    classgroup(OL,Checkpoint)
     hidecategories(Object);
 
 var() name CheckpointName;
@@ -30,4 +31,5 @@ defaultproperties
     OutputLinks=none
     VariableLinks=none
     ObjName="Checkpoint"
+    ObjCategory="Outlast"
 }

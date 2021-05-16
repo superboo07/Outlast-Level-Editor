@@ -8,6 +8,7 @@
 class OLPreferredPathMarker extends OLGameplayMarker
     native
     placeable
+    classgroup(OL,AI)
     hidecategories(Navigation);
 
 var() OLPreferredPathMarker Next;
