@@ -23,9 +23,13 @@ To update the repository type
 `git fetch https://github.com/superboo07/Outlast-Level-Editor.git`
 
 ## UDK
-First you must launch UDK installer you downloaded above, or use an installer you downloaded from somewhere else. Make sure not to install it in the same directory you cloned the repository to. The project name doesn't matter. I recommend you start with an empty project, and don't install preforce. You won't need anything it creates except the binaries folder, so no use in installing unreal tournament content. 
+First you must launch the UDK installer you downloaded above, or use an installer you downloaded from somewhere else. Make sure not to install it in the same directory you cloned the repository to. The project name doesn't matter. I recommend you start with an empty project, and don't install preforce. You won't need anything it creates except the binaries folder, so no use in installing unreal tournament content. 
+
+<img src="Repository\SETUP\Installer_1.png" width=50% object-fit=fill><img src="Repository\SETUP\Installer_2.png" width=50% object-fit=fill>
 
 When the install finishes, navigate to where you installed it, and copy the folder named `binaries` then paste it into the cloned repository. Now navigate into the binaries folder, and launch the application named `UnrealFrontend.exe`. Compile the scripts, then launch the editor. 
+
+<img src="Repository\SETUP\UnrealFrontend_1.png" width=50% object-fit=fill>
 
 Under normal circumstances you shouldn't need to use unreal script, but I've included an Visual Studio Code Workspace, for those who do. 
 The workspace also includes build tasks that allow you to compile, and launch the editor.
