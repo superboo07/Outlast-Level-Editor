@@ -14,6 +14,4 @@ var config float SpeedPenaltyDuration;
 
 defaultproperties
 {
-    SpeedPenaltyPctOnDamage=0.750
-    SpeedPenaltyDuration=0.750
 }

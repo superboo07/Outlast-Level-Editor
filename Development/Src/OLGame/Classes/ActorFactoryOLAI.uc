@@ -6,7 +6,7 @@
  * All rights belong to their respective owners.
  *******************************************************************************/
 class ActorFactoryOLAI extends ActorFactoryAI
-	dependsOn( OLEnemyPawn )
+	dependsOn(OLEnemyPawn)
     native(AI)
     config(Editor)
     editinlinenew

@@ -37,13 +37,13 @@
         },
         {
             "label": "Run Editor",
-            "type": "process",
+            "type": "shell",
             "command": "../../Binaries/Win32/UDK.com",
             "args": ["editor"],
             "group": "build",
             "presentation": {
                 "echo": false,
-                "reveal": "never",
+                "reveal": "always",
                 "focus": false,
                 "panel": "shared",
                 "showReuseMessage": false,

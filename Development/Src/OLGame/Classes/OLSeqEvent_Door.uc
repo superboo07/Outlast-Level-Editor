@@ -34,5 +34,5 @@ defaultproperties
     OutputLinks(7)=(Links=none,LinkDesc="Started Closing",bHasImpulse=false,bDisabled=false,bDisabledPIE=false,LinkedOp=none,ActivateDelay=0.0,DrawY=0,bHidden=false,bMoving=false,bClampedMax=false,bClampedMin=false,OverrideDelta=0,PIEActivationTime=0.0,bIsActivated=false)
     VariableLinks=none
     ObjName="Door Event"
-    ObjCategory="Outlast"
+    ObjCategory="Doors"
 }

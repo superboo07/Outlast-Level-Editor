@@ -52,5 +52,4 @@ defaultproperties
     Components(0)=none
     Components(1)=SphereComp
     Components(2)=none
-    SupportedEvents=/* Array type was not detected. */
 }

@@ -51,7 +51,6 @@ struct native StruggleConfig
         MaxRateEnd=3.0
         SuccessPctForMinRate=0.50
         SuccessPctForMaxRate=1.0
-        HeroAnimSets=none
     }
 };
 

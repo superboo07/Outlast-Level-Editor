@@ -24,6 +24,6 @@ defaultproperties
     BlendOutTime=4.0
     Desaturation=0.70
     VariableLinks=none
-    ObjName="Blur"
+    ObjName="Blur Vision"
     ObjCategory="Player"
 }

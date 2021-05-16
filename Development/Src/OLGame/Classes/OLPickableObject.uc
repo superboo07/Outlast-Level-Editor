@@ -32,18 +32,14 @@ defaultproperties
         CastShadow=false
         bCastDynamicShadow=false
     end object
-    // Reference: StaticMeshComponent'Default__OLPickableObject.PickupMeshComp'
     PickupMesh=PickupMeshComp
     PickupLightEnvironment=DynamicLightEnvironmentComponent'Default__OLPickableObject.LightEnvironmentComp'
     bPickupOnNotify=true
     Components(0)=DynamicLightEnvironmentComponent'Default__OLPickableObject.LightEnvironmentComp'
-    // Reference: StaticMeshComponent'Default__OLPickableObject.PickupMeshComp'
     Components(1)=PickupMeshComp
-    // Reference: CylinderComponent'Default__OLPickableObject.CollisionCylinder'
     Components(2)=CollisionCylinder
     bAlwaysRelevant=true
     bEdShouldSnap=true
-    // Reference: CylinderComponent'Default__OLPickableObject.CollisionCylinder'
     CollisionComponent=CollisionCylinder
     SupportedEvents=/* Array type was not detected. */
 }

@@ -313,8 +313,6 @@ struct native TurningData
 };
 
 var OLPawn DefaultPawn;
-var OLAnimNodeSlot FullBodyAnimSlot;
-var OLAnimCustomBlend CustomBlendNode;
 var Vector RealVelocity;
 var Vector PreviousLocation;
 var OLPawn.ELocomotionMode LocomotionMode;

@@ -48,15 +48,4 @@ native function UpdateGameType();
 
 defaultproperties
 {
-    DefaultMapName=Intro_Persistent
-    DemoMapName=Demo_Intro_Persistent
-    DLCInstalledMapName=DLC_Intro_Persistent
-    SndPause=AkEvent'Menu.PAUSE_On'
-    SndUnpause=AkEvent'Menu.PAUSE_Off'
-    SndPauseNoSound=AkEvent'Menu.PAUSE_On_TOTAL'
-    SndUnpauseNoSound=AkEvent'Menu.PAUSE_Off_TOTAL'
-    DefaultPawnClass=class'OLHero'
-    HUDType=class'OLHUD'
-    PlayerControllerClass=class'OLPlayerController'
-    PlayerReplicationInfoClass=class'OLPlayerReplicationInfo'
 }

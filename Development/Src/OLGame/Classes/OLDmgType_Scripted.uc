@@ -11,10 +11,4 @@ class OLDmgType_Scripted extends OLDmgType
 
 defaultproperties
 {
-    begin object name=ForceFeedbackWaveform0 class=ForceFeedbackWaveform
-        Samples=/* Array type was not detected. */
-    object end
-    // Reference: ForceFeedbackWaveform'Default__OLDmgType_Scripted.ForceFeedbackWaveform0'
-    DamagedFFWaveform=ForceFeedbackWaveform0
-    KilledFFWaveform=ForceFeedbackWaveform'Default__OLDmgType_Scripted.ForceFeedbackWaveform1'
 }

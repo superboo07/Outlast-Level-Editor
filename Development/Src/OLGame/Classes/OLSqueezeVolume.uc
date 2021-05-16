@@ -30,7 +30,6 @@ defaultproperties
     BrushComponent=BrushComponent0
     // Reference: BrushComponent'Default__OLSqueezeVolume.BrushComponent0'
     Components(0)=BrushComponent0
-    RemoteRole=ENetRole.ROLE_SimulatedProxy
     // Reference: BrushComponent'Default__OLSqueezeVolume.BrushComponent0'
     CollisionComponent=BrushComponent0
 }
