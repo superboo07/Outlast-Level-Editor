@@ -14,5 +14,5 @@ defaultproperties
 {
     VariableLinks=none
     ObjName="OpenMainMenu"
-    ObjCategory="Outlast"
+    ObjCategory="Logic"
 }

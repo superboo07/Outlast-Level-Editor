@@ -26,5 +26,5 @@ defaultproperties
     OutputLinks(2)=(Links=none,LinkDesc="Current",bHasImpulse=false,bDisabled=false,bDisabledPIE=false,LinkedOp=none,ActivateDelay=0.0,DrawY=0,bHidden=false,bMoving=false,bClampedMax=false,bClampedMin=false,OverrideDelta=0,PIEActivationTime=0.0,bIsActivated=false)
     OutputLinks(3)=(Links=none,LinkDesc="Completed",bHasImpulse=false,bDisabled=false,bDisabledPIE=false,LinkedOp=none,ActivateDelay=0.0,DrawY=0,bHidden=false,bMoving=false,bClampedMax=false,bClampedMin=false,OverrideDelta=0,PIEActivationTime=0.0,bIsActivated=false)
     ObjName="Checkpoint Reached?"
-    ObjCategory="Outlast"
+    ObjCategory="Player"
 }

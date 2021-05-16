@@ -25,5 +25,5 @@ defaultproperties
     Desaturation=0.70
     VariableLinks=none
     ObjName="Blur"
-    ObjCategory="Outlast"
+    ObjCategory="Player"
 }
