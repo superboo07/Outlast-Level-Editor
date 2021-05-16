@@ -22,7 +22,6 @@ enum EStruggleAnimPhase
 
 defaultproperties
 {
-    Children=/* Array type was not detected. */
     bFixNumChildren=true
-    NodeName=EnemyStruggle
+    NodeName="EnemyStruggle"
 }

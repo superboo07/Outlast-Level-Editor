@@ -16,14 +16,4 @@ defaultproperties
 {
     SpeedPenaltyPctOnDamage=0.750
     SpeedPenaltyDuration=0.750
-    begin object name=ForceFeedbackWaveform0 class=ForceFeedbackWaveform
-        Samples=/* Array type was not detected. */
-    object end
-    // Reference: ForceFeedbackWaveform'Default__OLDmgType.ForceFeedbackWaveform0'
-    DamagedFFWaveform=ForceFeedbackWaveform0
-    begin object name=ForceFeedbackWaveform1 class=ForceFeedbackWaveform
-        Samples=/* Array type was not detected. */
-    object end
-    // Reference: ForceFeedbackWaveform'Default__OLDmgType.ForceFeedbackWaveform1'
-    KilledFFWaveform=ForceFeedbackWaveform1
 }

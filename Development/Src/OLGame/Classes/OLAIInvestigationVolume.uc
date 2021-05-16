@@ -20,9 +20,7 @@ event ProcessActorSetVolume(Actor Other)
 defaultproperties
 {
     bProcessAllActors=true
-    begin object name=BrushComponent0
-        ReplacementPrimitive=none
-    end object
+    begin object name=BrushComponent0 end object
     // Reference: BrushComponent'Default__OLAIInvestigationVolume.BrushComponent0'
     BrushComponent=BrushComponent0
     // Reference: BrushComponent'Default__OLAIInvestigationVolume.BrushComponent0'

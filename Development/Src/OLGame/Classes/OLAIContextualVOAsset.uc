@@ -26,7 +26,6 @@ struct native VOMapping
 
     structdefaultproperties
     {
-        VOContext=EVOContext.EVOC_Undefined
-        Events=none
+        VOContext=EVOContext.EVOC_Undefineds
     }
 };

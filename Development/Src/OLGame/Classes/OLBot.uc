@@ -214,7 +214,6 @@ var bool bTookDamage;
 var bool bKnockedBack;
 var Vector NavigationExtent;
 var export editinline OLAISightComponent SightComponent;
-var OLBTBehavior RootBehavior;
 var name InterruptionState;
 var OLBot.EAIBehaviorState BehaviorState;
 var OLBot.EAIBehaviorState LastBehaviorState;

@@ -22,8 +22,6 @@ var transient int NumActiveAnims;
 
 defaultproperties
 {
-    TargetWeight=/* Array type was not detected. */
-    Children=/* Array type was not detected. */
     bFixNumChildren=true
     NodeName=CustomBlend
 }

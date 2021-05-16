@@ -13,6 +13,5 @@ var transient float CurrentRatio;
 
 defaultproperties
 {
-    Children=/* Array type was not detected. */
     bFixNumChildren=true
 }

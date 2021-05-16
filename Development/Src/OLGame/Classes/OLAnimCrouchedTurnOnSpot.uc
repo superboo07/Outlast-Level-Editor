@@ -24,7 +24,4 @@ defaultproperties
 {
     ActorSpaceIKOffset=(X=2.9230,Y=-25.3360,Z=4.070)
     ActorSpaceIKRotation=(X=0.3530,Y=0.6430,Z=0.5380,W=0.4150)
-    HandUpSound=AkEvent'Player_Sound.Clothes_Soft'
-    HandDownSound=AkEvent'Player_Sound.Clothes_Soft'
-    Children=/* Array type was not detected. */
 }

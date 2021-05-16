@@ -19,6 +19,5 @@ defaultproperties
 {
     PlayRate=1.0
     MaxRatio=-1.0
-    Children=/* Array type was not detected. */
     bFixNumChildren=true
 }

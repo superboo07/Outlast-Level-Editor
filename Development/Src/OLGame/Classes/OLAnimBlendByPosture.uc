@@ -11,6 +11,5 @@ class OLAnimBlendByPosture extends AnimNodeBlendList
 
 defaultproperties
 {
-    Children=/* Array type was not detected. */
     bFixNumChildren=true
 }
