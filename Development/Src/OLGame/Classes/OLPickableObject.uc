@@ -9,6 +9,7 @@ class OLPickableObject extends Actor
     abstract
     native
     notplaceable
+    classgroup(OL,Pickups)
     hidecategories(Navigation);
 
 var() export editinline StaticMeshComponent PickupMesh;

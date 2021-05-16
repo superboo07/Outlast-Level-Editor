@@ -8,6 +8,7 @@
 class OLCollectiblePickup extends OLPickableObject
     native
     placeable
+    
     hidecategories(Navigation);
 
 var() name CollectibleName;
