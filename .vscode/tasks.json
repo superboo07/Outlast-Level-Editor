@@ -37,8 +37,8 @@
         },
         {
             "label": "Run Editor",
-            "type": "shell",
-            "command": "Binaries/Win32/UDK.com",
+            "type": "process",
+            "command": "Binaries/Win32/UDK.exe",
             "args": ["editor"],
             "group": "build",
             "presentation": {

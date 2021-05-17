@@ -17,3 +17,4 @@ UDKGame/Config/UDKSystemSettings.ini
 UDKGame/Config/UDKUI.ini
 UDKGame/Config/UDKKismet_layoutAUI_INT.txt
 UDKGame/Autosaves
+/Engine/Shaders/WorkingDirectory/
