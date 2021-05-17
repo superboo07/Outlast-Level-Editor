@@ -1,37 +1,44 @@
-## Welcome to GitHub Pages
+<img src="/Repository/Header.png" width=100% object-fit=fill>
 
-You can use the [editor on GitHub](https://github.com/superboo07/Outlast-Level-Editor/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# Requirements
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Windows
 
-### Markdown
+UDK: https://drive.google.com/file/d/1IZed_3QAivpnU2uPlSClFVs-YOZrIpcd/view?usp=sharing
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Outlast (Obviously): https://store.steampowered.com/app/238320/Outlast/
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
+# Install
 
-1. Numbered
-2. List
+## Clone the repository. 
 
-**Bold** and _Italic_ and `Code` text
+For those who don't want to use github desktop, 
 
-[Link](url) and ![Image](src)
-```
+Navigate to the directory you want to clone the repository to, then type the following commands into the command line.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+`git clone https://github.com/superboo07/Outlast-Level-Editor.git`
 
-### Jekyll Themes
+To update the repository type
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/superboo07/Outlast-Level-Editor/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+`git fetch https://github.com/superboo07/Outlast-Level-Editor.git`
 
-### Support or Contact
+## UDK
+First you must launch the UDK installer you downloaded above, or use an installer you downloaded from somewhere else. Make sure not to install it in the same directory you cloned the repository to. The project name doesn't matter. I recommend you start with an empty project, and don't install preforce. You won't need anything it creates except the binaries folder, so no use in installing unreal tournament content. 
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+<img src="Repository\SETUP\Installer_1.png" width=50% object-fit=fill><img src="Repository\SETUP\Installer_2.png" width=50% object-fit=fill>
+
+When the install finishes, navigate to where you installed it, and copy the folder named `binaries` then paste it into the cloned repository. Now navigate into the binaries folder, and launch the application named `UnrealFrontend.exe`. The compile the scripts, using the button labled `Script`.
+
+<img src="Repository\SETUP\UnrealFrontend_01.png" width=50% object-fit=fill>
+
+Now launch the editor using the UnrealEd button.
+
+## VS Code Stuff
+
+Under normal circumstances you shouldn't need to use unreal script, but I've included an Visual Studio Code Workspace, for those who do. 
+The workspace also includes build tasks that allow you to compile, and launch the editor.
+
+P.S If you use Visual Studio Code, I highly recommend using the unreal script plugin by Eliot, it's really good, and makes programming in unreal script way easier. 
+https://marketplace.visualstudio.com/items?itemName=EliotVU.uc
