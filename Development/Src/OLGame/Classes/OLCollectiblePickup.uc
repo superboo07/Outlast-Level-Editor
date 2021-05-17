@@ -45,4 +45,12 @@ defaultproperties
     Components(2)=CollisionCylinder
     end object
     CollisionComponent=CollisionCylinder
+
+
+    begin object name=EditorMeshComp
+        StaticMesh=StaticMesh'OLEditorResources.EditorMeshes.Document_Dummy'
+        bUsePrecomputedShadows=true
+		HiddenEditor=False
+    End Object
+    Components.add(EditorMeshComp)
 }

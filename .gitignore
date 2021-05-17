@@ -1,5 +1,6 @@
 /Binaries
 UDKGame/Content/GlobalShaderCache*.bin
+UDKGame/Content/LocalShaderCache*.upk
 UDKGame/Content/RefShaderCache*.upk
 UDKGame/Content/GameAssetDatabase.checkpoint
 UDKGame/Content/Maps/Custom
@@ -18,3 +19,8 @@ UDKGame/Config/UDKUI.ini
 UDKGame/Config/UDKKismet_layoutAUI_INT.txt
 UDKGame/Autosaves
 /Engine/Shaders/WorkingDirectory/
+UDKGame/Config/UDKStaticMeshEditor_layoutAUI_INT.txt
+UDKGame/Config/UDKMaterialInstanceEditor_layoutAUI_INT.txt
+UDKGame/Config/UDKMaterialEditor_layoutAUI_INT.txt
+UDKGame/Content/GameAssetDatabase.journal
+UDKGame/Content/LocalShaderCache-PC-D3D-SM3.upk

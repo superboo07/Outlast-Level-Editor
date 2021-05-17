@@ -14,6 +14,7 @@ class OLPickableObject extends Actor
 
 var() export editinline StaticMeshComponent PickupMesh;
 var() export editinline DynamicLightEnvironmentComponent PickupLightEnvironment;
+var() export editinline StaticMeshComponent EditorMesh;
 var bool bUsed;
 var bool bPickupOnNotify;
 var transient bool bDisabled;
@@ -42,4 +43,10 @@ defaultproperties
     bEdShouldSnap=true
     CollisionComponent=CollisionCylinder
     SupportedEvents=/* Array type was not detected. */
+
+    begin object name=EditorMeshComp class=StaticMeshComponent
+		HiddenEditor=False
+    End Object
+    EditorMesh=EditorMeshComp
+    Components.add(EditorMeshComp)
 }
