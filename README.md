@@ -29,7 +29,7 @@ First you must launch the UDK installer you downloaded above, or use an installe
 
 <img src="Repository\SETUP\Installer_1.png" width=50% object-fit=fill><img src="Repository\SETUP\Installer_2.png" width=50% object-fit=fill>
 
-When the install finishes, navigate to where you installed it, and copy the folder named `binaries` then paste it into the cloned repository. Now navigate into the binaries folder, and launch the application named `UnrealFrontend.exe`. The compile the scripts, using the button labled `Script`.
+When the install finishes, navigate to where you installed it, and copy the folder named `binaries` then paste it into the cloned repository. Now navigate into the binaries folder, and launch the application named `UnrealFrontend.exe`. Then compile the scripts, using the button labled `Script`.
 
 <img src="Repository\SETUP\UnrealFrontend_01.png" width=50% object-fit=fill>
 
