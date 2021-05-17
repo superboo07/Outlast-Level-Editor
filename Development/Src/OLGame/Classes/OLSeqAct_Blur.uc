@@ -25,5 +25,5 @@ defaultproperties
     Desaturation=0.70
     VariableLinks=none
     ObjName="Blur Vision"
-    ObjCategory="Player"
+    ObjCategory="Gameplay"
 }

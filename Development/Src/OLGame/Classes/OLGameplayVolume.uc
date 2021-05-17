@@ -13,7 +13,7 @@ class OLGameplayVolume extends PhysicsVolume
 
 defaultproperties
 {
-    begin object name=BrushComponent0
+    begin object Name=BrushComponent0
         ReplacementPrimitive=none
     end object 
     // Reference: BrushComponent'Default__OLGameplayVolume.BrushComponent0'

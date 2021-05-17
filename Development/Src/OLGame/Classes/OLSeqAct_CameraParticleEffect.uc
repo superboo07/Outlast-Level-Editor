@@ -22,5 +22,5 @@ defaultproperties
     bCallHandler=false
     VariableLinks=none
     ObjName="Camera Particle Effect"
-    ObjCatagory="Camcorder"
+    ObjCategory="Camcorder"
 }

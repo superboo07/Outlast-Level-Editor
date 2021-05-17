@@ -15,5 +15,5 @@ defaultproperties
     // Object Offset:0x001FCD0E
     VariableLinks=none
     ObjName="GameOver"
-    ObjCategory="Player"
+    ObjCategory="Gameplay"
 }

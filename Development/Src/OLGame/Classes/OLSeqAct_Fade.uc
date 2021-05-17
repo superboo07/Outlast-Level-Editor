@@ -24,5 +24,5 @@ defaultproperties
     Duration=2.0
     VariableLinks=none
     ObjName="Fade"
-    ObjCategory="Logic"
+    ObjCategory="Gameplay"
 }

@@ -17,5 +17,5 @@ defaultproperties
 {
     VariableLinks=none
     ObjName="SpawnedAtCheckpoint"
-    ObjCategory="Outlast"
+    ObjCategory="Gameplay"
 }

@@ -26,16 +26,11 @@ native function AnimStartedEvent(Actor InInstigator);
 
 defaultproperties
 {
-    begin object name=CollisionCylinder
-        ReplacementPrimitive=none
+    begin object name=CollisionCylinder 
     end object
     // Reference: CylinderComponent'Default__OLWaypoint.CollisionCylinder'
     CylinderComponent=CollisionCylinder
-    Components(0)=none
-    Components(1)=none
-    Components(2)=none
     Components(3)=CollisionCylinder
-    Components(4)=none
     CollisionComponent=CollisionCylinder
 	Begin Object Class=SpriteComponent Name=Sprite44
         Sprite=Texture2D'EditorResources.Crowd.T_Crowd_Destination'
@@ -45,5 +40,4 @@ defaultproperties
         Scale=.25
     End Object
 	Components.Add(Sprite44)
-    SupportedEvents=/* Array type was not detected. */
 }

@@ -6,7 +6,7 @@
         {
             "label": "Compile Scripts",
             "type": "shell",
-            "command": "../../Binaries/Win32/UDK.com",
+            "command": "Binaries/Win32/UDK.com",
             "args": ["make", "-NOPAUSEONSUCCESS"],
             "group": "build",
             "presentation": {
@@ -22,7 +22,7 @@
         {
             "label": "Recompile All Scripts",
             "type": "shell",
-            "command": "../../Binaries/Win32/UDK.com",
+            "command": "Binaries/Win32/UDK.com",
             "args": ["make", "full", "-NOPAUSEONSUCCESS"],
             "group": "build",
             "presentation": {
@@ -38,7 +38,7 @@
         {
             "label": "Run Editor",
             "type": "shell",
-            "command": "../../Binaries/Win32/UDK.com",
+            "command": "Binaries/Win32/UDK.com",
             "args": ["editor"],
             "group": "build",
             "presentation": {

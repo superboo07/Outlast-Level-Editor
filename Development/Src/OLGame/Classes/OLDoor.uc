@@ -232,4 +232,5 @@ defaultproperties
 		HiddenEditor=False
     End Object
 	Components.add(EditorDoor)
+    bEdShouldSnap=true
 }

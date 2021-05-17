@@ -1,7 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "Development\\Src"
+			"path": ".git"
+		},
+		{
+			"path": "."
 		}
 	],
 	"settings": {}

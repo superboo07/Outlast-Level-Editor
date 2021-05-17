@@ -19,4 +19,5 @@ defaultproperties
     InputLinks(0)=(LinkDesc="To Swarm",bHasImpulse=false,QueuedActivations=0,bDisabled=false,bDisabledPIE=false,LinkedOp=none,DrawY=0,bHidden=false,ActivateDelay=0.0,bMoving=false,bClampedMax=false,bClampedMin=false,OverrideDelta=0)
     InputLinks(1)=(LinkDesc="To Human",bHasImpulse=false,QueuedActivations=0,bDisabled=false,bDisabledPIE=false,LinkedOp=none,DrawY=0,bHidden=false,ActivateDelay=0.0,bMoving=false,bClampedMax=false,bClampedMin=false,OverrideDelta=0)
     ObjName="Morph Nano Cloud"
+    ObjCategory="AI"
 }

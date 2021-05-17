@@ -31,5 +31,5 @@ defaultproperties
     OutputLinks=none
     VariableLinks=none
     ObjName="Checkpoint"
-    ObjCategory="Player"
+    ObjCategory="Gameplay"
 }
