@@ -233,4 +233,5 @@ defaultproperties
     End Object
 	Components.add(EditorDoor)
     bEdShouldSnap=true
+    SupportedEvents(0)=OLSeqEvent_Door
 }

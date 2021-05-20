@@ -49,7 +49,19 @@ defaultproperties
     end object
     // Reference: DrawSphereComponent'Default__OLCSA.SphereComp'
     PreviewComp=SphereComp
-    Components(0)=none
     Components(1)=SphereComp
-    Components(2)=none
+    Begin Object Name=Sprite44
+        Sprite=Texture2D'OLEditorResources.EditorSprites.OLGameplayMarker_Sprite'
+        HiddenGame=true
+        HiddenEditor=false
+        Scale=.01
+    End Object
+	Components.Add(Sprite44)
+    Begin Object Class=ArrowComponent Name=Arrow
+		HiddenGame=True
+        DrawScale=.5
+		Rotation=(Pitch=0,Yaw=0,Roll=0)
+	End Object
+    Components.Add(Arrow)
+    SupportedEvents(1)=OLSeqEvent_CSAActivated
 }

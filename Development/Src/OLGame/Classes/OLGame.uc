@@ -48,4 +48,5 @@ native function UpdateGameType();
 
 defaultproperties
 {
+    DefaultPawnClass=class'OLHero'
 }
