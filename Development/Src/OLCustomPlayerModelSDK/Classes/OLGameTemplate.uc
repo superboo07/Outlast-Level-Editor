@@ -11,11 +11,11 @@ static event class<GameInfo> SetGameType(string MapName, string Options, string 
 
 defaultproperties
 {
-    //Use Pawn and Controller built into SDK
+    //Use Pawn and Controller built into the playermodelSDK. Don't override these unless you absoulutly have to. 
     PlayerControllerClass=class'OLCustomPlayerModelSDK.OLCustomPlayerController'
     DefaultPawnClass=class'OLCustomPlayerModelSDK.OLCustomHero'
 
-    //Define Mesh
+    //These are the mesh defintions, override these in your child class with the meshes you want to use. 
     HeroBody=SkeletalMesh'02_Player.Pawn.Miles_beheaded'
     Hero_Head=StaticMesh'02_Player.Pawn.Miles_head'
 }

@@ -27,5 +27,8 @@ UDKGame/Content/LocalShaderCache-PC-D3D-SM3.upk
 UDKGame/Config/UDKAnimSetViewer_layoutAUI_INT.txt
 
 Development/src/GlitchiBoiPlayerModel
+Development/src/GlitchTrapPMScript
+Development/src/FatherMartinPMScript
+
 UDKGame/Config/UDKPhAT_layoutAUI_INT.txt
 UDKGame/Content/LocalShaderCache-PC-D3D-SM3.upk
