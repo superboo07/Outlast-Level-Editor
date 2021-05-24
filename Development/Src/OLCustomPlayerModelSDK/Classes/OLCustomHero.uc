@@ -16,6 +16,7 @@ Event UseCustomModel()
     //Define local variables to make the script cleaner.
     local SkeletalMesh Body;
     local StaticMesh Head;
+    local vector Head_Offset;
     local OLGameTemplate Gameinfo;
 
     /* Set the gameinfo variable to the currently used Gameinfo object, 
@@ -26,10 +27,14 @@ Event UseCustomModel()
     Body =  Gameinfo.HeroBody;
     Head = Gameinfo.Hero_Head;
 
-    //Set each mesh of the pawn to their corresponding mesh. 
+    //Define the offset applied to the head mesh
+    Head_Offset = Gameinfo.Head_Offset;
+
+    //Set each mesh of the pawn to their corresponding mesh using the local variables defined above. 
     Mesh.SetSkeletalMesh(Body);
     ShadowProxy.SetSkeletalMesh(Body);
     HeadMesh.SetStaticMesh(Head);
+    HeadMesh.SetTranslation(Head_Offset);
 }
 
 defaultproperties
@@ -63,5 +68,4 @@ defaultproperties
         ShadowParent=SkeletalMeshComponent'ShadowProxyComponent'
         LightEnvironment=DynamicLightEnvironmentComponent'MyLightEnvironment'
     End Object
-
 }

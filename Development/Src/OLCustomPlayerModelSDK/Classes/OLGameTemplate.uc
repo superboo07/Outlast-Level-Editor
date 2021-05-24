@@ -3,7 +3,8 @@ class OLGameTemplate extends OLGame
 
 var() SkeletalMesh HeroBody;
 var() StaticMesh Hero_Head;
-
+var() vector Head_Offset;
+ 
 static event class<GameInfo> SetGameType(string MapName, string Options, string Portal)
 {
     return Default.class;
@@ -18,4 +19,5 @@ defaultproperties
     //These are the mesh defintions, override these in your child class with the meshes you want to use. 
     HeroBody=SkeletalMesh'02_Player.Pawn.Miles_beheaded'
     Hero_Head=StaticMesh'02_Player.Pawn.Miles_head'
+    Head_Offset=(x=-2,y=0,z=0)
 }
