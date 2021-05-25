@@ -7,5 +7,10 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"eliotvu.uc"
+		]
+	}
 }

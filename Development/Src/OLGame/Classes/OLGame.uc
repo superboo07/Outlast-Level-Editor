@@ -46,6 +46,10 @@ native function OLCheckpoint MatchCheckpoint(string PortalName);
 // Export UOLGame::execUpdateGameType(FFrame&, void* const)
 native function UpdateGameType();
 
+event TravelToStartupMap()
+{
+}
+
 defaultproperties
 {
     DefaultPawnClass=class'OLHero'

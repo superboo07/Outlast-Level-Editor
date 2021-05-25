@@ -120,6 +120,8 @@ var string CurrentMessageText;
 var string LastUntranslatedMessageText;
 var string CachedTranslatedMessageText;
 var array<GenericMessage> GenericMessages;
+var OLUIFrontEnd MenuManager;
+var OLCamcorderHud CamcorderHUD;
 
 // Export UOLHUD::execDraw(FFrame&, void* const)
 native function Draw();
