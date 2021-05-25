@@ -29,6 +29,9 @@ var(Gameplay) float HobblingWalkSpeed;
 var(Gameplay) float HobblingRunSpeed;
 var(Gameplay) float DefaultFOV;
 var(Gameplay) float RunningFOV;
+var(Gameplay) float CamcorderMinFOV;
+var(Gameplay) float CamcorderMaxFOV;
+var(Gameplay) float CamcorderNVMaxFOV;
 
 DefaultProperties
 {
@@ -61,5 +64,8 @@ DefaultProperties
     HobblingRunSpeed=250.0
     DefaultFOV=90.0
     RunningFOV=100.0
+    CamcorderMinFOV=15.0
+    CamcorderNVMaxFOV=83.0
+    CamcorderMaxFOV=83.0
     Block_Model_Changes=true
 }

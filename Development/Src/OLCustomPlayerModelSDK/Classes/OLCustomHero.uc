@@ -103,10 +103,40 @@ Event UseCustomModel()
             //FOV Overrides
                 DefaultFOV=PlayerModel.DefaultFOV;
                 RunningFOV=PlayerModel.RunningFOV;
+                CamcorderMinFOV=PlayerModel.CamcorderMinFOV;
+                CamcorderNVMaxFOV=PlayerModel.CamcorderNVMaxFOV;
+                CamcorderMaxFOV=PlayerModel.CamcorderMaxFOV;
         }
-
     //Used to check if variables for the pawn have been overridden. 
-    if (NormalWalkSpeed!=200.0 || NormalRunSpeed!=450.0 || CrouchedSpeed!=75.0 || ElectrifiedSpeed!=100 || WaterWalkSpeed!=100.0 || WaterRunSpeed!=200.0 || LimpingWalkSpeed!=87.2430 || HobblingWalkSpeed!=140.0 || HobblingRunSpeed!=250.0 || DefaultFOV!=90.0 || RunningFOV!=100.0)
+    if (
+        NormalWalkSpeed!=200.0 
+        || 
+        NormalRunSpeed!=450.0 
+        || 
+        CrouchedSpeed!=75.0 
+        || 
+        ElectrifiedSpeed!=100 
+        || 
+        WaterWalkSpeed!=100.0 
+        || 
+        WaterRunSpeed!=200.0 
+        || 
+        LimpingWalkSpeed!=87.2430 
+        ||
+        HobblingWalkSpeed!=140.0 
+        || 
+        HobblingRunSpeed!=250.0 
+        || 
+        DefaultFOV!=90.0 
+        || 
+        RunningFOV!=100.0
+        ||
+        CamcorderMinFOV!=15.0
+        ||
+        CamcorderNVMaxFOV!=83.0
+        ||
+        CamcorderMaxFOV!=83.0
+        )
     {
         GameInfo.Modify_Extra = True; //Set Value to True so the HUD will display the watermark
     }
