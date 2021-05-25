@@ -7,7 +7,7 @@ event OnSetMesh(SeqAct_SetMesh Action)
     local OLPlayerModel PlayerModel;
 
     GameInfo = OLCustomGame(Worldinfo.Game);
-    PlayerModel = OLPlayerModel(DynamicLoadObject(Gameinfo.PlayerModel, class'OLPlayerModelDef'));
+    PlayerModel = OLPlayerModel(DynamicLoadObject(Gameinfo.PlayerModel, class'OLPlayerModel'));
 
     if (PlayerModel.Block_Model_Changes==False)
     {
@@ -22,7 +22,7 @@ Function OnSetMaterial(SeqAct_SetMaterial Action)
     local OLCustomHero Hero;
 
     GameInfo = OLCustomGame(Worldinfo.Game);
-    PlayerModel = OLPlayerModel(DynamicLoadObject(Gameinfo.PlayerModel, class'OLPlayerModelDef'));
+    PlayerModel = OLPlayerModel(DynamicLoadObject(Gameinfo.PlayerModel, class'OLPlayerModel'));
     Hero = OLCustomHero(HeroPawn);
 
     if (PlayerModel.Block_Model_Changes==False)
