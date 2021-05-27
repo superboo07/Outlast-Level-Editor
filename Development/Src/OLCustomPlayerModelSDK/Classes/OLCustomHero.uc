@@ -1,14 +1,10 @@
-class OLCustomHero extends OLHero
-;
-
-Var OLPlayerController NewController;
+class OLCustomHero extends OLHero;
 
 //Run every time the pawn is posssed by a controller. 
 function PossessedBy(Controller C, bool bVehicleTransition)
 {
     //Run the function from the parent of this pawn, which would be OLHero.
         super.PossessedBy(C, bVehicleTransition);
-        NewController=OLPlayerController(C);
 
     //Run the UseCustomModel Event.
         UseCustomModel();
@@ -19,7 +15,7 @@ Event UseCustomModel()
     //Define local variables
 
         local OLCustomGame Gameinfo; //Game info
-        local OLPlayerModel PlayerModel;
+        local OLPlayerModel PlayerModel; //Player Model Information
 
         //Local Mesh Variables
             local SkeletalMesh Body;
@@ -37,9 +33,11 @@ Event UseCustomModel()
     /* Set the gameinfo variable to the currently used Gameinfo object, 
     and make sure it is OLGameTemplate, or a child of OLGameTemplate */
     Gameinfo = OLCustomGame(Worldinfo.Game);
+
+    //Get string from gameinfo, and find the PlayerModel Object using it.
     PlayerModel = OLPlayerModel(DynamicLoadObject(Gameinfo.PlayerModel, class'OLPlayerModel'));
 
-    //Set Local Variables using the variables from the GameInfo.
+    //Set Local Variables using the variables from the PlayerModel Object
 
         //Define Mesh parts
             Body = PlayerModel.HeroBody;

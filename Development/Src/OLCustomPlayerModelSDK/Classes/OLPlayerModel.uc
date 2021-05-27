@@ -1,3 +1,11 @@
+/*This class is meant to be used for defining custom player models. In order to use it you must make an archetype in editor. 
+Then in the DefaultPlayerModel.ini file for your player model, paste the following lines.
+
+[OLCustomPlayerModelSDK.OLCustomGame]
+PlayerModel=<PathToArchetype>
+
+Obviously replacing <PathToArchetype> to the path of your archetype.*/
+
 class OLPlayerModel extends object;
 
 //Settings
@@ -9,15 +17,15 @@ var(Settings) bool Block_Model_Changes;
 //Mesh
 var(Mesh) SkeletalMesh HeroBody;
 var(Mesh) StaticMesh Hero_Head;
-var(Mesh) vector Head_Offset;
+var(Mesh) vector Head_Offset; //Vector For offsetting the head, I recommend leaving this at x=2, but if need be you can change it. 
 
-//Footprints
+//Variables used for changing footprints, I'm not sure how to use the foot print materials, but here are variables for replacing them anyway.
 var(Footprints) MaterialInstanceConstant Left_Footprint_1;
 var(Footprints) MaterialInstanceConstant Left_Footprint_2;
 var(Footprints) MaterialInstanceConstant Right_Footprint_1;
 var(Footprints) MaterialInstanceConstant Right_Footprint_2;
 
-//Gameplay
+//Gameplay Variables
 var(Gameplay) float Walk_Speed;
 var(Gameplay) float Run_Speed;
 var(Gameplay) float CrouchedSpeed;
@@ -35,8 +43,6 @@ var(Gameplay) float CamcorderNVMaxFOV;
 
 DefaultProperties
 {
-    //SDKOverrideablevalues
-
     HeroBody=SkeletalMesh'02_Player.Pawn.Miles_beheaded'
     Hero_Head=StaticMesh'02_Player.Pawn.Miles_head'
 
