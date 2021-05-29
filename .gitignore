@@ -18,7 +18,7 @@ UDKGame/Config/UDKSystemSettings.ini
 UDKGame/Config/UDKUI.ini
 UDKGame/Config/UDKKismet_layoutAUI_INT.txt
 UDKGame/Autosaves
-/Engine/Shaders/WorkingDirectory/
+Engine/Shaders/WorkingDirectory/
 UDKGame/Config/UDKStaticMeshEditor_layoutAUI_INT.txt
 UDKGame/Config/UDKMaterialInstanceEditor_layoutAUI_INT.txt
 UDKGame/Config/UDKMaterialEditor_layoutAUI_INT.txt
