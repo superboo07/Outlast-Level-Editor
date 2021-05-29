@@ -147,49 +147,6 @@ Function Bool ContainsString(Array<String> Array, String find)
     }
 }
 
-event StartNewGameAtCheckpoint(string CheckpointStr, bool bSaveToDisk)
-{
-    local OLCheckpoint CheckCP, startCP;
-    local OLHero Hero;
-    local OLSpeedGame CurrentGame;
-    local OLEngine Engine;
-
-    foreach AllActors(class'OLCheckpoint', CheckCP)
-    {
-        if(Caps(string(CheckCP.CheckpointName)) == Caps(CheckpointStr))
-        {
-            startCP = CheckCP;
-            break;
-        }        
-    }    
-    if(startCP != none)
-    {
-        if(HUD.IsMainMenuOpen())
-        {
-            StopAllSounds();
-        }
-        HUD.HideMenu();
-        Hero = HeroPawn;
-        UnPossess();
-        if(Hero != none)
-        {
-            Hero.Destroy();
-        }
-        ClearAllProgress();
-        Engine = OLEngine(class'Engine'.static.GetEngine());
-        CurrentGame = OLSpeedGame(WorldInfo.Game);
-        if(CurrentGame != none)
-        {
-            if((Engine != none) && !Engine.UsingFixedSaveLocation())
-            {
-                Engine.SaveCheckpoint(startCP.CheckpointName, bSaveToDisk);
-            }
-            CurrentGame.CurrentCheckpointName = startCP.CheckpointName;
-            CurrentGame.RestartPlayer(self);
-        }
-    }
-}
-
 DefaultProperties
 {
     Refresh=1
