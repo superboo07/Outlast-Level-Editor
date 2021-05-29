@@ -2,6 +2,7 @@
  * Copyright 1998-2013 Epic Games, Inc. All Rights Reserved.
  */
 class OLPlayerController extends GamePlayerController
+    native
 	config(Game);
 
 
@@ -310,3 +311,11 @@ event OnSetMesh(SeqAct_SetMesh Action)
 {
 
 }
+
+event StartNewGameAtCheckpoint(string CheckpointStr, bool bSaveToDisk)
+{
+}
+
+native function ClearAllProgress();
+
+native function StopAllSounds();

@@ -1,25 +1,57 @@
 Class OLSpeedController extends OLPlayerController
-Config(Game);
+Config(Tool);
 
 var config float Refresh;
 var config float Max_View_Distance;
-var bool Enabled;
+var config Array<String> Ignore_Actors;
 
-Exec Function Deploy()
+var bool Enabled;
+var bool Full_Bright;
+
+Exec Function ShowUseful()
+{
+    ConsoleCommand("Show COLLISION");
+    ConsoleCommand("Stat LEVELS");
+}
+
+Exec Function RestartRun()
+{
+    ConsoleCommand("StreamMap Intro_Persistent");
+    StartNewGameAtCheckpoint("Admin_Gates", true);
+}
+
+Exec Function ShowFPS()
+{
+    ConsoleCommand("Stat FPS");
+}
+
+Exec Function ToogleFreeCam()
+{
+    if ( UsingFirstPersonCamera() )
+    {
+        ConsoleCommand("Camera Freecam");
+    }
+    else
+    {
+        ConsoleCommand("Camera Default");
+    }
+}
+
+Exec Function ToogleDebugView() //Toggle Visibility
 {
     local spriteview Just_Spawned;
 
     Switch(Enabled)
     {
-        Case True:
+        Case True: //Toggle Off
             Enabled = False;
-            foreach AllActors(class'spriteview', Just_Spawned)
+            foreach AllActors(class'spriteview', Just_Spawned) //Destory all currently spawned Sprites
             {
                 Just_Spawned.Destroy();
             }
         Break;
 
-        Case False:
+        Case False: //Toggle On
             Enabled = True;
             View();
         Break;
@@ -31,16 +63,15 @@ Function View()
 {
     local OLGameplayMarker GameplayMarker; //Current Gameplay Marker
     local spriteview Just_Spawned; //Store Current Sprite here
-	local vector Location;
     local OLCheckpoint Checkpoint; //Current Checkpoint
     local Texture2D Sprite; //Current Texture
+    local vector Location;
     local string String;
+    local bool ignore;
 
-    local name Fuck; //Use this to trick the spawn function into working
+    local name Fuck; //Dummy name piece of shit fuck to force the spawn command into submission.
 
-    `log("Updating View");
-
-    foreach AllActors(class'spriteview', Just_Spawned)
+    foreach AllActors(class'spriteview', Just_Spawned) //Destory all currently spawned sprites
     {
         Just_Spawned.Destroy();
     }
@@ -50,20 +81,19 @@ Function View()
         foreach AllActors(class'OLGameplayMarker', GameplayMarker)
         {
             Location = GameplayMarker.Location;
+            ignore=false;
 
-            //Ignore if manually stated
-            Switch(GameplayMarker.Class)
+            if (ContainsString(Ignore_Actors, String(GameplayMarker.Class) ) ) { break; } //Check if Ignore_Actor array contains this class, if it does tell it to fuck off.
+
+            if (Ignore==true)
             {
-                case Class'OLAIVaultMarker':
-                break;
-
-                Default:
-                Just_Spawned = Spawn(Class'SpriteView', GameplayMarker, Fuck, Location);
-                Just_Spawned.SetBase(GameplayMarker);
                 Break;
             }
 
-            Switch(GameplayMarker.Class)
+            Just_Spawned = Spawn(Class'SpriteView', GameplayMarker, Fuck, Location);
+            Just_Spawned.SetBase(GameplayMarker);
+            
+            Switch(GameplayMarker.Class) //Select Sprite for Gamemarker based on class, and use a switch because i'm not yandare dev. 
             {
                 Case class'OLLedgeMarker':
                 sprite=Texture2D'OLEditorResources.EditorSprites.OLLedgeMarker_Sprite';
@@ -101,4 +131,68 @@ Function View()
 
         WorldInfo.Game.SetTimer(Refresh, false, 'View', self);
     }
+}
+
+Function Bool ContainsString(Array<String> Array, String find)
+{
+    Switch(Array.Find(find))
+    {
+        case -1:
+            Return False;
+        break;
+
+        Default:
+            Return true;
+        Break;
+    }
+}
+
+event StartNewGameAtCheckpoint(string CheckpointStr, bool bSaveToDisk)
+{
+    local OLCheckpoint CheckCP, startCP;
+    local OLHero Hero;
+    local OLSpeedGame CurrentGame;
+    local OLEngine Engine;
+
+    foreach AllActors(class'OLCheckpoint', CheckCP)
+    {
+        if(Caps(string(CheckCP.CheckpointName)) == Caps(CheckpointStr))
+        {
+            startCP = CheckCP;
+            break;
+        }        
+    }    
+    if(startCP != none)
+    {
+        if(HUD.IsMainMenuOpen())
+        {
+            StopAllSounds();
+        }
+        HUD.HideMenu();
+        Hero = HeroPawn;
+        UnPossess();
+        if(Hero != none)
+        {
+            Hero.Destroy();
+        }
+        ClearAllProgress();
+        Engine = OLEngine(class'Engine'.static.GetEngine());
+        CurrentGame = OLSpeedGame(WorldInfo.Game);
+        if(CurrentGame != none)
+        {
+            if((Engine != none) && !Engine.UsingFixedSaveLocation())
+            {
+                Engine.SaveCheckpoint(startCP.CheckpointName, bSaveToDisk);
+            }
+            CurrentGame.CurrentCheckpointName = startCP.CheckpointName;
+            CurrentGame.RestartPlayer(self);
+        }
+    }
+}
+
+DefaultProperties
+{
+    Refresh=1
+    Max_View_Distance=500
+    Ignore_Actors="OLPreferredPathMarker", "OLAIVaultMarker"
 }
