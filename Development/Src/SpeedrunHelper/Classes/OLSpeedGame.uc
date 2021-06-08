@@ -9,4 +9,5 @@ DefaultProperties
 {
     PlayerControllerClass=Class'OLSpeedController'
     HUDType=class'SpeedrunHelper.OLSpeedHud'
+    DefaultPawnClass=class'SpeedrunHelper.OLSpeedPawn'
 }
