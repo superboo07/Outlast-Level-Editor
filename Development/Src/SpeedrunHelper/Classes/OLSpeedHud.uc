@@ -65,7 +65,7 @@ function DrawHUD() //Called every frame
     CurrentGame = OLSpeedGame(WorldInfo.Game);
     Buttons.Remove(0, Buttons.Length);
 
-    PlayerDebug = "This game has the Outlast Speedrun Helper installed" $ Controller.Current_SkeletalMesh;
+    PlayerDebug = "This game has the Outlast Speedrun Helper installed";
 
     if (Controller.Enabled) 
     {
@@ -158,7 +158,8 @@ function DrawHUD() //Called every frame
 
         foreach allactors(Class'OLDoor', Door)
         {
-            WorldTextDraw(String(Door.CollisionComponent.CollideActors), Door.location, Controller.Max_View_Distance, 200, vect(0,-450,0));
+            String = Door.Class $ "\nDoes Collide: " $ Door.CollisionComponent.CollideActors $ "\nIs Locked: " $ Door.bLocked $ "\nDoor State" $ Door.DoorState;
+            WorldTextDraw(String, Door.location, Controller.Max_View_Distance, 200, vect(0,-450,0));
         }
 
     }

@@ -222,6 +222,7 @@ var() float PathPointOffset;
 var() int NumBashesAfterBlocked;
 var() float AIOpenDoorKnockback;
 var() DoorShakeData BashShakeData;
+var OLDoor.EDoorState DoorState;
 
 defaultproperties
 {
