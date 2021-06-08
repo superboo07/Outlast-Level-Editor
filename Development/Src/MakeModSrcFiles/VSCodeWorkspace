@@ -1,0 +1,93 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Engine"
+		},
+		{
+			"path": "../Core"
+		},
+		{
+			"path": "../OLGame"
+		}
+	],
+	"settings": {
+		"unrealscript.intrinsicSymbols": {
+
+
+
+			"Engine.Model": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.Mesh": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.MeshInstance": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.MeshAnimation": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.StaticMesh": {
+				"type": "class",
+				"extends": "Actor"
+			},
+			"Engine.StaticMeshInstance": {
+				"type": "class",
+				"extends": "Actor"
+			},
+			"Engine.ConvexVolume": {
+				"type": "class",
+				"extends": "Actor"
+			},
+			"Engine.Level": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.NetConnection": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.Viewport": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.Primitive": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.Client": {
+				"type": "class",
+				"extends": "Object"
+			},
+			"Engine.AudioSubsystem": {
+				"type": "class",
+				"extends": "Subsystem"
+			},
+			"Engine.RenderDevice": {
+				"type": "class",
+				"extends": "Object"
+			}
+		},
+		"unrealscript.macroSymbols": {
+
+
+			"debug": ""
+		},
+		"editor.codeActionsOnSave": null,
+		"unrealscript.indexAllDocuments": true,
+		"unrealscript.checkTypes": true,
+		"unrealscript.analyzeDocuments": "None"
+	},
+	"extensions": {
+		"recommendations": [
+			"eliotvu.uc"
+		]
+	}
+}

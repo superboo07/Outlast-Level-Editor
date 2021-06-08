@@ -23,6 +23,6 @@ function Example()
 defaultproperties
 {
     BitmapFilename="Cancel"
-    GroupName="OL Tools"
-    ToolTip="Update Pushable Objects"
+    Group='OL Tools'
+    ToolTip="Update_Pushable_Objects"
 }

@@ -313,27 +313,27 @@ Function View()
             Switch(GameplayMarker.Class) //Select Sprite for Gamemarker based on class, and use a switch because i'm not yandare dev. 
             {
                 Case class'OLLedgeMarker':
-                sprite=Texture2D'OLEditorResources.EditorSprites.OLLedgeMarker_Sprite';
+                sprite=Texture2D'SH_Sprites.OLLedgeMarker_Sprite';
                 Break;
 
                 Case class'OLRecordingMarker':
-                sprite=Texture2D'OLEditorResources.EditorSprites.OLRecordingMarker_Sprite';
+                sprite=Texture2D'SH_Sprites.OLRecordingMarker_Sprite';
                 Break;
 
                 Case class'OLCornerMarker':
-                sprite=Texture2D'OLEditorResources.EditorSprites.OLCornerMarker_Sprite';
+                sprite=Texture2D'SH_Sprites.OLCornerMarker_Sprite';
                 Break;
 
                 Case class'OLBed':
-                sprite=Texture2D'OLEditorResources.EditorSprites.OLBed_Sprite';
+                sprite=Texture2D'SH_Sprites.OLBed_Sprite';
                 Break;
 
                 Case class'OLCSA':
-                sprite=Texture2D'OLEditorResources.EditorSprites.OLCSA_Sprite';
+                sprite=Texture2D'SH_Sprites.OLCSA_Sprite';
                 Break;
 
                 Default:
-                Sprite=Texture2D'OLEditorResources.EditorSprites.OLGameplayMarker_Sprite';
+                Sprite=Texture2D'SH_Sprites.OLGameplayMarker_Sprite';
                 Break;
             }
             Just_Spawned.Sprite.SetSprite(Sprite);
@@ -563,14 +563,4 @@ DefaultProperties
     Saved_Positions[2]=
     Saved_Positions[3]=
     Saved_Positions[4]=
-
-    Materials[0]=
-    Materials[1]=
-    Materials[2]=
-    Materials[3]=
-    Materials[4]=
-    Materials[5]=
-    Materials[6]=
-
-
 }
