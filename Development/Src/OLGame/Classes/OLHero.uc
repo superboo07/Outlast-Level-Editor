@@ -461,6 +461,7 @@ var OLHero.EEnemyType EnemyType;
 var OLEnemyPawn.EWeaponType EnemyWeapon;
 var OLHero.EHeroBodySetup BodySetup;
 var AttachmentData ActiveAttachment;
+var OLHeroCamera Camera;
 var float CurrentLean;
 var float LastLeanSndTime;
 var float LastFootstepTime;

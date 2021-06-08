@@ -191,6 +191,8 @@ struct native DoorShakeData
     }
 };
 
+var export editinline StaticMeshComponent Mesh;
+var() export editinline StaticMeshComponent DoorMainMesh;
 var() editconst float MaxOpenAngle;
 var() editconst float PlayerOpenedAngle;
 var() bool bReverseDirection;

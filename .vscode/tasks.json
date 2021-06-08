@@ -51,5 +51,21 @@
             },
             "problemMatcher": "$msCompile"
         },
+        {
+            "label": "Run Editor with No startup packages",
+            "type": "process",
+            "command": "Binaries/Win32/UDK.exe",
+            "args": ["editor", "-NOLOADSTARTUPPACKAGES"],
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        }
     ]
 }

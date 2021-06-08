@@ -1,7 +1,7 @@
 /**
  * Copyright 1998-2013 Epic Games, Inc. All Rights Reserved.
  */
-class OLPlayerController extends GamePlayerController
+class OLPlayerController extends UDKPlayerController
     native
 	config(Game);
 
@@ -313,6 +313,10 @@ event OnSetMesh(SeqAct_SetMesh Action)
 }
 
 event StartNewGameAtCheckpoint(string CheckpointStr, bool bSaveToDisk)
+{
+}
+
+event ForcePause(bool bPause)
 {
 }
 
