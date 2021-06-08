@@ -29,6 +29,7 @@ UDKGame/Config/UDKPhAT_layoutAUI_INT.txt
 UDKGame/Content/LocalShaderCache-PC-D3D-SM3.upk
 UDKGame/Content/GameAssetDatabase.journal
 UDKGame/Content/GameAssetDatabase.checkpoint
+Development/Src/SpeedrunHelper/Output
 
 ; Exclude my mods
 Development/src/GlitchiBoiPlayerModel
