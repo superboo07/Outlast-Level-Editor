@@ -1,9 +1,6 @@
 Class OLSpeedGame extends OLGame;
 
-static event class<GameInfo> SetGameType(string MapName, string Options, string Portal)
-{
-    return Default.class;
-}
+static event class<GameInfo> SetGameType(string MapName, string Options, string Portal) { return Default.class; }
 
 DefaultProperties
 {

@@ -343,7 +343,7 @@ Function View()
         {
             Location = Checkpoint.Location;
             Just_Spawned = Spawn(Class'SpriteView', Checkpoint, Fuck, Location);
-            Just_Spawned.Sprite.SetSprite(Texture2D'OLEditorResources.EditorSprites.OLCheckpoint_Sprite');
+            Just_Spawned.Sprite.SetSprite(Texture2D'SH_Sprites.OLCheckpoint_Sprite');
         }
 
         WorldInfo.Game.SetTimer(Refresh, false, 'View', self);

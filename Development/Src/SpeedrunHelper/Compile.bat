@@ -37,7 +37,7 @@ if /I %Content%==True (
 	    if exist Output\%ModName%\Content\%%a.OLScript del Output\%ModName%\Content\%%a.OLScript
         robocopy ..\..\..\UDKGame\Script\ Output\%ModName%\Content %%a.u > nul
         Ren Output\%ModName%\Content\%%a.u %%a.OLScript
-        if ERRORLEVEL 1 (
+        if ERRORLEVEL 3 (
             Echo Failed to Mount Script %%a & goto Exit
         ) 
         Echo. Mounted %%a.OLScript
@@ -46,9 +46,10 @@ if /I %Content%==True (
     Echo.
     Echo -Mounting Content-
     for /F "tokens=1 delims=" %%a in (.\Compilier\Content) do (
-        if exist Output\%ModName%\Content%%~nxa del Output\%ModName%\Content\%%~nxa
-        robocopy ..\..\..\UDKGame\Content%%~pa Output\%ModName%\Content\ %%~nxa > nul
-        if ERRORLEVEL 1 (
+        if exist Output\%ModName%\Content\%%~nxa del Output\%ModName%\Content\%%~nxa
+        call 
+        robocopy ..\..\..\UDKGame\Content\%%~pa Output\%ModName%\Content\ %%~nxa > nul
+        if ERRORLEVEL 3 (
             Echo Failed to Mount Content %%a & goto Exit
         )
         Echo. Mounted %%~nxa
@@ -62,7 +63,7 @@ if /I %Config%==True (
     echo -Mounting Configs-
     if not exist Output\%ModName%\Config mkdir Output\%ModName%\Config > nul
     robocopy /MIR Src\Config\ Output\%ModName%\Config > nul
-    if ERRORLEVEL 1 (
+    if ERRORLEVEL 3 (
         Echo Failed to Mount Configs & goto Exit
     )
     echo. Mounted Configs
@@ -73,7 +74,7 @@ if /I %Config%==True (
 if /I %Localization%==True (
     if not exist Output\%ModName%\Localization mkdir Output\%ModName%\Localization > nul
     robocopy /MIR Src\Localization\ Output\%ModName%\Localization > nul
-    if ERRORLEVEL 1 (
+    if ERRORLEVEL 3 (
         Echo Failed to Mount Localization & goto Exit
     )
     echo.
