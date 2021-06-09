@@ -40,9 +40,17 @@ goto Localization
 echo Does your mod need seperated SaveData [Y/N]
 set /p c=
 
-if /I "%C%" EQU "Y" echo SaveData=true >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
-if /I "%C%" EQU "N" echo SaveData=false >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
+if /I "%C%" EQU "Y" echo SaveData=true >> .\Development\Src\%ModName%\Src\Config.ini & goto Convert
+if /I "%C%" EQU "N" echo SaveData=false >> .\Development\Src\%ModName%\Src\Config.ini & goto Convert
 goto SaveData
+
+:Convert
+echo Do you want to automatically convert imported files to the OL naming scheme [Y/N]
+set /p c=
+
+if /I "%C%" EQU "Y" echo Convert=true >> .\Development\Src\%ModName%\Compilier\Options & goto BuildCompilier
+if /I "%C%" EQU "N" echo Convert=false >> .\Development\Src\%ModName%\Compilier\Options & goto BuildCompilier
+goto Convert
 
 :BuildCompilier
 echo %ModName%>.\Development\Src\%ModName%\Compilier\Name

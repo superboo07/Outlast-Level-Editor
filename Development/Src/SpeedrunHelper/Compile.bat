@@ -28,6 +28,13 @@ echo -Mounting Mod files-
 echo --------------------
 echo.
 
+if not exist ".\Compilier\Options" goto Begin
+
+for /f "tokens=1,2 delims==" %%a in (.\Compilier\Options) do (
+	if /I %%a==Convert set Convert=%%b 
+)
+
+:Begin
 if /I %Content%==True (
     if not exist "Output\%ModName%\Content" mkdir Output\%ModName%\Content > nul & Echo Create Content Directory
     
@@ -36,11 +43,15 @@ if /I %Content%==True (
         call 
 	    if exist Output\%ModName%\Content\%%a.OLScript del Output\%ModName%\Content\%%a.OLScript
         robocopy ..\..\..\UDKGame\Script\ Output\%ModName%\Content %%a.u > nul
-        Ren Output\%ModName%\Content\%%a.u %%a.OLScript
+
+        if /I %Convert%==true (
+            Ren Output\%ModName%\Content\%%a.u %%a.OLScript
+        )
+
         if ERRORLEVEL 3 (
             Echo Failed to Mount Script %%a & goto Exit
         ) 
-        Echo. Mounted %%a.OLScript
+        Echo. Mounted %%a
     )
 
     Echo.
@@ -49,6 +60,9 @@ if /I %Content%==True (
         if exist Output\%ModName%\Content\%%~nxa del Output\%ModName%\Content\%%~nxa
         call 
         robocopy ..\..\..\UDKGame\Content\%%~pa Output\%ModName%\Content\ %%~nxa > nul
+
+        if /I %Convert%==true ren Output\%ModName%\Content\%%~nxa %%~na.OLContent
+
         if ERRORLEVEL 3 (
             Echo Failed to Mount Content %%a & goto Exit
         )
