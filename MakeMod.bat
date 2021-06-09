@@ -32,16 +32,32 @@ goto Content
 echo Does your mod include custom Localization files[Y/N]
 set /p c=
 
-if /I "%C%" EQU "Y" echo Localization=true >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
-if /I "%C%" EQU "N" echo Localization=false >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
+if /I "%C%" EQU "Y" echo Localization=true >> .\Development\Src\%ModName%\Src\Config.ini & goto SaveData
+if /I "%C%" EQU "N" echo Localization=false >> .\Development\Src\%ModName%\Src\Config.ini & goto SaveData
 goto Localization
+
+:SaveData
+echo Does your mod need seperated SaveData [Y/N]
+set /p c=
+
+if /I "%C%" EQU "Y" echo SaveData=true >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
+if /I "%C%" EQU "N" echo SaveData=false >> .\Development\Src\%ModName%\Src\Config.ini & goto BuildCompilier
+goto SaveData
 
 :BuildCompilier
 echo %ModName%>.\Development\Src\%ModName%\Compilier\Name
-echo. > .\Development\Src\%ModName%\Compilier\Scripts
+echo. %ModName%> .\Development\Src\%ModName%\Compilier\Scripts
 echo. > .\Development\Src\%ModName%\Compilier\Content
+
 robocopy ./MakeModSrcFiles .\Development\Src\%ModName%\ Compile
 ren .\Development\Src\%ModName%\Compile Compile.bat
+
+robocopy ./MakeModSrcFiles .\Development\Src\%ModName%\ Recompile
+ren .\Development\Src\%ModName%\Recompile Recompile.bat
+
+robocopy ./MakeModSrcFiles .\Development\Src\%ModName%\ Run
+ren .\Development\Src\%ModName%\Run Run.bat
+
 robocopy ./MakeModSrcFiles .\Development\Src\%ModName%\src\Config DefaultEngine
 ren .\Development\Src\%ModName%\src\Config\DefaultEngine DefaultEngine.ini
 
@@ -50,3 +66,5 @@ ren .\Development\Src\%ModName%\VSCodeWorkspace %ModName%.code-workspace
 mkdir \Development\Src\%ModName%\.vscode
 robocopy ./MakeModSrcFiles .\Development\Src\%ModName%\.vscode tasks
 ren .\Development\Src\%ModName%\.vscode\tasks tasks.json
+echo.Development/Src/%ModName%/Output >> .gitignore
+pause
