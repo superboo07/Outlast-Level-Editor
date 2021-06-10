@@ -58,6 +58,9 @@ if /I %Content%==True (
     Echo -Mounting Content-
     for /F "tokens=1 delims=" %%a in (.\Compilier\Content) do (
         if exist Output\%ModName%\Content\%%~nxa del Output\%ModName%\Content\%%~nxa
+        if /I %Convert%==true (
+            if exist Output\%ModName%\Content\%%~na.OLContent del Output\%ModName%\Content\%%~na.OLContent
+        )
         call 
         robocopy ..\..\..\UDKGame\Content\%%~pa Output\%ModName%\Content\ %%~nxa > nul
 
