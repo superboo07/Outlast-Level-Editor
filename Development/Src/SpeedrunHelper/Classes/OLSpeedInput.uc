@@ -8,7 +8,7 @@ event PlayerInput(float DeltaTime)
 {
     // Handle mouse
     // Ensure we have a valid HUD
-    if (myHUD != None)
+    if (myHUD != None && OLSpeedHud(myHUD).Show_Menu==true)
     {
         // Add the aMouseX to the mouse position and clamp it within the viewport width
         MousePosition.X = Clamp(MousePosition.X + aMouseX, 0, myHUD.SizeX);
@@ -23,6 +23,8 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
     if (ContainsName(Inputs, Key) )
     {
         Inputs.RemoveItem(Key);
+
+        if (OLSpeedHud(HUD).Show_Menu==true) { return true; }
         return false;
     }
     Inputs.additem(Key);
@@ -48,7 +50,7 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
         }
         Return true;
     }
-    return False;
+    return false;
 }
 
 function bool Char( int ControllerId, string Unicode )

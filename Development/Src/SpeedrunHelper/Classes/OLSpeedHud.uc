@@ -1,4 +1,5 @@
-Class OLSpeedHud extends OLHud;
+Class OLSpeedHud extends OLHud
+config(tool);
 
 Struct ButtonStruct
 {
@@ -32,7 +33,8 @@ Enum Menu
     SavePositionSelect,
     SaveOrLoad,
     Funny,
-    PlayerModel
+    PlayerModel,
+    Credits
 };
 
 var bool Show_Menu;
@@ -43,6 +45,18 @@ var array<ButtonStruct> Buttons;
 var ButtonStruct Previous_Button;
 var Menu CurrentMenu;
 var Collision_Type Current_Collision;
+var config string Cursor;
+var config float CursorScale;
+var config float CursorOutline;
+var config RGBA BackgroundColor;
+var config RGBA DefaultTextColor;
+var config RGBA ButtonColor;
+var config RGBA ButtonHoveredColor;
+var config RGBA CommandLineColor;
+var config RGBA CommandLineTextColor;
+var config RGBA CursorColor;
+var config RGBA CursorOutlineColor;
+
 
 delegate ButtonPress();
 
@@ -56,6 +70,7 @@ function DrawHUD() //Called every frame
     local SkeletalMeshActor SkeletalMesh0;
     local OLDoor Door;
     local OLGame CurrentGame;
+    local OLSpeedPawn SpeedPawn;
     local string string;
     local string PlayerDebug;
 
@@ -63,18 +78,21 @@ function DrawHUD() //Called every frame
 
     Controller = OLSpeedController(PlayerOwner); //Cast to OLSpeedController using 'PlayerOwner'
     CurrentGame = OLSpeedGame(WorldInfo.Game);
+    SpeedPawn = OLSpeedPawn(Controller.Pawn);
     Buttons.Remove(0, Buttons.Length);
 
-    PlayerDebug = "This game has the Outlast Speedrun Helper installed";
+    PlayerDebug = "This game has the Outlast Speedrun Helper installed\nprogrammed by Superboo07";
 
     if (Controller.Enabled) 
     {
 
-        PlayerDebug = PlayerDebug $ "\n\nPlayer Debug Info: \nCurrent Collision Size: " $ OLHero(Controller.Pawn).CylinderComponent.CollisionRadius $ "\nHealth: " $ OLSpeedPawn(Controller.Pawn).Health;
+        PlayerDebug = PlayerDebug $ "\n\nPlayer Debug Info: \nCurrent Collision Size: " $ SpeedPawn.CylinderComponent.CollisionRadius $ "\nHealth: " $ SpeedPawn.Health;
+        PlayerDebug = PlayerDebug $ "\nLocation: " $ SpeedPawn.Location $ "\nRotation: " $ SpeedPawn.Rotation $ "\nIsPlayingDLC: " $ CurrentGame.bIsPlayingDLC;
+        PlayerDebug = PlayerDebug $ "\nNeeds Bandage: " $ SpeedPawn.NeedsBandage;
         foreach AllActors(class'OLCheckpoint', Checkpoint)
         {
             string = string(Checkpoint.Class) $ "\nName: " $ String(Checkpoint.CheckpointName) $ "\nChapter: " $ Localize("Locations", String(Checkpoint.Tag), "OLGame"); //Pull Chapter Name from Localization Files.
-            if (OLGame(WorldInfo.Game).CurrentCheckpointName==Checkpoint.CheckpointName) {string = string $ "\nCurrent Checkpoint";} //If the Current Chapter is equal to the ChapterName of this Checkpoint, print Current Chapter.
+            if (CurrentGame.CurrentCheckpointName==Checkpoint.CheckpointName) {string = string $ "\nCurrent Checkpoint";} //If the Current Chapter is equal to the ChapterName of this Checkpoint, print Current Chapter.
             WorldTextDraw(string, Checkpoint.location, Controller.Max_View_Distance, 200, vect(100,0,0));
         }
 
@@ -158,7 +176,7 @@ function DrawHUD() //Called every frame
 
         foreach allactors(Class'OLDoor', Door)
         {
-            String = Door.Class $ "\nDoes Collide: " $ Door.CollisionComponent.CollideActors $ "\nIs Locked: " $ Door.bLocked $ "\nDoor State" $ Door.DoorState;
+            String = Door.Class $ "\nDoes Collide: " $ Door.CollisionComponent.CollideActors $ "\nIs Locked: " $ Door.bLocked $ "\nDoor State: " $ Door.DoorState;
             WorldTextDraw(String, Door.location, Controller.Max_View_Distance, 200, vect(0,-450,0));
         }
 
@@ -173,30 +191,28 @@ function DrawHUD() //Called every frame
     if (Show_Menu)
     {
         Save_Position_Interface();
-        return;
     }
 }
 
 Event Save_Position_Interface()
 {
     local OLSpeedInput PlayerInput;
-    local Texture2D MouseTexture;
     local Vector2D StartClip;
     local Vector2D EndClip;
     local OLSpeedController Controller;
 
     Controller = OLSpeedController(PlayerOwner);
     PlayerInput = OLSpeedInput(PlayerOwner.PlayerInput);
-    MouseTexture = Texture2D'menuassets.MouseCursor';
 
-    DrawScaledBox( Vect2D(640 - 250, 250), Vect2D(500, 250),  MakeRGBA(0,0,125,255), StartClip, EndClip);
+    DrawScaledBox( Vect2D(640 - 250, 250), Vect2D(500, 250),  BackgroundColor, StartClip, EndClip);
 
     EndClip = EndClip;
-    Canvas.SetPos( ( 640 - 250 ) / 1280.0f * Canvas.SizeX, 250 / 720.0f * Canvas.SizeY);
+    /*Canvas.SetPos( ( 640 - 250 ) / 1280.0f * Canvas.SizeX, 250 / 720.0f * Canvas.SizeY);
     canvas.SetDrawColor(255,255,255,255);
-    Canvas.DrawRect( 500 / 1280.0f * Canvas.SizeX , 10 / 720.0f * Canvas.SizeY );
+    Canvas.DrawRect( 500 / 1280.0f * Canvas.SizeX , 10 / 720.0f * Canvas.SizeY );*/
+    DrawScaledBox( Vect2D(640 - 250, 250), Vect2D(500, 10),  CommandLineColor,,);
 
-    ScreenTextDraw(Command, vect2D(640 - 250, 250 ), MakeRGBA(125,125,125,255) );
+    ScreenTextDraw(Command, vect2D(640 - 250, 250 ), CommandLineTextColor);
 
     Switch(CurrentMenu)
     {
@@ -208,10 +224,11 @@ Event Save_Position_Interface()
         AddButton("The Funni's", "SetMenu Funny",, true);
         AddButton("Player Model: " $ Controller.PlayerModel, "SetMenu PlayerModel",, true);
         AddButton("Position Saver", "SetMenu SavePositionSelect",, true );
+        AddButton("Credits", "SetMenu Credits",, true );
         break;
 
         case SavePositionSelect:
-        ScreenTextDraw("Select a position", vect2D(640, 270 ), MakeRGBA(125,125,125,255),,, true );
+        ScreenTextDraw("Select a position", vect2D(640, 270 ),,,, true );
         AddButton(Vectortostring(Controller.Saved_Positions[1].Location), "Check_Position 1 | SetMenu SaveOrLoad", vect2d(425, 275),, StartClip, EndClip);
         AddButton(Vectortostring(Controller.Saved_Positions[2].Location), "Check_Position 2 | SetMenu SaveOrLoad", vect2d(425, 275), true);
         AddButton(Vectortostring(Controller.Saved_Positions[3].Location), "Check_Position 3 | SetMenu SaveOrLoad", vect2d(425, 275), true);
@@ -220,7 +237,7 @@ Event Save_Position_Interface()
         break;
 
         case SaveOrLoad:
-        ScreenTextDraw("Location: " $ Controller.Saved_Positions[Controller.Selected_Save].Location $ "\nRotation: " $ Controller.Saved_Positions[Controller.Selected_Save].Rotation, vect2D(750, 350 ), MakeRGBA(125,125,125,255),,, true );
+        ScreenTextDraw("Location: " $ Controller.Saved_Positions[Controller.Selected_Save].Location $ "\nRotation: " $ Controller.Saved_Positions[Controller.Selected_Save].Rotation, vect2D(750, 350 ),,,, true );
         AddButton("Save", "Save_Position " $ Controller.Selected_Save, vect2d(425, 275),, StartClip, EndClip);
         AddButton("Load", "Load_Position " $ Controller.Selected_Save $ " | SetMenu Normal | OpenConsoleMenu 0", vect2d(425, 275), true);
         AddButton("Go Back", "SetMenu SavePositionSelect", , true);
@@ -252,6 +269,7 @@ Event Save_Position_Interface()
 
         AddButton("Kill all enemys (May break scripted sequences)", "KillAllEnemys",vect2d(425, 275),, StartClip, EndClip );
         AddButton("Freecam: " $ !Controller.UsingFirstPersonCamera(), "ToogleFreeCam",, true);
+        AddButton("Teleport to Freecam", "Teleporttofreecam",, true );
         AddButton("Override Player Collider Size: " $ OLSpeedController(PlayerOwner).Collision_Type_Override, "SetMenu Collision",, true );
         AddButton("Godmode: " $ OLSpeedPawn(PlayerOwner.Pawn).GodMode, "ToggleGod",, true );
         AddButton("Toggle Death Bounds: " $ OLSpeedPawn(PlayerOwner.Pawn).DisableKillBound, "ToogleKillBound",, true );
@@ -262,7 +280,8 @@ Event Save_Position_Interface()
         Case Funny:
         AddButton("Make Everyone Father Martin: " $ Controller.Martin, "MartinifyToggle",vect2d(425, 275),, StartClip, EndClip );
         AddButton("Allow Wernikie Skip: " $ Controller.WernikSkipEnable, "WernikSkipToggle", , true);
-
+        AddButton("Literlly free bhops: " $ Controller.BhopFree, "FreeBhop", , true);
+        AddButton("Simulate Outlast 2 Bandage System: " $ Controller.Bandage, "SimulateBandages", , true);
         AddButton("Go Back", "SetMenu Normal", , true);
         Break;
 
@@ -275,14 +294,28 @@ Event Save_Position_Interface()
         AddButton("No Override", "UpdatePlayerModel No_Override",, true);
         AddButton("Go Back", "SetMenu Normal",, true);
         break;
+
+        Case Credits:
+        ScreenTextDraw("Programming: Superboo07\nSprites: Superboo07\nAdditional Programming help: G40sty", vect2D(420, 270 ),,, true);
+        AddButton("Go back", "SetMenu Normal",vect2d(425, 475),, StartClip, EndClip );
+        break;
     }
-    
-    //Draw mouse last
-    Canvas.SetPos(PlayerInput.MousePosition.X, PlayerInput.MousePosition.Y);
-    canvas.SetDrawColor(255,255,255,255);
-    Canvas.DrawTile(MouseTexture, MouseTexture.SizeX, MouseTexture.SizeY, 0.f, 0.f, MouseTexture.SizeX, MouseTexture.SizeY,, true);
+    DrawMouse();
 }
 
+Function DrawMouse()
+{
+    local Texture2D MouseTexture;
+    local OLSpeedInput PlayerInput;
+    local Vector2D scale;
+
+    MouseTexture = Texture2D'menuassets.MouseCursor';
+    PlayerInput = OLSpeedInput(PlayerOwner.PlayerInput);
+    Scale=Scale2dVector(vect2d(MouseTexture.SizeX,MouseTexture.SizeY));
+
+    ScreenTextDraw(Cursor, Vect2d(PlayerInput.MousePosition.X,PlayerInput.MousePosition.Y), CursorOutlineColor,vect2d(CursorScale * CursorOutline,CursorScale * CursorOutline), false, true);
+    ScreenTextDraw(Cursor, Vect2d(PlayerInput.MousePosition.X,PlayerInput.MousePosition.Y), CursorColor,vect2d(CursorScale,CursorScale), false, true);
+}
 Function WorldTextDraw( string Text, vector location, Float Max_View_Distance, float scale, optional vector offset ) //Simple function for drawing text in 3D space
 {
     Local Vector DrawLocation; //Location to Draw Text
@@ -302,7 +335,7 @@ Function WorldTextDraw( string Text, vector location, Float Max_View_Distance, f
     }
 }
 
-Function ScreenTextDraw(String Text, Vector2D Location, optional RGBA Color=MakeRGBA(125,125,125), optional Vector2D Scale=Vect2D(1,1), optional bool Scale_Location=True, optional bool center )
+Function ScreenTextDraw(String Text, Vector2D Location, optional RGBA Color=DefaultTextColor, optional Vector2D Scale=Vect2D(1,1), optional bool Scale_Location=True, optional bool center )
 {
     local vector2D ScaleCalc;
     local vector2D TextSize;
@@ -319,7 +352,7 @@ Function ScreenTextDraw(String Text, Vector2D Location, optional RGBA Color=Make
         Location=Vect2D(Location.X / 1280.0f * Canvas.SizeX, Location.Y / 720.0f * Canvas.SizeY);
     }
     Canvas.SetPos(Location.X,Location.Y);
-    canvas.SetDrawColor(Color.Red,Color.Blue,Color.Green,Color.Alpha);
+    canvas.SetDrawColor(Color.Red,Color.Green,Color.Blue,Color.Alpha);
     Canvas.DrawText(Text, false, ScaleCalc.X, ScaleCalc.Y);
 }
 
@@ -406,6 +439,7 @@ Function AddButton(String Name, String ConsoleCommand, optional vector2D Locatio
     local vector2D Center_Vector;
     local vector2D TextSize;
     local RGBA Color;
+    local RGBA TextColor;
     local ButtonStruct ButtonBase;
     local ButtonStruct PreviousButton;
     local ButtonStruct FirstButtonInRow;
@@ -416,6 +450,10 @@ Function AddButton(String Name, String ConsoleCommand, optional vector2D Locatio
     canvas.TextSize(Name, TextSize.X, TextSize.Y );
 
     offset=vect2D( 15 + (TextSize.X / 1.5), 5 + (TextSize.Y / 1.5) );
+
+    //Default Color Values
+    Color=ButtonColor;
+    TextColor=ButtonHoveredColor;
 
     if (Buttons.Length==0)
     {
@@ -457,11 +495,8 @@ Function AddButton(String Name, String ConsoleCommand, optional vector2D Locatio
 
     If ( MouseInbetween(Scale2DVector(Location), Scale2DVector(Location + Offset) ) )
     {
-        Color=MakeRGBA(50,50,50,255);
-    }
-    else
-    {
-        Color=MakeRGBA(255,255,255,255);
+        Color=ButtonHoveredColor;
+        TextColor=ButtonColor;
     }
 
     //Draw the button box
@@ -471,7 +506,7 @@ Function AddButton(String Name, String ConsoleCommand, optional vector2D Locatio
     Center_Vector=vect2D( ( Begin_PointCalc.X + (Begin_PointCalc.X + End_PointCalc.X) ) / 2, ( Begin_PointCalc.Y + ( Begin_PointCalc.Y + End_PointCalc.Y ) ) / 2);
 
     //Draw Button Text Centered.
-    ScreenTextDraw(Name, Center_Vector,  MakeRGBA(75,75,75,255),, false, true );
+    ScreenTextDraw(Name, Center_Vector,  TextColor,, false, true );
 
     //Add the button info to the array
     ButtonBase.Name=Name;

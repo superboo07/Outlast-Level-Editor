@@ -41,12 +41,15 @@ var int Selected_Save;
 var Save_State Current_State;
 var Collision_Type Collision_Type_Override;
 var OLSpeedController.PlayerMeshOverride PlayerModel;
+var OLSpeedPawn SpeedPawn;
 
 var bool Enabled;
 var bool DoorUnlocker;
 var bool Full_Bright;
 var bool Martin;
 var bool WernikSkipEnable;
+var bool BhopFree;
+var bool Bandage;
 
 var SkeletalMesh Current_SkeletalMesh;
 var array<MaterialInterface> Materials;
@@ -74,25 +77,80 @@ Exec Function OpenConsoleMenu(int Selection)
     {
         Case 1:
         OLSpeedHUD(HUD).Show_Menu=true;
-        OLSpeedInput(PlayerInput).MoveCommand="No";
-        OLSpeedInput(PlayerInput).StrafeCommand="Stop Fucking Moving";
-        OLSpeedInput(PlayerInput).LookXCommand="Stop Fucking turning too";
-        OLSpeedInput(PlayerInput).LookYCommand="Seriously fucking quit it";
-        IgnoreLookInput(True);
-        IgnoreMoveInput(True);
+        DisableInput(True);
         break;
 
         Case 0: 
         OLSpeedHUD(HUD).Show_Menu=false;
-        OLSpeedInput(PlayerInput).MoveCommand=OLSpeedInput(PlayerInput).Default.MoveCommand;
-        OLSpeedInput(PlayerInput).StrafeCommand=OLSpeedInput(PlayerInput).Default.StrafeCommand;
-        OLSpeedInput(PlayerInput).LookXCommand=OLSpeedInput(PlayerInput).Default.LookXCommand;
-        OLSpeedInput(PlayerInput).LookYCommand=OLSpeedInput(PlayerInput).Default.LookYCommand;
-        IgnoreLookInput(False);
-        IgnoreMoveInput(false);
+        DisableInput(False);
         break;
     }
     return;
+}
+
+Exec Function FreeBhop()
+{
+    BhopFree=!BhopFree;
+}
+
+Exec Function SimulateBandages()
+{
+    if (SpeedPawn.GodMode) 
+    {
+        WorldInfo.Game.BroadcastHandler.Broadcast(self, "Simulate Bandages cannot be turned on while GodMode is enabled");
+        Return;
+    }
+    Bandage=!Bandage;
+    if (!Bandage)
+    {
+        SpeedPawn.DisableBandage();
+    }
+}
+
+Function DisableInput(Bool Input)
+{
+    local OLSpeedInput HeroInput;
+    local OLHero Hero;
+
+    HeroInput=OLSpeedInput(PlayerInput);
+    Hero=OLHero(Pawn);
+
+    if (Input)
+    {
+        HeroInput.MoveCommand="No";
+        HeroInput.StrafeCommand="Stop Fucking Moving";
+        HeroInput.LookXCommand="Stop Fucking turning too";
+        HeroInput.LookYCommand="Seriously fucking quit it";
+        Hero.NormalWalkSpeed=0;
+        Hero.NormalRunSpeed=0;
+        Hero.CrouchedSpeed=0;
+        Hero.ElectrifiedSpeed=0;
+        Hero.WaterWalkSpeed=0;
+        Hero.WaterRunSpeed=0;
+        Hero.LimpingWalkSpeed=0;
+        Hero.HobblingWalkSpeed=0;
+        Hero.HobblingRunSpeed=0;
+        IgnoreLookInput(True);
+        IgnoreMoveInput(True);
+    }
+    else
+    {
+        HeroInput.MoveCommand=HeroInput.Default.MoveCommand;
+        HeroInput.StrafeCommand=HeroInput.Default.StrafeCommand;
+        HeroInput.LookXCommand=HeroInput.Default.LookXCommand;
+        HeroInput.LookYCommand=HeroInput.Default.LookYCommand;
+        Hero.NormalWalkSpeed=Hero.default.NormalWalkSpeed;
+        Hero.NormalRunSpeed=Hero.default.NormalRunSpeed;
+        Hero.CrouchedSpeed=Hero.default.CrouchedSpeed;
+        Hero.ElectrifiedSpeed=Hero.default.ElectrifiedSpeed;
+        Hero.WaterWalkSpeed=Hero.default.WaterWalkSpeed;
+        Hero.WaterRunSpeed=Hero.default.WaterRunSpeed;
+        Hero.LimpingWalkSpeed=Hero.default.LimpingWalkSpeed;
+        Hero.HobblingWalkSpeed=Hero.default.HobblingWalkSpeed;
+        Hero.HobblingRunSpeed=Hero.default.HobblingRunSpeed;
+        IgnoreLookInput(False);
+        IgnoreMoveInput(false);
+    }
 }
 
 Exec Function ToggleGod()
@@ -104,6 +162,7 @@ Exec Function ToggleGod()
     Hero.GodMode=!Hero.GodMode;
     if (OLSpeedPawn(Pawn).GodMode)
     {
+        if (Bandage) { SimulateBandages(); }
         Hero.HealthRegenDelay=0.00001;
         Hero.HealthRegenRate=100;
     }
@@ -231,6 +290,23 @@ Exec Function ToogleFreeCam()
     }
     else
     {
+        ConsoleCommand("Camera Default");
+    }
+}
+
+Exec Function TeleportToFreecam()
+{
+    local rotator Rotation;
+    Local Vector Location;
+
+    GetPlayerViewPoint(Location,Rotation);
+
+
+    if ( !UsingFirstPersonCamera() )
+    {
+        Pawn.SetLocation( Location - vect(0,0,25) );
+        Pawn.SetRotation(CalcViewRotation);
+
         ConsoleCommand("Camera Default");
     }
 }

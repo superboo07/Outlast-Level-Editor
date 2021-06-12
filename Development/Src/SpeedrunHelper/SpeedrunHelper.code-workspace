@@ -81,13 +81,12 @@
 			"debug": ""
 		},
 		"editor.codeActionsOnSave": null,
-		"unrealscript.indexAllDocuments": true,
-		"unrealscript.checkTypes": true,
-		"unrealscript.analyzeDocuments": "None"
+		"unrealscript.analyzeDocuments": "None",
+		"unrealscript.indexAllDocuments": true
 	},
 	"extensions": {
 		"recommendations": [
 			"eliotvu.uc"
 		]
-	}
+	},
 }
