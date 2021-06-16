@@ -56,6 +56,7 @@ if /I %Content%==True (
 
     Echo.
     Echo -Mounting Content-
+    if not exist "\Compilier\Content" goto CopyConfig
     for /F "tokens=1 delims=" %%a in (.\Compilier\Content) do (
         if exist Output\%ModName%\Content\%%~nxa del Output\%ModName%\Content\%%~nxa
         if /I %Convert%==true (
