@@ -223,6 +223,7 @@ var() int NumBashesAfterBlocked;
 var() float AIOpenDoorKnockback;
 var() DoorShakeData BashShakeData;
 var OLDoor.EDoorState DoorState;
+var bool bBlocked;
 
 defaultproperties
 {
