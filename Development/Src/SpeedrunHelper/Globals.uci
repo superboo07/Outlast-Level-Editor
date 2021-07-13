@@ -1,0 +1,6 @@
+`define Functvar var OLSpeedFunctions Function;
+
+`define FunctObj begin object name=FunctionHolder class=OLSpeedFunctions\n\
+End Object\n\
+Function=FunctionHolder\n\
+Components.Add(FunctionHolder)

@@ -1,0 +1,60 @@
+[Text]
+PlayerModelHelp=Custom Player Models require the CustomPlayerModelSDK.\n\nIn order to use them you must place the UDK or UPK file for\nthe player model you want to use in the\nCookedPCConsole/Custom folder. Then after clicking custom,\nyou must type in the full path to the player model. You should be able to\nfind this in the DefaultPlayerModel.ini file included with the PM.
+SavePositionSelect=Select a position
+G40styCredit=Thank you G40sty for helping with the Player collision changer
+Credits=Programming: Superboo07\nSprites: Superboo07\nAdditional Programming help: G40sty\nTesting: Thanksdude\n\nIf you need to report any bugs or want to suggest any features then you can contact me via\ndiscord. My username is superboo07#9234
+
+[Buttons]
+Save=Save
+Load=Load
+BackText=Go Back
+
+CheckpointLoader=Load Checkpoint
+ShowCheats=Cheats
+ShowDebug=Show
+ShowFunny=The Funni's
+ShowPlayerModel=Player Model Override
+ShowPositionSaver=Position Saver
+ShowCredits=Credits
+ShowTeleporter=Teleporter
+FPS=FPS
+LevelInformation=Level Information
+ActorDebugInfo=Actor Debug Info
+Collision=Collision
+Volumes=Volumes
+Fog=Fog
+LevelColoration=Level Coloration
+PostProcessing=Post Processing
+ModDebugInfo=Mod Debug Info
+ShowGrain=Show Grain
+
+CollisionNormal=Normal
+CollisionVaulting=Vaulting
+CollisionDoor=Door
+CollisionShimmy=Shimmy
+
+KillAllCheat=Kill all enemys (May break scripted sequences)
+FreecamCheat=Freecam
+TeleportToFreecamCheat=Teleport to Freecam
+PlayerColliderSizeCheat=Override Player Collider Size
+GodmodeCheat=Godmode
+ToggleDeathBoundsCheat=Toggle Death Bounds
+UnlockAllDoorsCheat=Unlock all doors
+InfiniteBatteryCheat=Infinite Battery
+
+EveryoneFatherMartinFunny=Make Everyone Father Martin
+EveryoneWieldFatherMartin=Make Everyone Hold Father Martin
+WernickeSkipFunny=Allow Wernicke Skip
+FreeBhopsFunny=Literally free bhops
+OL2BandageFunny=Simulate Outlast 2 Bandage System
+OL2StaminaFunny=Simulate Outlast 2 Stamina System
+SeizureFunny=Make Miles Have a Seizure
+
+NoOverridePM=No Override
+CustomPM=Custom
+
+Forward=+Forward
+Left=+Left
+Right=+Right
+Back=+Back
+Teleport=Teleport

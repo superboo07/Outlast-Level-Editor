@@ -4,7 +4,7 @@ static event class<GameInfo> SetGameType(string MapName, string Options, string 
 
 DefaultProperties
 {
-    PlayerControllerClass=Class'OLSpeedController'
-    HUDType=class'SpeedrunHelper.OLSpeedHud'
-    DefaultPawnClass=class'SpeedrunHelper.OLSpeedPawn'
+	PlayerControllerClass=Class'OLSpeedController'
+	HUDType=class'SpeedrunHelper.OLSpeedHud'
+	DefaultPawnClass=class'SpeedrunHelper.OLSpeedPawn'
 }
