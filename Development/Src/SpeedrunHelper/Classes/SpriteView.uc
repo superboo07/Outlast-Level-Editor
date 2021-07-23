@@ -1,6 +1,7 @@
 Class SpriteView extends Actor;
 
 var SpriteComponent Sprite;
+var Actor Attachedto;
 
 DefaultProperties 
 {

@@ -39,6 +39,7 @@ Enum EPlayerMeshOverride
 var string CustomPM;
 var config float Refresh;
 var config float Max_View_Distance;
+var config float RefreshKismetSequenceArray;
 var config Array<String> Ignore_Actors;
 var Array<Saved_Position> Saved_Positions;
 var int Selected_Save;
@@ -48,12 +49,12 @@ var OLSpeedController.EPlayerMeshOverride PlayerModel;
 var OLSpeedPawn SpeedPawn;
 
 var bool bIsActorDebugEnabled;
-var bool bShouldUnlockAllDoors;
+var config bool bShouldUnlockAllDoors;
 var bool bShouldMartinReplaceEnemyModels;
-var bool bIsWernickeSkipEnabled;
-var bool bShouldMakeBhopsFree;
-var bool bIsOL2BandageSimulatorEnabled;
-var bool bIsOL2StaminaSimulatorEnabled;
+var config bool bIsWernickeSkipEnabled;
+var config bool bShouldMakeBhopsFree;
+var config bool bIsOL2BandageSimulatorEnabled;
+var config bool bIsOL2StaminaSimulatorEnabled;
 var bool bIsModDebugEnabled;
 var bool bShouldWieldFatherMartin;
 var bool bShouldHaveInfiniteBattery;
@@ -63,6 +64,8 @@ var config bool bIsGrainEnabled;
 
 var SkeletalMesh StoredSkeletalMesh;
 var array<MaterialInterface> StoredMaterials;
+
+var Array<SequenceObject> AllCheckpointSeq;
 
 `Functvar
 
@@ -74,6 +77,7 @@ Event InitializeHelper(OLSpeedPawn Pawn)
 	if (PlayerModel!=PM_NoOverride) { WorldInfo.Game.SetTimer(0.0005, false, 'LoadCurrent', self); }
 	if (!bIsGrainEnabled) { ToogleGrain(True, false);}
 	if (bShouldUnlockAllDoors) {UnlockDoors();}
+	if (bIsWernickeSkipEnabled) {bIsWernickeSkipEnabled=false; WernikSkipToggle();}
 }
 
 Function LoadCurrent()
@@ -88,16 +92,21 @@ Function LoadCurrent()
 
 Exec Function OpenConsoleMenu(int Selection)
 {
+	if (Selection==-1) {Selection=int(!OLSpeedHUD(HUD).Show_Menu);}
 	Switch (Selection)
 	{
 		Case 1:
 		OLSpeedHUD(HUD).Show_Menu=true;
 		DisableInput(True);
+		PlayerInput.ResetInput();
+		OLSpeedInput(PlayerInput).BindController(true);
 		break;
 
 		Case 0: 
 		OLSpeedHUD(HUD).Show_Menu=false;
 		DisableInput(False);
+		PlayerInput.ResetInput();
+		OLSpeedInput(PlayerInput).BindController(false);
 		break;
 	}
 	return;
@@ -119,7 +128,10 @@ Exec Function SimulateBandages()
 	if (!bIsOL2BandageSimulatorEnabled)
 	{
 		SpeedPawn.DisableBandage();
+		OLSpeedInput(PlayerInput).ApplyBandageBinds(false);
+		return;
 	}
+	OLSpeedInput(PlayerInput).ApplyBandageBinds(true);
 	SpeedPawn.EnableOL2Simulator();
 }
 
@@ -148,37 +160,15 @@ Function DisableInput(Bool Input)
 
 	if (Input)
 	{
-		HeroInput.MoveCommand="No";
-		HeroInput.StrafeCommand="Stop Fucking Moving";
-		HeroInput.LookXCommand="Stop Fucking turning too";
-		HeroInput.LookYCommand="Seriously fucking quit it";
-		Hero.NormalWalkSpeed=0;
-		Hero.NormalRunSpeed=0;
-		Hero.CrouchedSpeed=0;
-		Hero.ElectrifiedSpeed=0;
-		Hero.WaterWalkSpeed=0;
-		Hero.WaterRunSpeed=0;
-		Hero.LimpingWalkSpeed=0;
-		Hero.HobblingWalkSpeed=0;
-		Hero.HobblingRunSpeed=0;
+		HeroInput.LookXCommand="";
+		HeroInput.LookYCommand="";
 		IgnoreLookInput(True);
 		IgnoreMoveInput(True);
 	}
 	else
 	{
-		HeroInput.MoveCommand=HeroInput.Default.MoveCommand;
-		HeroInput.StrafeCommand=HeroInput.Default.StrafeCommand;
 		HeroInput.LookXCommand=HeroInput.Default.LookXCommand;
 		HeroInput.LookYCommand=HeroInput.Default.LookYCommand;
-		Hero.NormalWalkSpeed=Hero.default.NormalWalkSpeed;
-		Hero.NormalRunSpeed=Hero.default.NormalRunSpeed;
-		Hero.CrouchedSpeed=Hero.default.CrouchedSpeed;
-		Hero.ElectrifiedSpeed=Hero.default.ElectrifiedSpeed;
-		Hero.WaterWalkSpeed=Hero.default.WaterWalkSpeed;
-		Hero.WaterRunSpeed=Hero.default.WaterRunSpeed;
-		Hero.LimpingWalkSpeed=Hero.default.LimpingWalkSpeed;
-		Hero.HobblingWalkSpeed=Hero.default.HobblingWalkSpeed;
-		Hero.HobblingRunSpeed=Hero.default.HobblingRunSpeed;
 		IgnoreLookInput(False);
 		IgnoreMoveInput(false);
 	}
@@ -413,24 +403,6 @@ Exec Function TeleportToFreecam()
 	}
 }
 
-Exec Function ToogleDebugView() //Toggle Visibility
-{
-	local spriteview Just_Spawned;
-
-	bIsActorDebugEnabled=!bIsActorDebugEnabled;
-	if (bIsActorDebugEnabled)
-	{
-		foreach AllActors(class'spriteview', Just_Spawned) //Destory all currently spawned Sprites
-		{
-			Just_Spawned.Destroy();
-		}
-	}
-	else
-	{
-		View();
-	}
-}
-
 exec function Save_Position(int Save)
 {
 	local Saved_Position Saved_Position;
@@ -470,7 +442,46 @@ exec function Teleport_In_Direction(float X, float Y)
 	Pawn.SetLocation( Pawn.Location + ( NewLocationForward + NewLocationRight ) );
 }
 
-Function View()
+Exec Function ToogleDebugView() //Toggle Visibility
+{
+	local spriteview Just_Spawned;
+	local TriggerVolume Volume;
+
+	bIsActorDebugEnabled=!bIsActorDebugEnabled;
+	if (bIsActorDebugEnabled)
+	{
+		SpawnDebugViewActors();
+		WorldInfo.Game.SetTimer(Refresh, true, 'SpawnDebugViewActors', self);
+		GetCheckpointSequenceObjects();
+		if (RefreshKismetSequenceArray != -1) { WorldInfo.Game.SetTimer(RefreshKismetSequenceArray, true, 'GetCheckpointSequenceObjects', self); }
+		//WorldInfo.Game.SetTimer(RefreshKismetSequenceArray, true, 'GetTriggerSequenceObjects', self);
+	}
+	else
+	{
+		WorldInfo.Game.ClearTimer('SpawnDebugViewActors', self);
+		WorldInfo.Game.ClearTimer('GetCheckpointSequenceObjects', self);
+		foreach AllActors(class'spriteview', Just_Spawned) //Destory all currently spawned Sprites
+		{
+			Just_Spawned.Destroy();
+		}
+		foreach AllActors(Class'TriggerVolume', Volume)
+		{
+			Volume.BrushComponent.SetHidden(True);
+			Volume.SetHidden(True);
+		}
+	}
+}
+
+Function GetCheckpointSequenceObjects()
+{
+	local Sequence GameSeq;
+
+	AllCheckpointSeq=Default.AllCheckpointSeq;
+	GameSeq = WorldInfo.GetGameSequence();
+	GameSeq.FindSeqObjectsByClass(class'OLSeqAct_Checkpoint', true, AllCheckpointSeq);
+}
+
+Function SpawnDebugViewActors()
 {
 	local OLGameplayMarker GameplayMarker; //Current Gameplay Marker
 	local spriteview Just_Spawned; //Store Current Sprite here
@@ -479,8 +490,10 @@ Function View()
 	local vector Location;
 	local string String;
 	local bool ignore;
+	local Vector CameraLocation;
+	Local Rotator CameraDir;
 
-	local name Fuck; //Dummy name piece of shit fuck to force the spawn command into submission.
+	GetPlayerViewPoint( CameraLocation, CameraDir );
 
 	foreach AllActors(class'spriteview', Just_Spawned) //Destory all currently spawned sprites
 	{
@@ -496,7 +509,7 @@ Function View()
 
 			if (Function.ContainsString(Ignore_Actors, String(GameplayMarker.Class) ) ) { break; } //Check if Ignore_Actor array contains this class, if it does tell it to fuck off.
 
-			Just_Spawned = Spawn(Class'SpriteView', GameplayMarker, Fuck, Location);
+			Just_Spawned = Spawn(Class'SpriteView', GameplayMarker, 'idc', Location);
 			Just_Spawned.SetBase(GameplayMarker);
 			
 			Switch(GameplayMarker.Class) //Select Sprite for Gamemarker based on class, and use a switch because i'm not yandare dev. 
@@ -531,12 +544,23 @@ Function View()
 		foreach AllActors(class'OLCheckpoint', Checkpoint)
 		{
 			Location = Checkpoint.Location;
-			Just_Spawned = Spawn(Class'SpriteView', Checkpoint, Fuck, Location);
+			Just_Spawned = Spawn(Class'SpriteView', Checkpoint, 'idc', Location);
 			Just_Spawned.Sprite.SetSprite(Texture2D'SH_Sprites.OLCheckpoint_Sprite');
 		}
-
-		WorldInfo.Game.SetTimer(Refresh, false, 'View', self);
 	}
+}
+
+Exec Function ScalePlayer(Float Scale)
+{
+	SpeedPawn.SetDrawScale(Scale);
+}
+
+Function Float ScalebyCam(Float Float) //Function to scale a float by the players current FOV. 
+{
+	Local Float Scale;
+	Scale = ( GetFOVAngle() / 100 );
+
+	Return Float * Scale;
 }
 
 exec function MartinifyToggle()
@@ -577,9 +601,11 @@ Exec Function WernikSkipToggle()
 	if (bIsWernickeSkipEnabled)
 	{
 		WernikSkip();
+		WorldInfo.Game.SetTimer(1, true, 'WernikSkip', self);
 	}
 	else
 	{
+		WorldInfo.Game.ClearTimer('WernikSkip', self);
 		foreach allactors(Class'SkeletalMeshActor', SkeletalMesh)
 		{
 			if (String(SkeletalMesh.SkeletalMeshComponent.SkeletalMesh)=="LadCellDoor-01" )
@@ -616,7 +642,6 @@ Exec Function WernikSkip()
 			}
 		}
 	}
-	if (bIsWernickeSkipEnabled) {WorldInfo.Game.SetTimer(1, false, 'WernikSkip', self);}
 }
 
 event OnSetMesh(SeqAct_SetMesh Action)
@@ -796,6 +821,12 @@ Function Bool ContainsName(Array<Name> Array, Name find)
 Function Bool HasOL2SimulatorEnabled()
 {
 	Return bIsOL2BandageSimulatorEnabled || bIsOL2StaminaSimulatorEnabled;
+}
+
+Function Bool ToggleBool(Bool Result)
+{
+	Result=!Result;
+	Return Result;
 }
 
 event UnlockAchievement(OLPlayerController.EOutlastAchievement achievement)

@@ -1,8 +1,10 @@
 [Text]
-PlayerModelHelp=Custom Player Models require the CustomPlayerModelSDK.\n\nIn order to use them you must place the UDK or UPK file for\nthe player model you want to use in the\nCookedPCConsole/Custom folder. Then after clicking custom,\nyou must type in the full path to the player model. You should be able to\nfind this in the DefaultPlayerModel.ini file included with the PM.
+PlayerModelHelp=Custom Player Models require the CustomPlayerModelSDK.\n\nIn order to use them you must place the UDK or UPK file for\nthe player model you want to use in the CookedPCConsole/Custom folder. \nThen after clicking custom, you must type in the full path to the \nplayer model. You should be able to find this in the\nDefaultPlayerModel.ini file included with the PM
 SavePositionSelect=Select a position
 G40styCredit=Thank you G40sty for helping with the Player collision changer
 Credits=Programming: Superboo07\nSprites: Superboo07\nAdditional Programming help: G40sty\nTesting: Thanksdude\n\nIf you need to report any bugs or want to suggest any features then you can contact me via\ndiscord. My username is superboo07#9234
+
+Custom Player Models require the CustomPlayerModelSDK.\n\nIn order to use them you must place the UDK or UPK file for\nthe player model you want to use in the\nCookedPCConsole/Custom folder. Then after clicking custom,\nyou must type in the full path to the player model. You should be able to\nfind this in the DefaultPlayerModel.ini file included with the PM
 
 [Buttons]
 Save=Save
@@ -17,6 +19,7 @@ ShowPlayerModel=Player Model Override
 ShowPositionSaver=Position Saver
 ShowCredits=Credits
 ShowTeleporter=Teleporter
+ShowLogging=Log things
 FPS=FPS
 LevelInformation=Level Information
 ActorDebugInfo=Actor Debug Info
@@ -58,3 +61,6 @@ Left=+Left
 Right=+Right
 Back=+Back
 Teleport=Teleport
+
+PrintCompObjectives=Print currently completed objectives
+PrintAllCheckpoints= Print all checkpoints

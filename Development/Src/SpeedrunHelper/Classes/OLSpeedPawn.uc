@@ -235,9 +235,13 @@ Function IncreaseRunStamina(Float Target,Float Clamp, Optional Float SoftClamp)
 
 Function DecreaseRunStamina(Float Target,Float Clamp)
 {
-	if (RunStamina-(Target * StaminaPercent)>Clamp)
+	if (RunStamina-(Target * StaminaPercent)>Clamp && StaminaPercent<1.0)
 	{
 		RunStamina=Runstamina-(Target * StaminaPercent);
+	}
+	else if (RunStamina-Target>Clamp)
+	{
+		RunStamina = RunStamina-Target;
 	}
 	else
 	{
@@ -354,6 +358,7 @@ Function SpeedDecrease()
 	DecreasedNormalRunSpeed=Default.NormalRunSpeed * Percent;
 	DecreasedWaterRunSpeed=Default.WaterRunSpeed * Percent;
 	DecreasedHobblingRunSpeed=Default.HobblingRunSpeed * Percent;
+	ForwardSpeedForJumpRunning=Default.ForwardSpeedForJumpRunning * Percent;
 	
 	NormalRunSpeed = Function.ClampFloat(DecreasedNormalRunSpeed,NormalWalkSpeed);
 	WaterRunSpeed = Function.ClampFloat(DecreasedWaterRunSpeed,WaterWalkSpeed);
