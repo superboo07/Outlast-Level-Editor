@@ -1877,10 +1877,11 @@ event PostLogin( PlayerController NewPlayer )
 	}
 
 	//Check to see if we should start in cinematic mode (matinee movie capture)
-	if(ShouldStartInCinematicMode(HidePlayer, HideHud, DisableMovement, DisableTurning, DisableInput))
+	//I have currently commented this out, as we should not need to use this, and it inflicts with a function in Outlast.
+	/*if(ShouldStartInCinematicMode(HidePlayer, HideHud, DisableMovement, DisableTurning, DisableInput))
 	{
 		NewPlayer.SetCinematicMode(true, HidePlayer == 1, HideHud == 1, DisableMovement == 1, DisableTurning == 1, DisableInput == 1);
-	}
+	}*/
 
 	// Pass on to access control
 	if (AccessControl != none)

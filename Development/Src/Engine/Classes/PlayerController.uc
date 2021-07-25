@@ -6804,7 +6804,7 @@ function OnToggleCinematicMode(SeqAct_ToggleCinematicMode Action)
 		bNewCinematicMode = !bCinematicMode;
 	}
 
-	SetCinematicMode(bNewCinematicMode, Action.bHidePlayer, Action.bHideHUD, Action.bDisableMovement, Action.bDisableTurning, Action.bDisableInput);
+	SetCinematicMode(Action, bNewCinematicMode, Action.bHidePlayer, Action.bHideHUD, Action.bDisableMovement, Action.bDisableTurning, Action.bDisableInput);
 }
 
 /**
@@ -6818,7 +6818,7 @@ function OnToggleCinematicMode(SeqAct_ToggleCinematicMode Action)
  * @param	bAffectsTurning		specify TRUE to disable turning in cinematic mode or enable it when leaving
  * @param	bAffectsButtons		specify TRUE to disable button input in cinematic mode or enable it when leaving.
  */
-function SetCinematicMode( bool bInCinematicMode, bool bHidePlayer, bool bAffectsHUD, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsButtons )
+function SetCinematicMode(SeqAct_ToggleCinematicMode Action, bool bInCinematicMode, bool bHidePlayer, bool bAffectsHUD, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsButtons )
 {
 	local bool bAdjustMoveInput, bAdjustLookInput;
 
