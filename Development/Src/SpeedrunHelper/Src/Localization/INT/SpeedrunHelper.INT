@@ -64,3 +64,18 @@ Teleport=Teleport
 
 PrintCompObjectives=Print currently completed objectives
 PrintAllCheckpoints= Print all checkpoints
+
+[Actions]
+
+SH_ButtonDown=Down
+SH_ButtonUp=Up
+SH_ButtonLeft=Left
+SH_ButtonRight=Right
+SH_Button=Select
+SH_BackButton=Go Back
+SH_Bandage=Apply Bandage
+
+InputBox=Input command
+InputBoxEnter=Run console command
+
+MouseCursor=Control mouse cursor

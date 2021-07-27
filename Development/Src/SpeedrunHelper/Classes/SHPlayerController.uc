@@ -1,21 +1,5 @@
-Class OLSpeedController extends OLPlayerController
+Class SHPlayerController extends OLPlayerController
 Config(Tool);
-
-struct Saved_Position
-{
-	var vector Location;
-	var Vector2D Rotation;
-	var ELocomotionMode LocomotionMode;
-	var ESpecialMoveType SpecialMoveType;
-	var string Name;
-};
-
-enum Save_State
-{
-	SS_None,
-	SS_Save,
-	SS_Load
-};
 
 Enum ECollision_Type
 {
@@ -36,40 +20,33 @@ Enum EPlayerMeshOverride
 	PM_Nude
 };
 
-var string CustomPM;
-var config float Refresh;
-var config float Max_View_Distance;
-var config float RefreshKismetSequenceArray;
+struct Saved_Position
+{
+	var vector Location;
+	var Vector2D Rotation;
+	var ELocomotionMode LocomotionMode;
+	var ESpecialMoveType SpecialMoveType;
+	var string Name;
+};
+
+var config bool bShouldUnlockAllDoors, bIsWernickeSkipEnabled, bShouldMakeBhopsFree, bIsOL2BandageSimulatorEnabled, bIsOL2StaminaSimulatorEnabled, bIsGrainEnabled;
+var config float Refresh, Max_View_Distance, RefreshKismetSequenceArray;
 var config Array<String> Ignore_Actors;
+var config EPlayerMeshOverride PlayerModel;
+
+var string CustomPM;
 var Array<Saved_Position> Saved_Positions;
 var int Selected_Save;
-var Save_State Current_State;
 var ECollision_Type Collision_Type_Override;
-var OLSpeedController.EPlayerMeshOverride PlayerModel;
-var OLSpeedPawn SpeedPawn;
-
-var bool bIsActorDebugEnabled;
-var config bool bShouldUnlockAllDoors;
-var bool bShouldMartinReplaceEnemyModels;
-var config bool bIsWernickeSkipEnabled;
-var config bool bShouldMakeBhopsFree;
-var config bool bIsOL2BandageSimulatorEnabled;
-var config bool bIsOL2StaminaSimulatorEnabled;
-var bool bIsModDebugEnabled;
-var bool bShouldWieldFatherMartin;
-var bool bShouldHaveInfiniteBattery;
-var bool bGodMode;
-var bool bDisableKillBound;
-var config bool bIsGrainEnabled;
-
+var SHHero SpeedPawn;
+var bool bIsActorDebugEnabled, bIsModDebugEnabled, bShouldWieldFatherMartin, bShouldHaveInfiniteBattery, bGodMode, bDisableKillBound, bShouldMartinReplaceEnemyModels;
 var SkeletalMesh StoredSkeletalMesh;
 var array<MaterialInterface> StoredMaterials;
-
 var Array<SequenceObject> AllCheckpointSeq;
 
 `Functvar
 
-Event InitializeHelper(OLSpeedPawn Pawn)
+Event InitializeHelper(SHHero Pawn)
 {
 	SpeedPawn=Pawn;
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
@@ -92,21 +69,19 @@ Function LoadCurrent()
 
 Exec Function OpenConsoleMenu(int Selection)
 {
-	if (Selection==-1) {Selection=int(!OLSpeedHUD(HUD).Show_Menu);}
+	if (Selection==-1) {Selection=int(!SHHud(HUD).Show_Menu);}
 	Switch (Selection)
 	{
 		Case 1:
-		OLSpeedHUD(HUD).Show_Menu=true;
 		DisableInput(True);
 		PlayerInput.ResetInput();
-		OLSpeedInput(PlayerInput).BindController(true);
+		SHHud(HUD).Show_Menu=true;
 		break;
 
 		Case 0: 
-		OLSpeedHUD(HUD).Show_Menu=false;
+		SHHud(HUD).Show_Menu=false;
 		DisableInput(False);
 		PlayerInput.ResetInput();
-		OLSpeedInput(PlayerInput).BindController(false);
 		break;
 	}
 	return;
@@ -128,10 +103,8 @@ Exec Function SimulateBandages()
 	if (!bIsOL2BandageSimulatorEnabled)
 	{
 		SpeedPawn.DisableBandage();
-		OLSpeedInput(PlayerInput).ApplyBandageBinds(false);
 		return;
 	}
-	OLSpeedInput(PlayerInput).ApplyBandageBinds(true);
 	SpeedPawn.EnableOL2Simulator();
 }
 
@@ -152,23 +125,19 @@ exec Function SimulateOL2Stamina()
 
 Function DisableInput(Bool Input)
 {
-	local OLSpeedInput HeroInput;
+	local SHPlayerInput HeroInput;
 	local OLHero Hero;
 
-	HeroInput=OLSpeedInput(PlayerInput);
+	HeroInput=SHPlayerInput(PlayerInput);
 	Hero=OLHero(Pawn);
 
 	if (Input)
 	{
-		HeroInput.LookXCommand="";
-		HeroInput.LookYCommand="";
 		IgnoreLookInput(True);
 		IgnoreMoveInput(True);
 	}
 	else
 	{
-		HeroInput.LookXCommand=HeroInput.Default.LookXCommand;
-		HeroInput.LookYCommand=HeroInput.Default.LookYCommand;
 		IgnoreLookInput(False);
 		IgnoreMoveInput(false);
 	}
@@ -176,9 +145,9 @@ Function DisableInput(Bool Input)
 
 Exec Function ToggleGod()
 {
-	Local OLSpeedPawn Hero;
+	Local SHHero Hero;
 
-	Hero=OLSpeedPawn(Pawn);
+	Hero=SHHero(Pawn);
 
 	bGodMode=!bGodMode;
 	if (bGodMode)
@@ -197,8 +166,8 @@ Exec Function ToggleGod()
 
 Exec Function ToogleKillBound()
 {
-	Local OLSpeedPawn Hero;
-	Hero=OLSpeedPawn(Pawn);
+	Local SHHero Hero;
+	Hero=SHHero(Pawn);
 	bDisableKillBound=!bDisableKillBound;
 }
 
@@ -322,7 +291,7 @@ Exec Function ToogleWieldFatherMartin()
 
 	if (bShouldWieldFatherMartin)
 	{
-		WorldInfo.Game.SetTimer(0.01, true, 'WieldFatherMartin', self);
+		WorldInfo.Game.SetTimer(0.1, true, 'WieldFatherMartin', self);
 	}
 	else
 	{
@@ -552,7 +521,12 @@ Function SpawnDebugViewActors()
 
 Exec Function ScalePlayer(Float Scale)
 {
-	SpeedPawn.SetDrawScale(Scale);
+	local vector vector;
+	local float Radius;
+
+	SpeedPawn.Mesh.SetScale(Scale);
+	SpeedPawn.CollisionComponent.SetScale(Scale);
+	SpeedPawn.SetCollisionSize(SpeedPawn.GetCollisionRadius(), SpeedPawn.GetCollisionHeight() * SpeedPawn.Mesh.Scale);
 }
 
 Function Float ScalebyCam(Float Float) //Function to scale a float by the players current FOV. 
@@ -678,7 +652,7 @@ event OnSetMaterial(SeqAct_SetMaterial Action)
  * Called when the Player wants to change their player model
  *
  */
-exec Function UpdatePlayerModel(OLSpeedController.EPlayerMeshOverride PlayerModelState, optional string CustomPlayerModel)
+exec Function UpdatePlayerModel(SHPlayerController.EPlayerMeshOverride PlayerModelState, optional string CustomPlayerModel)
 {
 	if (PlayerModel==PM_NoOverride)
 	{
@@ -833,11 +807,32 @@ event UnlockAchievement(OLPlayerController.EOutlastAchievement achievement)
 {
 }
 
+function SetCinematicMode(SeqAct_ToggleCinematicMode Action, bool bInCinematicMode, bool bHidePlayer, bool bAffectsHUD, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsButtons)
+{
+    super(PlayerController).SetCinematicMode(Action, bInCinematicMode, bHidePlayer, bAffectsHUD, bAffectsMovement, bAffectsTurning, bAffectsButtons);
+    if(!bInCinematicMode && !SHHud(HUD).Show_Menu)
+    {
+        bIgnoreMoveInput = 0;
+        bIgnoreLookInput = 0;
+    }
+    if((Action != none) && HeroPawn != none)
+    {
+        if(bInCinematicMode)
+        {
+            HeroPawn.EnterCinematicMode(Action);
+        }
+        else
+        {
+            HeroPawn.ExitCinematicMode(Action);
+        }
+    }
+}
+
 DefaultProperties
 {
 	Refresh=1
 	Max_View_Distance=500
-	InputClass=class'OLSpeedInput'
+	InputClass=class'SHPlayerInput'
 
 	PlayerModel=PM_NoOverride
 

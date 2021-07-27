@@ -1,4 +1,4 @@
-class OLSpeedPawn extends OLHero
+class SHHero extends OLHero
 config(tool);
 
 Enum EStaminaState
@@ -20,8 +20,8 @@ Enum EMovementState
 	MS_Other
 };
 
-var OLSpeedController SpeedController;
-var OLSpeedInput Input;
+var SHPlayerController SpeedController;
+var SHPlayerInput Input;
 var OLSpeedFunctions Function;
 
 var bool bShouldSeizure;
@@ -70,8 +70,8 @@ var int StaminaRotationChecktick;
 function PossessedBy(Controller C, bool bVehicleTransition)
 {
 	super.PossessedBy(C, bVehicleTransition);	
-	SpeedController=OLSpeedController(C);
-	Input = OLSpeedInput(SpeedController.Playerinput);
+	SpeedController=SHPlayerController(C);
+	Input = SHPlayerInput(SpeedController.Playerinput);
 	SpeedController.InitializeHelper(Self);
 }
 
@@ -359,6 +359,7 @@ Function SpeedDecrease()
 	DecreasedWaterRunSpeed=Default.WaterRunSpeed * Percent;
 	DecreasedHobblingRunSpeed=Default.HobblingRunSpeed * Percent;
 	ForwardSpeedForJumpRunning=Default.ForwardSpeedForJumpRunning * Percent;
+	JumpClearanceRunning=Default.JumpClearanceRunning * Percent;
 	
 	NormalRunSpeed = Function.ClampFloat(DecreasedNormalRunSpeed,NormalWalkSpeed);
 	WaterRunSpeed = Function.ClampFloat(DecreasedWaterRunSpeed,WaterWalkSpeed);
