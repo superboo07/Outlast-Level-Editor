@@ -83,6 +83,48 @@ function PushView(coerce OLUIFrontEnd_View targetView)
 {
 }
 
+function PushViewByName(name TargetViewName, optional OLUIFrontEnd_Screen ParentView)
+{
+    switch(TargetViewName)
+    {
+        case 'Options':
+            ConfigureTargetView(OptionsView);
+            break;
+        case 'GammaScreen':
+            ConfigureTargetView(GammaScreenView);
+            break;
+        case 'GamepadScreen':
+            ConfigureTargetView(GamepadScreenView);
+            break;
+        case 'LoadGame':
+            ConfigureTargetView(LoadGameView);
+            break;
+        case 'RecordingList':
+            ConfigureTargetView(RecordingListView);
+            break;
+        case 'RecordingView':
+            ConfigureTargetView(RecordingView);
+            break;
+        case 'EvidenceList':
+            ConfigureTargetView(EvidenceListView);
+            break;
+        case 'EvidenceView':
+            ConfigureTargetView(EvidenceView);
+            break;
+        case 'Credits':
+            ConfigureTargetView(CreditsView);
+            break;
+        case 'DifficultySelectionScreen':
+            ConfigureTargetView(DifficultySelectionView);
+            break;
+        case 'ChapterSelection':
+            ConfigureTargetView(ChapterSelection);
+            break;
+        default:
+            break;
+    }
+}
+
 function GFxObject PopView()
 {
 }
