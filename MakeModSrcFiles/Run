@@ -12,16 +12,16 @@ if not exist ..\..\..\GlobalCompilierOptions\OutlastDir (
 
 Set /p OutlastPath=<..\..\..\GlobalCompilierOptions\OutlastDir
 
-if not exist %OutlastPath%\Level_Launcher.bat (
+if not exist "%OutlastPath%\Level_Launcher.bat" (
     Echo The Level_Launcher has not been installed
     exit
 )
-if not exist %OutlastPath%\Custom (
+if not exist "%OutlastPath%\Custom" (
     Echo Your Outlast Install does not have a custom folder
     Exit
 )
 :Retry
-if exist %OutlastPath%\Custom\%ModName% (
+if exist "%OutlastPath%\Custom\%ModName%" (
     Echo A mod with the same name is already there. are you sure you want to override it [Y/N]
     set /p c=
 )
