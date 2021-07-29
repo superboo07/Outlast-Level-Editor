@@ -37,7 +37,7 @@ if exist "%OutlastPath%\Custom\%ModName%" (
 )
 
 :CreateLink
-mklink /J %OutlastPath%\Custom\%ModName% Output\%ModName% > nul
+mklink /J "%OutlastPath%\Custom\%ModName%" "Output\%ModName%" > nul
 
 for %%1 in ("%OutlastPath%") do (
     %%~d1
