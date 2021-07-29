@@ -29,7 +29,7 @@ if /I "%C%" EQU "N" (
     Exit
 )
 if /I "%C%" EQU "y" (
-    rmdir /Q /S %OutlastPath%\Custom\%ModName%
+    rmdir /Q /S "%OutlastPath%\Custom\%ModName%"
     goto CreateLink
 )
 if exist "%OutlastPath%\Custom\%ModName%" (
