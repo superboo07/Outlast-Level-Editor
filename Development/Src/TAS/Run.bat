@@ -32,7 +32,7 @@ if /I "%C%" EQU "y" (
     rmdir /Q /S %OutlastPath%\Custom\%ModName%
     goto CreateLink
 )
-if exist %OutlastPath%\Custom\%ModName% (
+if exist "%OutlastPath%\Custom\%ModName%" (
     goto Retry
 )
 
