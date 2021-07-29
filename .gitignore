@@ -44,4 +44,10 @@ Development/Src/ggdfg/Output
 Development/Src/ggfgd/Output 
 Development/Src/RichPresence/Output 
 Development/Src/AllDoorsUnlocked/Output 
+<<<<<<< HEAD
 Development/Src/AllDoorsUnlocked/Development/Src/test/Output 
+=======
+Development/Src/AllDoorsUnlocked/Development/Src/Test/Output 
+Development/Src/OLTas/Output 
+Development/Src/TAS/Output 
+>>>>>>> 57d99894182b82580b3c95d813fb15c3377e1d5f
