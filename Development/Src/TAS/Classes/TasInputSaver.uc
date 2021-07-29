@@ -21,21 +21,21 @@ var TasRecording Recording;
 var float SavedDeltaTime;
 var JsonObject JSON;
 
-Event Tick(Float DeltaTime)
+event Tick(Float DeltaTime)
 {
     SavedDeltaTime=DeltaTime;
 }
 
-Event onInitiallize()
+event onInitiallize()
 {
     Engine=class'Engine'.static.GetEngine();
 }
 
-Function Input(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
+function Input(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
 {
     local TasInput Input;
 
-    if (InputEvent==IE_Repeat) {Return;}
+    if (InputEvent==IE_Repeat) {return;}
 
     Input.KeyPress = KeyPress;
     Input.InputEvent = InputEvent;
@@ -51,7 +51,7 @@ Function Input(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
     return;
 }
 
-Function SaveRecording()
+function SaveRecording()
 {
     if (Recording==None)
     {
@@ -62,4 +62,15 @@ Function SaveRecording()
     Recording.ExportRecording(CurrentSavedInputs, "Funni");
 
     return;
+}
+
+function LogRecording()
+{
+     if (Recording==None)
+    {
+        `log("Need to make Recording");
+    }
+    Recording = Spawn( Class'TasRecording' );
+
+    Recording.DebugPrintSavedRecordingToLog("Funni");
 }

@@ -48,6 +48,12 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 	local KeyBind Bind;
 	local Array<keybind> SavedBindings;
 
+	if (TASInput==None)
+	{
+		`log("Tas Input is Invalid");
+		TASInput=Spawn(Class'TAS.TasInputSaver');
+	}
+
 	if(Inputs.Find(Key) != -1) 
 	{
 		switch(Event) 
@@ -58,18 +64,16 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 			{
 				TestRecordSave();
 			}
+			if (Key=='L')
+			{
+				TASInput.LogRecording();
+			}
 			break;
 
 			case IE_Released:
 			`log("Released: " $ Key);
 			break;
 		}
-	}
-
-	if (TASInput==None)
-	{
-		`log("Tas Input is Invalid");
-		TASInput=Spawn(Class'TAS.TasInputSaver');
 	}
 
 	TASInput.Input(GetKeyBindFromKey(Key), Event, false);
@@ -123,26 +127,26 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 				{
 					Case "SH_Console":
 					bLeftClick=false;
-					Return False;
+					return False;
 				}
 			}
 		}
 		ExecuteCustomBinding(Key, Event, ControllerBinds);
-		Return true;
+		return true;
 	}
 	else if (Outer.bIsOL2BandageSimulatorEnabled)
 	{
-		Return ExecuteCustomBinding( Key, Event, PatchBindingArray(GetControllerBind(), BandageBinds) );
+		return ExecuteCustomBinding( Key, Event, PatchBindingArray(GetControllerBind(), BandageBinds) );
 	}
 	return false;*/
 }
 
-Exec Function TestRecordSave()
+exec function TestRecordSave()
 {
 	TASInput.SaveRecording();
 }
 
-Function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> Patcher)
+function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> Patcher)
 {
 	local array<Keybind> DefaultOutlastBinds;
 	local int Index;
@@ -161,7 +165,7 @@ Function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> 
 			}
 		}
 	}
-	Return DefaultOutlastBinds;
+	return DefaultOutlastBinds;
 }
 
 function bool Char( int ControllerId, string Unicode )
@@ -181,34 +185,34 @@ function bool Char( int ControllerId, string Unicode )
 	return false;
 }
 
-Function Bool ContainsName(Array<Name> Array, Name find)
+function bool ContainsName(Array<Name> Array, Name find)
 {
 	Switch(Array.Find(find))
 	{
 		case -1:
-			Return False;
+			return False;
 		break;
 
 		Default:
-			Return true;
+			return true;
 		Break;
 	}
 }
 
-Function Array<Keybind> GetControllerBind()
+function Array<Keybind> GetControllerBind()
 {
 	Switch(GamepadConfig)
 	{
 		Case GBT_A:
-		Return GPBindingsA;
+		return GPBindingsA;
 		break;
 
 		Case GBT_B:
-		Return GPBindingsB;
+		return GPBindingsB;
 		break;
 
 		Case GBT_C:
-		Return GPBindingsC;
+		return GPBindingsC;
 		break;
 	}
 }
@@ -220,7 +224,7 @@ function PreProcessInput(float DeltaTime)
     RawJoyLookUp = aMouseY;
 }
 
-Function string FindCommandFromBind(keybind Bind)
+function string FindCommandFromBind(keybind Bind)
 {
 	
 	local int index;
@@ -233,10 +237,10 @@ Function string FindCommandFromBind(keybind Bind)
 		Bind=Bindings[index];
 		goto CheckAgain;
 	}
-	Return Bind.Command;
+	return Bind.Command;
 }
 
-Function Bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> Keybinds)
+function bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> Keybinds)
 {
 	local keybind bind;
 	foreach Keybinds(Bind)
@@ -246,13 +250,13 @@ Function Bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> K
 			ConsoleCommand( FindCommandWithExternalBinding(Bind, Event, Keybinds) ); //Execute the final command as an console command
 			//Const variables can't be set directly by unrealscript, but using the console command function to set them using the set command still works.
 			ConsoleCommand("Set TasPlayerInput bUsingGamepad true"); 
-			Return True;
+			return True;
 		}
 	}
-	Return False;
+	return False;
 }
 
-Function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEvent, array<keybind> Binds)
+function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEvent, array<keybind> Binds)
 {
 	local int index;
 	local bool bEscapedExternalBinding;
@@ -275,8 +279,8 @@ Function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEv
 	index = InStr(Bind.Command, " | onRelease ");
 	if (index==Index_None)
 	{
-		if (InputEvent==IE_Pressed) {Return Bind.Command;} //Return command once
-		else {Return "";} //Return nothing if the input event is not caused by pressing down the button.
+		if (InputEvent==IE_Pressed) {return Bind.Command;} //return command once
+		else {return "";} //return nothing if the input event is not caused by pressing down the button.
 	}
 	else
 	{
@@ -284,20 +288,20 @@ Function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEv
 		Switch (InputEvent)
 		{
 			Case IE_Pressed:
-			Bind.Command = StringArray[0]; //Return the onPressed command
+			Bind.Command = StringArray[0]; //return the onPressed command
 			break;
 
 			Case IE_Released:
-			Bind.Command = StringArray[1]; //Return the onReleased command
+			Bind.Command = StringArray[1]; //return the onReleased command
 			break;
 
-			Default: Return "";
+			Default: return "";
 		}
 	}
-	Return Bind.Command;
+	return Bind.Command;
 }
 
-Function KeyBind GetKeyBindFromKey(name Key)
+function KeyBind GetKeyBindFromKey(name Key)
 {
 	local int Index;
 	local keybind dummy; //Use this to return an empty bind, make sure to check if the bind is empty before saving to the array.
@@ -306,18 +310,18 @@ Function KeyBind GetKeyBindFromKey(name Key)
 
 	if (Index<=Index_None)
 	{
-		Return dummy;
+		return dummy;
 	}
 
-	Return Bindings[Index];
+	return Bindings[Index];
 }
 
-Function bool UsedGamepadLastTick()
+function bool UsedGamepadLastTick()
 {
-	Return bUseGamepadLastTick;
+	return bUseGamepadLastTick;
 }
 
-Function bool UsingGamepad()
+function bool UsingGamepad()
 {
 	return bUsingGamepad || bWantsToSimulateController;
 }
@@ -332,7 +336,7 @@ defaultproperties
     LookYCommand="Axis aMouseY Speed=-12.0 DeadZone=0.2"
     SouthpawMoveCommand="Axis aBaseY Speed=-1.0 DeadZone=0.3"
     SouthpawLookYCommand="Axis aMouseY Speed=12.0 DeadZone=0.2"
-	Inputs = ("W", "A", "S", "D", "LeftShift", "SpaceBar", "Control", "M")
+	Inputs = ("W", "A", "S", "D", "LeftShift", "SpaceBar", "Control", "M", "L")
 	// Inputs.AddItem("LeftShift");
 	// Inputs.AddItem("SpaceBar");
 	// Inputs.AddItem("Control");

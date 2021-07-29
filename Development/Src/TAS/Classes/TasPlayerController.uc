@@ -46,7 +46,7 @@ var Array<SequenceObject> AllCheckpointSeq;
 
 `Functvar
 
-Event InitializeHelper(OLHero Pawn)
+event InitializeHelper(OLHero Pawn)
 {
 	SpeedPawn=Pawn;
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
@@ -56,7 +56,7 @@ Event InitializeHelper(OLHero Pawn)
 	if (bIsWernickeSkipEnabled) {bIsWernickeSkipEnabled=false; WernikSkipToggle();}
 }
 
-Exec Function OpenConsoleMenu(int Selection)
+exec function OpenConsoleMenu(int Selection)
 {
 	if (Selection==-1) {Selection=int(!SHHud(HUD).Show_Menu);}
 	Switch (Selection)
@@ -76,17 +76,17 @@ Exec Function OpenConsoleMenu(int Selection)
 	return;
 }
 
-Exec Function FreeBhop()
+exec function FreeBhop()
 {
 	bShouldMakeBhopsFree=!bShouldMakeBhopsFree;
 }
 
-Exec Function SimulateBandages()
+exec function SimulateBandages()
 {
 	if (bGodMode) 
 	{
 		WorldInfo.Game.BroadcastHandler.Broadcast(self, "Simulate Bandages cannot be turned on while GodMode is enabled");
-		Return;
+		return;
 	}
 	bIsOL2BandageSimulatorEnabled=!bIsOL2BandageSimulatorEnabled;
 	if (!bIsOL2BandageSimulatorEnabled)
@@ -97,12 +97,12 @@ Exec Function SimulateBandages()
 	SpeedPawn.EnableOL2Simulator();
 }
 
-exec Function ShowModDebug()
+exec function ShowModDebug()
 {
 	bIsModDebugEnabled=!bIsModDebugEnabled;
 }
 
-exec Function SimulateOL2Stamina()
+exec function SimulateOL2Stamina()
 {
 	bIsOL2StaminaSimulatorEnabled=!bIsOL2StaminaSimulatorEnabled;
 	SpeedPawn.EnableOL2Simulator();
@@ -112,7 +112,7 @@ exec Function SimulateOL2Stamina()
 	}
 }
 
-Function DisableInput(Bool Input)
+function DisableInput(bool Input)
 {
 	local TasPlayerInput HeroInput;
 	local OLHero Hero;
@@ -132,7 +132,7 @@ Function DisableInput(Bool Input)
 	}
 }
 
-Exec Function ToggleGod()
+exec function ToggleGod()
 {
 	Local OLHero Hero;
 
@@ -153,19 +153,19 @@ Exec Function ToggleGod()
 
 }
 
-Exec Function ToogleKillBound()
+exec function ToogleKillBound()
 {
 	Local OLHero Hero;
 	Hero=OLHero(Pawn);
 	bDisableKillBound=!bDisableKillBound;
 }
 
-Exec Function SetPlayerCollisionRadius(Float Radius)
+exec function SetPlayerCollisionRadius(Float Radius)
 {
 	OLHero(Pawn).SetCollisionSize(Radius, OLHero(Pawn).CylinderComponent.CollisionHeight);
 }
 
-Exec Function SetPlayerCollisionType(ECollision_Type Type)
+exec function SetPlayerCollisionType(ECollision_Type Type)
 {
 	local float Radius;
 	
@@ -193,7 +193,7 @@ Exec Function SetPlayerCollisionType(ECollision_Type Type)
 	OLHero(Pawn).CrouchRadius=Radius;
 }
 
-Exec Function KillAllEnemys()
+exec function KillAllEnemys()
 {
 	local OLEnemyPawn Enemy;
 
@@ -203,13 +203,13 @@ Exec Function KillAllEnemys()
 	}
 }
 
-Exec Function ShowUseful()
+exec function ShowUseful()
 {
 	ConsoleCommand("Show COLLISION");
 	ConsoleCommand("Stat LEVELS");
 }
 
-Exec Function LoadCheckpoint(string Checkpoint)
+exec function LoadCheckpoint(string Checkpoint)
 {
 	local OLCheckpoint CheckpointObj;
 	local TasGame TheGame;
@@ -229,19 +229,19 @@ Exec Function LoadCheckpoint(string Checkpoint)
 				ConsoleCommand("StreamMap Intro_Persistent");
 			}
 			StartNewGameAtCheckpoint(Checkpoint, true);
-			Return;
+			return;
 		}
 	}
 	WorldInfo.Game.BroadcastHandler.Broadcast(self, "Please enter the name of a valid checkpoint");
 }
 
-exec Function UnlockDoorsToggle()
+exec function UnlockDoorsToggle()
 {
 	bShouldUnlockAllDoors=!bShouldUnlockAllDoors;
 	UnlockDoors();
 }
 
-exec Function UnlockDoors()
+exec function UnlockDoors()
 {
 	local OLDoor Door;
 
@@ -257,12 +257,12 @@ exec Function UnlockDoors()
 	}
 }
 
-Exec Function ShowFPS()
+exec function ShowFPS()
 {
 	ConsoleCommand("Stat FPS");
 }
 
-Exec Function ToogleFreeCam()
+exec function ToogleFreeCam()
 {
 	if ( UsingFirstPersonCamera() )
 	{
@@ -274,7 +274,7 @@ Exec Function ToogleFreeCam()
 	}
 }
 
-Exec Function ToogleWieldFatherMartin()
+exec function ToogleWieldFatherMartin()
 {
 	bShouldWieldFatherMartin=!bShouldWieldFatherMartin;
 
@@ -288,7 +288,7 @@ Exec Function ToogleWieldFatherMartin()
 	}
 }
 
-Exec Function ToogleGrain(Optional Bool bForce, Optional Bool bShouldEnable)
+exec function ToogleGrain(optional bool bForce, optional bool bShouldEnable)
 {
 	bIsGrainEnabled=!bIsGrainEnabled;
 	if ( (bIsGrainEnabled && !bForce) || bForce && bShouldEnable)
@@ -301,7 +301,7 @@ Exec Function ToogleGrain(Optional Bool bForce, Optional Bool bShouldEnable)
 	}
 }
 
-Exec Function ToogleInfiniteBattery()
+exec function ToogleInfiniteBattery()
 {
 	bShouldHaveInfiniteBattery=!bShouldHaveInfiniteBattery;
 
@@ -315,12 +315,12 @@ Exec Function ToogleInfiniteBattery()
 	}
 }
 
-Function EnableInfiniteBattery()
+function EnableInfiniteBattery()
 {
 	SpeedPawn.BatteryDuration=999999999999;
 }
 
-Function WieldFatherMartin()
+function WieldFatherMartin()
 {
 	Local OLEnemyPawn EnemyPawn;
 	Local DynamicLightEnvironmentComponent LightEnviro;
@@ -337,7 +337,7 @@ Function WieldFatherMartin()
 	}
 }
 
-Exec Function TeleportToFreecam()
+exec function TeleportToFreecam()
 {
 	local rotator Rotation;
 	Local Vector Location;
@@ -346,7 +346,7 @@ Exec Function TeleportToFreecam()
 	GetPlayerViewPoint(Location,Rotation);
 
 	View.Loc=Location;
-	View.Pitch=Function.ConvertRotationUnitToDegrees(Rotation).Pitch;
+	View.Pitch=function.ConvertRotationUnitToDegrees(Rotation).Pitch;
 	View.Yaw=Rotation.Yaw;
 	View.Roll=Rotation.Roll;
 
@@ -399,7 +399,7 @@ exec function Teleport_In_Direction(float X, float Y)
 	Pawn.SetLocation( Pawn.Location + ( NewLocationForward + NewLocationRight ) );
 }
 
-Exec Function ToogleDebugView() //Toggle Visibility
+exec function ToogleDebugView() //Toggle Visibility
 {
 	local spriteview Just_Spawned;
 	local TriggerVolume Volume;
@@ -429,7 +429,7 @@ Exec Function ToogleDebugView() //Toggle Visibility
 	}
 }
 
-Function GetCheckpointSequenceObjects()
+function GetCheckpointSequenceObjects()
 {
 	local Sequence GameSeq;
 
@@ -438,7 +438,7 @@ Function GetCheckpointSequenceObjects()
 	GameSeq.FindSeqObjectsByClass(class'OLSeqAct_Checkpoint', true, AllCheckpointSeq);
 }
 
-Function SpawnDebugViewActors()
+function SpawnDebugViewActors()
 {
 	local OLGameplayMarker GameplayMarker; //Current Gameplay Marker
 	local spriteview Just_Spawned; //Store Current Sprite here
@@ -507,7 +507,7 @@ Function SpawnDebugViewActors()
 	}
 }
 
-Exec Function ScalePlayer(Float Scale)
+exec function ScalePlayer(Float Scale)
 {
 	local vector vector;
 	local float Radius;
@@ -517,12 +517,12 @@ Exec Function ScalePlayer(Float Scale)
 	SpeedPawn.SetCollisionSize(SpeedPawn.GetCollisionRadius(), SpeedPawn.GetCollisionHeight() * SpeedPawn.Mesh.Scale);
 }
 
-Function Float ScalebyCam(Float Float) //Function to scale a float by the players current FOV. 
+function Float ScalebyCam(Float Float) //function to scale a float by the players current FOV. 
 {
 	Local Float Scale;
 	Scale = ( GetFOVAngle() / 100 );
 
-	Return Float * Scale;
+	return Float * Scale;
 }
 
 exec function MartinifyToggle()
@@ -551,7 +551,7 @@ exec function Martinify()
 	if (bShouldMartinReplaceEnemyModels) {WorldInfo.Game.SetTimer(1, false, 'Martinify', self);}
 }
 
-Exec Function WernikSkipToggle()
+exec function WernikSkipToggle()
 {
 	local OLGame CurrentGame;
 	local SkeletalMeshActor SkeletalMesh;
@@ -581,14 +581,14 @@ Exec Function WernikSkipToggle()
 	}
 }
 
-Exec Function WernikSkip()
+exec function WernikSkip()
 {
 	local SkeletalMeshActor SkeletalMesh;
 	local OLGame CurrentGame;
 
 	CurrentGame = OLGame(WorldInfo.Game);
 
-	if (!bIsWernickeSkipEnabled) {Return;}
+	if (!bIsWernickeSkipEnabled) {return;}
 
 	foreach allactors(Class'SkeletalMeshActor', SkeletalMesh)
 	{
@@ -614,7 +614,7 @@ event OnSetMesh(SeqAct_SetMesh Action)
 	{
 		Super.OnSetMesh(Action);
 		`log("Set Mesh Allowed");
-		Return;
+		return;
 	}
 	`log("Set Mesh Blocked");
 }
@@ -631,17 +631,17 @@ event OnSetMaterial(SeqAct_SetMaterial Action)
 	{
 		Hero.OnSetMaterial(Action);
 		`log("Set Material Allowed");
-		Return;
+		return;
 	}
 	`log("Set Material Blocked");
 }
 
-Function bool IsPlayerModelSDKInstalled()
+function bool IsPlayerModelSDKInstalled()
 {
-	Return Class'OLPlayerModel' != None;
+	return Class'OLPlayerModel' != None;
 }
 
-Function bool ApplyCustomPlayerModel(string CustomPlayerModel)
+function bool ApplyCustomPlayerModel(string CustomPlayerModel)
 {
 	local OLPlayerModel FoundCustomPlayerModel;
 	if ( IsPlayerModelSDKInstalled() ) 
@@ -651,11 +651,11 @@ Function bool ApplyCustomPlayerModel(string CustomPlayerModel)
 		{
 			WorldInfo.Game.BroadcastHandler.Broadcast(self, "Could not find Playermodel '" $ CustomPlayerModel $ "'");
 			WorldInfo.Game.BroadcastHandler.Broadcast(self, "Please ensure the playermodel is properly installed, and the path you have inputted is correct");
-			Return false;
+			return false;
 		}
 		CustomPM=CustomPlayerModel;
 		OLHero(Pawn).Mesh.SetSkeletalMesh(FoundCustomPlayerModel.HeroBody);
-		Return true;
+		return true;
 	}
 	else
 	{
@@ -664,7 +664,7 @@ Function bool ApplyCustomPlayerModel(string CustomPlayerModel)
 	}
 }
 
-Function RestoreFromStoredMaterials()
+function RestoreFromStoredMaterials()
 {
 	local int Index;
 	local MaterialInterface Mat;
@@ -676,7 +676,7 @@ Function RestoreFromStoredMaterials()
 	}
 }
 
-Function RestoreDefaultMaterials()
+function RestoreDefaultMaterials()
 {
 	local int Index;
 	local MaterialInterface Mat;
@@ -688,7 +688,7 @@ Function RestoreDefaultMaterials()
 	return;
 }
 
-Exec Function TeleportAllEnemies()
+exec function TeleportAllEnemies()
 {
 	local OLEnemyPawn EnemyPawn;
 
@@ -698,43 +698,43 @@ Exec Function TeleportAllEnemies()
 	}
 }
 
-Function Bool ContainsString(Array<String> Array, String find)
+function bool ContainsString(Array<String> Array, String find)
 {
 	Switch(Array.Find(find))
 	{
 		case -1:
-			Return False;
+			return False;
 		break;
 
 		Default:
-			Return true;
+			return true;
 		Break;
 	}
 }
 
-Function Bool ContainsName(Array<Name> Array, Name find)
+function bool ContainsName(Array<Name> Array, Name find)
 {
 	Switch(Array.Find(find))
 	{
 		case -1:
-			Return False;
+			return False;
 		break;
 
 		Default:
-			Return true;
+			return true;
 		Break;
 	}
 }
 
-Function Bool HasOL2SimulatorEnabled()
+function bool HasOL2SimulatorEnabled()
 {
-	Return bIsOL2BandageSimulatorEnabled || bIsOL2StaminaSimulatorEnabled;
+	return bIsOL2BandageSimulatorEnabled || bIsOL2StaminaSimulatorEnabled;
 }
 
-Function Bool ToggleBool(Bool Result)
+function bool ToggleBool(bool Result)
 {
 	Result=!Result;
-	Return Result;
+	return Result;
 }
 
 event UnlockAchievement(OLPlayerController.EOutlastAchievement achievement)
