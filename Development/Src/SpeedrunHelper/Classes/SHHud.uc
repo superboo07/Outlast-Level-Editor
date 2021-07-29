@@ -93,6 +93,7 @@ var ControllerSelection SelectedButton;
 var LocalPlayer Player;
 var Array<Saved_Menu> PreviousMenus;
 var Array<SHDebugBool> SHDebugBools;
+var SHOptions CachedOptions;
 
 `FunctVar
 
@@ -111,7 +112,7 @@ function DrawHUD() //Called every frame
 	Super.DrawHUD(); //Run Parent Function First
 
 	Controller = SHPlayerController(PlayerOwner); //Cast to SHPlayerController using 'PlayerOwner'
-	CurrentGame = OLSpeedGame(WorldInfo.Game);
+	CurrentGame = SHGame(WorldInfo.Game);
 	SpeedPawn = SHHero(Controller.Pawn);
 	Buttons.Remove(0, Buttons.Length);
 
@@ -386,7 +387,7 @@ Event Save_Position_Interface()
 		Case Funny:
 		AddLocalizedButtonDisplay("EveryoneFatherMartinFunny", Controller.bShouldMartinReplaceEnemyModels, "MartinifyToggle",vect2d(15, 25),,, StartClip, EndClip );
 		AddLocalizedButtonDisplay("EveryoneWieldFatherMartin", Controller.bShouldWieldFatherMartin, "ToogleWieldFatherMartin",,true);
-		AddLocalizedButtonDisplay("WernickeSkipFunny", Controller.bIsWernickeSkipEnabled, "WernikSkipToggle", , true);
+		AddLocalizedButtonDisplay("WernickeSkipFunny", Controller.bIsWernickeSkipEnabled, "ToggleSHOption WernickeSkip", , true);
 		AddLocalizedButtonDisplay("FreeBhopsFunny", Controller.bShouldMakeBhopsFree, "FreeBhop", , true);
 		AddLocalizedButtonDisplay("OL2BandageFunny", Controller.bIsOL2BandageSimulatorEnabled, "SimulateBandages", , true);
 		AddLocalizedButtonDisplay("OL2StaminaFunny", Controller.bIsOL2StaminaSimulatorEnabled, "SimulateOL2Stamina", , true);
@@ -400,7 +401,7 @@ Event Save_Position_Interface()
 		AddButton("Miles No Fingers", "UpdatePlayerModel PM_MilesNoFingers",, true);
 		AddButton("WaylonIT", "UpdatePlayerModel PM_WaylonIT",, true);
 		AddButton("Waylon Prisoner", "UpdatePlayerModel PM_WaylonPrisoner",, true);
-		if (OLSpeedGame( Worldinfo.Game).IsDLCInstalled() ) {AddButton("Waylon Nude", "UpdatePlayerModel PM_Nude",, true); }
+		if (SHGame( Worldinfo.Game).IsDLCInstalled() ) {AddButton("Waylon Nude", "UpdatePlayerModel PM_Nude",, true); }
 		if (Class'OLPlayerModel'!=None) {AddLocalizedButton("CustomPM", "UpdatePlayerModel PM_Custom ",, true,,,, true); }
 		AddLocalizedButton("NoOverridePM", "UpdatePlayerModel PM_NoOverride",, true);
 		AddLocalizedButton("BackText", "SetMenu Normal",, true);
@@ -441,6 +442,11 @@ Event Save_Position_Interface()
 
 	}
 	DrawMouse();
+}
+
+Exec Function bool ToggleSHOption(Name Option, optional Int Toggle=INDEX_NONE, optional bool bShouldExecute=true)
+{
+	Return SHPlayerController(PlayerOwner).CachedOptions.ToggleSHOption(Option, Toggle, bShouldExecute);
 }
 
 Exec Function SetSHDebugOption(Name Option, Int Bool)

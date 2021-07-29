@@ -32,6 +32,7 @@ struct Saved_Position
 var config bool bShouldUnlockAllDoors, bIsWernickeSkipEnabled, bShouldMakeBhopsFree, bIsOL2BandageSimulatorEnabled, bIsOL2StaminaSimulatorEnabled, bIsGrainEnabled;
 var config float Refresh, Max_View_Distance, RefreshKismetSequenceArray;
 var config Array<String> Ignore_Actors;
+var config Array<Name> WernikieSkipCheckpoints;
 var config EPlayerMeshOverride PlayerModel;
 
 var string CustomPM;
@@ -43,18 +44,20 @@ var bool bIsActorDebugEnabled, bIsModDebugEnabled, bShouldWieldFatherMartin, bSh
 var SkeletalMesh StoredSkeletalMesh;
 var array<MaterialInterface> StoredMaterials;
 var Array<SequenceObject> AllCheckpointSeq;
+var SHOptions CachedOptions;
 
 `Functvar
 
 Event InitializeHelper(SHHero Pawn)
 {
+	local SHVariable Variable;
 	SpeedPawn=Pawn;
+	CachedOptions=SHGame(Worldinfo.Game).SHOptions;
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
 	if ( HasOL2SimulatorEnabled() ) { Pawn.EnableOL2Simulator(); }
 	if (PlayerModel!=PM_NoOverride) { WorldInfo.Game.SetTimer(0.0005, false, 'LoadCurrent', self); }
 	if (!bIsGrainEnabled) { ToogleGrain(True, false);}
 	if (bShouldUnlockAllDoors) {UnlockDoors();}
-	if (bIsWernickeSkipEnabled) {bIsWernickeSkipEnabled=false; WernikSkipToggle();}
 }
 
 Function LoadCurrent()
@@ -223,9 +226,9 @@ Exec Function ShowUseful()
 Exec Function LoadCheckpoint(string Checkpoint)
 {
 	local OLCheckpoint CheckpointObj;
-	local OLSpeedGame TheGame;
+	local SHGame TheGame;
 
-	TheGame = OLSpeedGame(WorldInfo.Game);
+	TheGame = SHGame(WorldInfo.Game);
 
 	foreach allactors(Class'OLCheckpoint', CheckpointObj)
 	{
@@ -563,16 +566,17 @@ exec function Martinify()
 	if (bShouldMartinReplaceEnemyModels) {WorldInfo.Game.SetTimer(1, false, 'Martinify', self);}
 }
 
-Exec Function WernikSkipToggle()
+Exec Function WernikSkipToggle(optional int Toggle=-1)
 {
 	local OLGame CurrentGame;
+	local Bool StoredBool;
 	local SkeletalMeshActor SkeletalMesh;
 
 	CurrentGame = OLGame(WorldInfo.Game);
 
-	bIsWernickeSkipEnabled=!bIsWernickeSkipEnabled;
+	StoredBool = CachedOptions.ToggleSHOption('WernickeSkip');
 
-	if (bIsWernickeSkipEnabled)
+	if (StoredBool)
 	{
 		WernikSkip();
 		WorldInfo.Game.SetTimer(1, true, 'WernikSkip', self);
@@ -580,18 +584,23 @@ Exec Function WernikSkipToggle()
 	else
 	{
 		WorldInfo.Game.ClearTimer('WernikSkip', self);
-		foreach allactors(Class'SkeletalMeshActor', SkeletalMesh)
+		
+	}
+}
+
+/*Function DisableWernikieSkip()
+{
+	foreach allactors(Class'SkeletalMeshActor', SkeletalMesh)
+	{
+		if (String(SkeletalMesh.SkeletalMeshComponent.SkeletalMesh)=="LadCellDoor-01" )
 		{
-			if (String(SkeletalMesh.SkeletalMeshComponent.SkeletalMesh)=="LadCellDoor-01" )
+			if ( WernikieSkipCheckpoints.find(CurrentGame.CurrentCheckpointName)>=Index_None)
 			{
-				if ( CurrentGame.CurrentCheckpointName=='Lab_PremierAirLock' || CurrentGame.CurrentCheckpointName=='Lab_SpeachDone' || CurrentGame.CurrentCheckpointName=='Lab_SwarmIntro' || CurrentGame.CurrentCheckpointName=='Lab_Soldierdead')
-				{
-					SkeletalMesh.ReattachComponent(SkeletalMesh.SkeletalMeshComponent);
-				}
+				SkeletalMesh.ReattachComponent(SkeletalMesh.SkeletalMeshComponent);
 			}
 		}
 	}
-}
+}*/
 
 Exec Function WernikSkip()
 {
@@ -600,13 +609,11 @@ Exec Function WernikSkip()
 
 	CurrentGame = OLGame(WorldInfo.Game);
 
-	if (!bIsWernickeSkipEnabled) {Return;}
-
 	foreach allactors(Class'SkeletalMeshActor', SkeletalMesh)
 	{
 		if (String(SkeletalMesh.SkeletalMeshComponent.SkeletalMesh)=="LadCellDoor-01" )
 		{
-			if ( CurrentGame.CurrentCheckpointName=='Lab_PremierAirLock' || CurrentGame.CurrentCheckpointName=='Lab_SpeachDone' || CurrentGame.CurrentCheckpointName=='Lab_SwarmIntro' || CurrentGame.CurrentCheckpointName=='Lab_Soldierdead')
+			if ( WernikieSkipCheckpoints.find(CurrentGame.CurrentCheckpointName)>=Index_None)
 			{
 				SkeletalMesh.DetachComponent(SkeletalMesh.SkeletalMeshComponent);
 			}
