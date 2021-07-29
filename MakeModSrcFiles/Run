@@ -29,15 +29,15 @@ if /I "%C%" EQU "N" (
     Exit
 )
 if /I "%C%" EQU "y" (
-    rmdir /Q /S %OutlastPath%\Custom\%ModName%
+    rmdir /Q /S "%OutlastPath%\Custom\%ModName%"
     goto CreateLink
 )
-if exist %OutlastPath%\Custom\%ModName% (
+if exist "%OutlastPath%\Custom\%ModName%" (
     goto Retry
 )
 
 :CreateLink
-mklink /J %OutlastPath%\Custom\%ModName% Output\%ModName% > nul
+mklink /J "%OutlastPath%\Custom\%ModName%" "Output\%ModName%" > nul
 
 for %%1 in ("%OutlastPath%") do (
     %%~d1
@@ -45,4 +45,4 @@ for %%1 in ("%OutlastPath%") do (
 )
 
 call Level_Launcher.bat %ModName%
-rmdir /Q /S %OutlastPath%\Custom\%ModName%
+rmdir /Q /S "%OutlastPath%\Custom\%ModName%"
