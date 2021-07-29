@@ -1,7 +1,7 @@
 Class TasPlayerController extends OLPlayerController
 Config(Tool);
 
-Enum ECollision_Type
+/*Enum ECollision_Type
 {
 	CT_Normal,
 	CT_Vault,
@@ -38,7 +38,7 @@ var string CustomPM;
 var Array<Saved_Position> Saved_Positions;
 var int Selected_Save;
 var ECollision_Type Collision_Type_Override;
-var SHHero SpeedPawn;
+var OLHero SpeedPawn;
 var bool bIsActorDebugEnabled, bIsModDebugEnabled, bShouldWieldFatherMartin, bShouldHaveInfiniteBattery, bGodMode, bDisableKillBound, bShouldMartinReplaceEnemyModels;
 var SkeletalMesh StoredSkeletalMesh;
 var array<MaterialInterface> StoredMaterials;
@@ -46,7 +46,7 @@ var Array<SequenceObject> AllCheckpointSeq;
 
 `Functvar
 
-Event InitializeHelper(SHHero Pawn)
+Event InitializeHelper(OLHero Pawn)
 {
 	SpeedPawn=Pawn;
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
@@ -114,10 +114,10 @@ exec Function SimulateOL2Stamina()
 
 Function DisableInput(Bool Input)
 {
-	local SHPlayerInput HeroInput;
+	local TasPlayerInput HeroInput;
 	local OLHero Hero;
 
-	HeroInput=SHPlayerInput(PlayerInput);
+	HeroInput=TasPlayerInput(PlayerInput);
 	Hero=OLHero(Pawn);
 
 	if (Input)
@@ -134,9 +134,9 @@ Function DisableInput(Bool Input)
 
 Exec Function ToggleGod()
 {
-	Local SHHero Hero;
+	Local OLHero Hero;
 
-	Hero=SHHero(Pawn);
+	Hero=OLHero(Pawn);
 
 	bGodMode=!bGodMode;
 	if (bGodMode)
@@ -155,8 +155,8 @@ Exec Function ToggleGod()
 
 Exec Function ToogleKillBound()
 {
-	Local SHHero Hero;
-	Hero=SHHero(Pawn);
+	Local OLHero Hero;
+	Hero=OLHero(Pawn);
 	bDisableKillBound=!bDisableKillBound;
 }
 
@@ -212,9 +212,9 @@ Exec Function ShowUseful()
 Exec Function LoadCheckpoint(string Checkpoint)
 {
 	local OLCheckpoint CheckpointObj;
-	local OLSpeedGame TheGame;
+	local TasGame TheGame;
 
-	TheGame = OLSpeedGame(WorldInfo.Game);
+	TheGame = TasGame(WorldInfo.Game);
 
 	foreach allactors(Class'OLCheckpoint', CheckpointObj)
 	{
@@ -373,8 +373,7 @@ exec function Save_Position(int Save)
 
 exec function Load_Position(int Save)
 {
-	/* To Do, set current locomotion mode without crashing.
-	SpeedPawn.LocomotionMode=Saved_Positions[Save].LocomotionMode;*/
+	SpeedPawn.LocomotionMode=Saved_Positions[Save].LocomotionMode;
 	Pawn.SetLocation( Saved_Positions[Save].Location );
 	Pawn.SetRotation( MakeRotator( Pawn.Rotation.Pitch, Saved_Positions[Save].Rotation.X, Pawn.Rotation.Roll ) );
 	SpeedPawn.Camera.ViewCS.Pitch=Saved_Positions[Save].Rotation.Y;
@@ -761,13 +760,13 @@ function SetCinematicMode(SeqAct_ToggleCinematicMode Action, bool bInCinematicMo
             HeroPawn.ExitCinematicMode(Action);
         }
     }
-}
+}*/
 
 DefaultProperties
 {
 	Refresh=1
 	Max_View_Distance=500
-	InputClass=class'SHPlayerInput'
+	InputClass=class'TasPlayerInput'
 
 	PlayerModel=PM_NoOverride
 

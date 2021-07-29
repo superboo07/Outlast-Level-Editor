@@ -1,5 +1,4 @@
-class TasPlayerInput extends OLPlayerInput within SHPlayerController
-config(Input);
+class TasPlayerInput extends OLPlayerInput within TasPlayerController;
 
 var config array<KeyBind> ControllerBinds, BandageBinds, ControllerDebugBinds;
 
@@ -9,8 +8,9 @@ var array<Name> Inputs;
 var vector2D Movement, Turning;
 var int row, column;
 
-var float lastMouseX;
-var float lastMouseY;
+var float lastMouseX, lastMouseY, SavedDeltaTime;
+
+var TasInputSaver TASInput;
 
 // aBaseY
 // aStrafe
@@ -18,9 +18,10 @@ var float lastMouseY;
 // aLookUp
 event PlayerInput(float DeltaTime)
 {
+	SavedDeltaTime=DeltaTime;
 	// Handle mouse
 	// Ensure we have a valid HUD
-	if (myHUD != None && SHHud(myHUD).Show_Menu==true && !UsingGamepad() )
+	if (myHUD != None /*&& SHHud(myHUD).Show_Menu==true*/ && !UsingGamepad() )
 	{
 		// Add the aMouseX to the mouse position and clamp it within the viewport width
 		MousePosition.X = Clamp(MousePosition.X + aMouseX, 0, myHUD.SizeX);
@@ -31,9 +32,15 @@ event PlayerInput(float DeltaTime)
 	bUseGamepadLastTick=UsingGamepad();
 
 	Super.PlayerInput(DeltaTime);
-	bWantsToSimulateController = SHHUD(HUD).GetSHDebugOption( 'SimulateController' );
+	//bWantsToSimulateController = SHHUD(HUD).GetSHDebugOption( 'SimulateController' );
 	Turning=Vect2D(aMouseX, aMouseY);
 	Movement=Vect2d(aBaseY,aStrafe);
+
+	if (TASInput==None)
+	{
+		`log("Tas Input is Invalid");
+		TASInput=TasInputSaver( DynamicLoadObject("TAS.TasInputSaver", Class'TAS.TasInputSaver') );
+	}
 }
 
 function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDepressed = 1.f, bool bGamepad = FALSE )
@@ -41,19 +48,36 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 	local KeyBind Bind;
 	local Array<keybind> SavedBindings;
 
-	if(Inputs.Find(Key) != -1) {
-		switch(Event) {
-			case EInputEvent.IE_Pressed:
+	if(Inputs.Find(Key) != -1) 
+	{
+		switch(Event) 
+		{
+			case IE_Pressed:
 			`log("Pressed: " $ Key);
+			if (Key=='M')
+			{
+				TestRecordSave();
+			}
 			break;
-			case EInputEvent.IE_Released:
+
+			case IE_Released:
 			`log("Released: " $ Key);
 			break;
 		}
 	}
 
+	if (TASInput==None)
+	{
+		`log("Tas Input is Invalid");
+		TASInput=Spawn(Class'TAS.TasInputSaver');
+	}
+
+	TASInput.Input(GetKeyBindFromKey(Key), Event, false);
+
+	return false;
+
 	//if (Key=='LeftMouseButton' && SHHud(HUD).Show_Menu==true) {Clicking=!Clicking;}
-	if (SHHud(HUD).Show_Menu==true)
+	/*if (SHHud(HUD).Show_Menu==true)
 	{
 		Switch (Event)
 		{
@@ -110,7 +134,12 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 	{
 		Return ExecuteCustomBinding( Key, Event, PatchBindingArray(GetControllerBind(), BandageBinds) );
 	}
-	return false;
+	return false;*/
+}
+
+Exec Function TestRecordSave()
+{
+	TASInput.SaveRecording();
 }
 
 Function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> Patcher)
@@ -141,14 +170,14 @@ function bool Char( int ControllerId, string Unicode )
 
 	Character = Asc(Left(Unicode, 1));
 
-	if (SHHud(HUD).Show_Menu==true)
+	/*if (SHHud(HUD).Show_Menu==true)
 	{
 		if (Character >= 0x20 && Character < 0x100 && Unicode!="`")
 		{
 			SHHud(HUD).Command = SHHud(HUD).Command $ Unicode;
 		}
 		return true;
-	}
+	}*/
 	return false;
 }
 
@@ -216,7 +245,7 @@ Function Bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> K
 		{
 			ConsoleCommand( FindCommandWithExternalBinding(Bind, Event, Keybinds) ); //Execute the final command as an console command
 			//Const variables can't be set directly by unrealscript, but using the console command function to set them using the set command still works.
-			ConsoleCommand("Set SHPlayerInput bUsingGamepad true"); 
+			ConsoleCommand("Set TasPlayerInput bUsingGamepad true"); 
 			Return True;
 		}
 	}
@@ -268,6 +297,21 @@ Function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEv
 	Return Bind.Command;
 }
 
+Function KeyBind GetKeyBindFromKey(name Key)
+{
+	local int Index;
+	local keybind dummy; //Use this to return an empty bind, make sure to check if the bind is empty before saving to the array.
+
+	Index = Bindings.Find('Name', Key);
+
+	if (Index<=Index_None)
+	{
+		Return dummy;
+	}
+
+	Return Bindings[Index];
+}
+
 Function bool UsedGamepadLastTick()
 {
 	Return bUseGamepadLastTick;
@@ -288,9 +332,10 @@ defaultproperties
     LookYCommand="Axis aMouseY Speed=-12.0 DeadZone=0.2"
     SouthpawMoveCommand="Axis aBaseY Speed=-1.0 DeadZone=0.3"
     SouthpawLookYCommand="Axis aMouseY Speed=12.0 DeadZone=0.2"
-	Inputs = ("W", "A", "S", "D", "LeftShift", "SpaceBar", "Control")
+	Inputs = ("W", "A", "S", "D", "LeftShift", "SpaceBar", "Control", "M")
 	// Inputs.AddItem("LeftShift");
 	// Inputs.AddItem("SpaceBar");
 	// Inputs.AddItem("Control");
 	// Inputs.AddItem("Tab");
+	TasInput=Default__TasInputSaver
 }
