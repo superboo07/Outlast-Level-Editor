@@ -10,6 +10,8 @@ var int row, column;
 
 var float lastMouseX, lastMouseY, SavedDeltaTime;
 
+var bool bIsForward, bIsBack;
+
 var TasInputSaver TASInput;
 
 // aBaseY
@@ -56,6 +58,7 @@ event Tick(float DeltaTime)
 					TASInput.CurrentPlaybackInputIndex++;
 					`log("Input index: " $ (InputIndex++));
 				}
+				if (bIsForward) {aBaseY=1;}
 			}
 			if(DeltaTime > 0)
 				TASInput.PlaybackTime += DeltaTime;
@@ -269,11 +272,32 @@ function string FindCommandFromBind(keybind Bind)
 function bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> Keybinds)
 {
 	local keybind bind;
+	local string KeyBind;
 	foreach Keybinds(Bind)
 	{
 		if (Bind.Name == Key)
 		{
-			ConsoleCommand( FindCommandWithExternalBinding(Bind, Event, Keybinds) ); //Execute the final command as an console command
+			KeyBind = FindCommandWithExternalBinding(Bind, Event, Keybinds);
+			switch(Event)
+			{
+				case IE_Pressed:
+					switch(KeyBind)
+					{
+						case "Axis aBaseY Speed=1.0":
+							bIsForward=true;
+					}
+				break;
+				
+				case IE_Released:
+					switch(KeyBind)
+					{
+						case "Axis aBaseY Speed=1.0":
+							bIsForward=false;
+					}
+				break;
+			}
+			ConsoleCommand( KeyBind ); //Execute the final command as an console command
+			aBaseY=1;
 			//Const variables can't be set directly by unrealscript, but using the console command function to set them using the set command still works.
 			return True;
 		}
