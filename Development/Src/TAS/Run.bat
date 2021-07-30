@@ -45,4 +45,4 @@ for %%1 in ("%OutlastPath%") do (
 )
 
 call Level_Launcher.bat %ModName%
-rmdir /Q /S %OutlastPath%\Custom\%ModName%
+rmdir /Q /S "%OutlastPath%\Custom\%ModName%"
