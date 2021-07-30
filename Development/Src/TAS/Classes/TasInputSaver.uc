@@ -16,14 +16,27 @@ struct TasInput
 };
 
 var bool IsRecording;
+var bool IsPlayback;
+
 var OLGame CurrentGame;
 var Engine Engine;
 var TasRecording Recording;
-var float SavedDeltaTime;
+
+var float ElapsedRecordingTime;
+var float PlaybackTime;
+
+var int CurrentPlaybackInputIndex;
+var int MaxPlaybackInputs;
 
 event Tick(Float DeltaTime)
 {
-    SavedDeltaTime=DeltaTime;
+    if(IsRecording)
+    {
+        ElapsedRecordingTime += DeltaTime;
+    } else if(IsPlayback)
+    {
+        PlaybackTime += DeltaTime;
+    }
 }
 
 event OnInitialize()
@@ -31,13 +44,16 @@ event OnInitialize()
     CurrentGame = TasGame(WorldInfo.Game);
     Engine=class'Engine'.static.GetEngine();
     IsRecording = false;
+    ElapsedRecordingTime = 0;
+    PlaybackTime = 0;
+    CurrentPlaybackInputIndex = 0;
 }
 
 function RecordInput(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
 {
     local TasInput Input;
 
-    if (InputEvent==IE_Repeat) 
+    if (InputEvent == IE_Repeat) 
     {
         return;
     }
@@ -45,7 +61,7 @@ function RecordInput(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
     Input.KeyPress = KeyPress;
     Input.InputEvent = InputEvent;
     Input.Axis.bWasAxis = bWasAxis;
-    Input.Time=SavedDeltaTime;
+    Input.Time = ElapsedRecordingTime;
 
     Recording.Inputs.AddItem(Input);
 
@@ -61,6 +77,7 @@ function StartRecording()
     }
     Recording.Inputs.Length = 0;
     Recording.Checkpoint = CurrentGame.CurrentCheckpointName;
+    ElapsedRecordingTime = 0;
     `log("Started TAS Recording");
 }
 
@@ -76,13 +93,34 @@ function StopRecording()
     `log("Stopped TAS Recording");
 }
 
-function LogRecording()
+function StartPlayback()
 {
-     if (Recording==None)
+    if (Recording == None)
     {
         `log("Need to make Recording");
+        Recording = Spawn( Class'TasRecording' );
     }
-    Recording = Spawn( Class'TasRecording' );
+    Recording.LoadRecording("Inputs");
+    MaxPlaybackInputs = Recording.Inputs.Length;
+    `log("Max inputs: " $ MaxPlaybackInputs);
+    CurrentPlaybackInputIndex = 0;
+    PlaybackTime = 0;
 
-    Recording.DebugPrintSavedRecordingToLog("Funni");
+    IsPlayback = true;
+}
+
+function StopPlayback()
+{
+    IsPlayback = false;
+}
+
+function LogRecording()
+{
+    if (Recording == None)
+    {
+        `log("Need to make Recording");
+        Recording = Spawn( Class'TasRecording' );
+    }
+
+    Recording.DebugPrintSavedRecordingToLog("Inputs");
 }
