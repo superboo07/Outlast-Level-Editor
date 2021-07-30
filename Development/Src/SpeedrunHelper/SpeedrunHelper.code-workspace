@@ -4,6 +4,9 @@
 			"path": "."
 		},
 		{
+			"path": "../SHModifiers"
+		},
+		{
 			"path": "../Engine"
 		},
 		{

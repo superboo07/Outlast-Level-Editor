@@ -1,4 +1,5 @@
 Class SHHud extends OLHud
+dependson(SHOptions)
 config(tool);
 
 Enum Menu
@@ -95,6 +96,10 @@ var Array<Saved_Menu> PreviousMenus;
 var Array<SHDebugBool> SHDebugBools;
 var SHOptions CachedOptions;
 
+var SHPlayerController Controller;
+var SHGame CurrentGame;
+var SHHero SpeedPawn;
+
 `FunctVar
 
 Function String LocalizedString(String Tag, Optional String Catagory="Text")
@@ -104,9 +109,7 @@ Function String LocalizedString(String Tag, Optional String Catagory="Text")
 
 function DrawHUD() //Called every frame
 {
-	local SHPlayerController Controller;
-	local OLGame CurrentGame;
-	local SHHero SpeedPawn;
+	local SHOptions.SHVariable Variable;
 	local string PlayerDebug;
 
 	Super.DrawHUD(); //Run Parent Function First
@@ -133,6 +136,14 @@ function DrawHUD() //Called every frame
 	{
 		Save_Position_Interface();
 	}
+
+	foreach CurrentGame.SHOptions.SavedVariables(Variable)
+	{
+		if (Variable.Bool)
+		{
+			Variable.Modifier.onDrawHUD(Self);
+		}
+	}
 }
 
 Event UpdateActorDebug(SHPlayerController Controller, OLGame CurrentGame, SHHero SpeedPawn)
@@ -152,116 +163,6 @@ Event UpdateActorDebug(SHPlayerController Controller, OLGame CurrentGame, SHHero
 	local vector Up;
 	local vector NewLocationForward;
 	local vector NewLocationRight;
-
-	if (Controller.bIsActorDebugEnabled) 
-	{
-		PlayerDebug = PlayerDebug $ "\n\nPlayer Debug Info: \nCurrent Collision Size: " $ SpeedPawn.CylinderComponent.CollisionRadius $ "\nHealth: " $ SpeedPawn.Health;
-		PlayerDebug = PlayerDebug $ "\nLocation: " $ SpeedPawn.Location $ "\nRotation: " $ Function.ConvertRotationUnitToDegrees(SpeedPawn.Rotation).Yaw $ ", " $ SpeedPawn.Camera.ViewCS.Pitch $ "\nIsPlayingDLC: " $ CurrentGame.bIsPlayingDLC;
-		PlayerDebug = PlayerDebug $ "\nCurrent Speed: " $ SpeedPawn.CurrentRunSpeed $ "\nCurrent Movement State: " $ SpeedPawn.GetPlayerMovementState() $ "\nSpecial Move: " $ SpeedPawn.SpecialMove $ "\nbPlayingRunSnd: " $ SpeedPawn.bPlayingRunSnd;
-		PlayerDebug = PlayerDebug $ "\nCurrent Objective Tag: " $ Controller.CurrentObjective $ "\nCurrent Checkpoint: " $ CurrentGame.CurrentCheckpointName $ "\nDelta Time: " $ DeltaTimeHUD;
-
-		foreach AllActors(class'OLCheckpoint', Checkpoint)
-		{
-			string = string(Checkpoint.Class) $ "\nName: " $ String(Checkpoint.CheckpointName) $ "\nChapter: " $ Localize("Locations", String(Checkpoint.Tag), "OLGame"); //Pull Chapter Name from Localization Files.
-			IsCalledInKismet=false;
-			foreach Controller.AllCheckpointSeq(KismetCheckpoint)
-			{
-				if (KismetCheckpoint.Class == Class'OLSeqAct_Checkpoint') 
-				{
-					if (OLSeqAct_Checkpoint(KismetCheckpoint).CheckpointName == Checkpoint.CheckpointName) {IsCalledInKismet=true; }
-				}
-			}
-			String = String $ "\nIsCalledInKismet: " $ IsCalledInKismet;
-			if (CurrentGame.CurrentCheckpointName==Checkpoint.CheckpointName) {string = string $ "\nCurrent Checkpoint";} //If the Current Chapter is equal to the ChapterName of this Checkpoint, print Current Chapter.
-			WorldTextDraw(string, Checkpoint.location, Controller.Max_View_Distance, 200, vect(100,0,0));
-		}
-
-		foreach AllActors(class'OLGameplayMarker', GameplayMarker)
-		{
-			if ( ContainsString( controller.Ignore_Actors, String(GameplayMarker.Class) ) ) { break; } //Check if the Ignore_Actor array from the player controller contains this class, if it does tell it to fuck off.
-
-			string = string(GameplayMarker.class) $ "\n";
-			if (GameplayMarker.BEnabled)
-			{
-				string = string $ "Enabled\n";
-			}
-			else
-			{
-				string = string $ "Disabled\n";
-			}
-			Switch(GameplayMarker.class) //Use Switch because i'm not Yandare Dev.
-			{
-				Case class'OLRecordingMarker':
-					if (CurrentGame.IsPlayingDLC() )
-					{
-						string = string $ "Title: " $ Localize("Recordings", String(OLRecordingMarker(GameplayMarker).MomentName) $ "_Title", "OLNarrativeDLC");
-					}
-					else
-					{
-						string = string $ "Title: " $ Localize("Recordings", String(OLRecordingMarker(GameplayMarker).MomentName) $ "_Title", "OLNarrative"); /*Pull recording name from localization*/
-					}
-					string = string $ "\nName: " $ String(OLRecordingMarker(GameplayMarker).MomentName);
-					string = string $ "\nNotification Delay: " $ OLRecordingMarker(GameplayMarker).NotificationDelay $ "\nRecording Time: " $ OLRecordingMarker(GameplayMarker).MinRecordingDuration;
-					if ( ContainsName(Controller.CompletedRecordingMoments, OLRecordingMarker(GameplayMarker).MomentName) ) { string = string $ "\nRecorded"; }
-					goto Print;
-				break;
-
-				case class'OLCSA':
-					string = string $ "Required Item: " $ OLCSA(GameplayMarker).RequiredItem $ "\nMax Trigger Count: " $ OLCSA(GameplayMarker).MaxTriggerCount $ "\nRemaining Trigger Count: " $ OLCSA(GameplayMarker).MaxTriggerCount - OLCSA(GameplayMarker).TriggerCount;
-					goto Print;
-				break;
-
-				Default: goto Print; break;
-			}
-			Print: 
-			WorldTextDraw(string, GameplayMarker.location, Controller.Max_View_Distance, 200, vect(100,0,0));
-		}
-
-		foreach dynamicactors(Class'OLPickableObject', PickableObject)
-		{
-			string = string(PickableObject.class) $ "\n";
-			if (PickableObject.bUsed==false && PickableObject.bHidden==false)
-			{
-				Switch(PickableObject.Class) //Use Switch because i'm not Yandare Dev.
-				{
-					case class'OLGameplayItemPickup':
-						string = string $ "Item Name: " $ string( OLGameplayItemPickup(PickableObject).ItemName);
-						Goto Print;
-					break;
-
-					case class'OLCollectiblePickup':
-						if (CurrentGame.IsPlayingDLC() )
-						{
-							string = string $ "Title: " $ Localize("Documents", String(OLCollectiblePickup(PickableObject).CollectibleName) $ "_Title", "OLNarrativeDLC");
-						}
-						else
-						{
-							string = string $ "Title: " $ Localize("Documents", String(OLCollectiblePickup(PickableObject).CollectibleName) $ "_Title", "OLNarrative"); /*Pull recording name from localization*/
-						}
-						string = string $ "\nCollectable Name: " $ String(OLCollectiblePickup(PickableObject).CollectibleName); 
-						Goto Print;
-					break;
-
-					Default: Goto Print;
-				}
-				Print: WorldTextDraw(string, PickableObject.location, Controller.Max_View_Distance, 150, vect(0,0,0));
-			}
-		}
-
-		foreach dynamicactors(Class'OLEnemyPawn', EnemyPawn)
-		{
-			string = string(EnemyPawn.class) $ "\n";
-			string = string $ "Should Attack: " $ EnemyPawn.Modifiers.bShouldAttack $ "\nDisableKnockbackFromPlayer: " $ EnemyPawn.Modifiers.bDisableKnockbackFromPlayer $ "\nEnemy Mode: " $ EnemyPawn.EnemyMode $ "\nBehavior Tree: " $ EnemyPawn.BehaviorTree;
-			WorldTextDraw(string, EnemyPawn.location, Controller.Max_View_Distance, 200, vect(0,-450,0));
-		}
-
-		foreach dynamicactors(Class'OLDoor', Door)
-		{
-			String = Door.Class $ "\nDoes Collide: " $ Door.CollisionComponent.CollideActors $ "\nIs Locked: " $ Door.bLocked $ "\nDoor State: " $ Door.DoorState;
-			WorldTextDraw(String, Door.location, Controller.Max_View_Distance, 200, vect(0,-450,0));
-		}
-
-	}
 
 	if (Controller.bIsModDebugEnabled)
 	{
@@ -351,7 +252,7 @@ Event Save_Position_Interface()
 		case Show:
 		AddLocalizedButton("FPS", "Stat FPS", vect2d(15, 25),,, StartClip, EndClip);
 		AddLocalizedButton("LevelInformation", "Stat Levels", , true);
-		AddLocalizedButton("ActorDebugInfo", "ToogleDebugView", , true);
+		AddLocalizedButton("ActorDebugInfo", "ToggleSHOption ActorDebugView", , true);
 		AddLocalizedButton("Collision", "Show Collision", , true);
 		AddLocalizedButton("Volumes", "Show Volumes", , true);
 		AddLocalizedButton("Fog", "Show Fog", , true);

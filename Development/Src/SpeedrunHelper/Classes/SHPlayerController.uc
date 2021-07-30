@@ -53,6 +53,7 @@ Event InitializeHelper(SHHero Pawn)
 	local SHVariable Variable;
 	SpeedPawn=Pawn;
 	CachedOptions=SHGame(Worldinfo.Game).SHOptions;
+	CachedOptions.PlayerController=self;
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
 	if ( HasOL2SimulatorEnabled() ) { Pawn.EnableOL2Simulator(); }
 	if (PlayerModel!=PM_NoOverride) { WorldInfo.Game.SetTimer(0.0005, false, 'LoadCurrent', self); }

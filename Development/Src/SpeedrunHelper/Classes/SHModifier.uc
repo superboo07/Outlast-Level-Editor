@@ -1,11 +1,15 @@
-class SHModifier extends actor;
+class SHModifier extends Actor
+config(Tool);
 
-var float Refresh;
-Event onEnable() {}
+var config float Refresh;
 
-Event onDisable() {}
+Event onEnable();
 
-Event onTimer() {}
+Event onDisable();
+
+Event onTimer();
+
+Event onDrawHUD(SHHUD Caller);
 
 Function StartTimer()
 {
@@ -16,4 +20,14 @@ Function StartTimer()
     onEnable();
     onTimer();
     Game.SetTimer(Refresh, true, 'onTimer', self);
+}
+
+Function EndTimer()
+{
+    local SHGame Game;
+
+    Game = SHGame(WorldInfo.Game);
+
+    Game.ClearTimer('onTimer', self);
+    onDisable();
 }

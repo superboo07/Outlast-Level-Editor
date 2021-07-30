@@ -5,11 +5,13 @@ Struct SHVariable
 {
 	var name Option;
 	var bool Bool;
-	var string ModifierClass;
+	var Class<SHModifier> ModifierString;
+	var Class<SHModifier> ModClass;
 	var SHModifier Modifier;
 };
 
 var config Array<SHVariable> SavedVariables;
+var SHPlayerController PlayerController;
 
 Event onInitialize()
 {
@@ -19,11 +21,15 @@ Event onInitialize()
 	{
 		if (Variable.Modifier==None)
 		{
-			SavedVariables[Index].Modifier = Spawn( Class<SHModifier>( DynamicLoadObject(Variable.modifierClass, class'SHModifier') ) );
+			//SavedVariables[Index].ModClass = Option.ModifierString;
+			Variable.Modifier = Spawn( Variable.ModifierString, self );
+			SavedVariables[Index] = Variable;
+			`log("FUCK");
 		}
+
 		if (Variable.Bool==True)
 		{
-			ExecuteSHOption(Variable);
+			ExecuteSHOption(Index);
 		}
 		++Index;
 	}
@@ -101,24 +107,27 @@ Exec Function Bool ToggleSHOption(Name Option, optional Int Toggle=INDEX_NONE, o
 	NewBool=Toggle<=INDEX_NONE ? !SavedVariables[Index].Bool : Bool(Toggle);
     SavedVariables[Index].Bool=NewBool;
 
-    if (bShouldExecute) { ExecuteSHOption( SavedVariables[Index] ); }
+    if (bShouldExecute) { ExecuteSHOption( Index ); }
 
     Return NewBool;
 }
 
-Function ExecuteSHOption(SHVariable Option)
+Function ExecuteSHOption(int Index)
 {
     local SHGame Game;
-	local int Index;
+	local SHVariable option;
 
     Game = SHGame(WorldInfo.Game);
-
-	if (option.Modifier==None)
-	{
-	}
+	option = SavedVariables[Index];
 
     if (Option.Bool)
     {
         Option.Modifier.StartTimer();
     }
+	else
+	{
+		Option.Modifier.EndTimer();
+	}
+
+	SavedVariables[Index] = Option;
 }
