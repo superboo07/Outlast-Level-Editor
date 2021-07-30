@@ -124,9 +124,17 @@ function DrawHUD() //Called every frame
 
 	DrawScaledBox( Vect2D(0, 0), Vect2D(130, 25), MakeRGBA(0,0,255));
 
-	UpdateActorDebug(Controller, CurrentGame, SpeedPawn);
+	UpdateActorDebug();
 
 	ScreenTextDraw("Outlast Speedrun Helper\nProgrammed by Superboo07", vect2D(0,0), MakeRGBA(255,255,255));
+
+	foreach CurrentGame.SHOptions.SavedVariables(Variable)
+	{
+		if (Variable.Bool)
+		{
+			Variable.Modifier.onDrawHUD(Self);
+		}
+	}
 
 	if (Controller.Collision_Type_Override!=Normal && OLHero(Controller.Pawn).CylinderComponent.CollisionRadius==30)
 	{
@@ -136,33 +144,11 @@ function DrawHUD() //Called every frame
 	{
 		Save_Position_Interface();
 	}
-
-	foreach CurrentGame.SHOptions.SavedVariables(Variable)
-	{
-		if (Variable.Bool)
-		{
-			Variable.Modifier.onDrawHUD(Self);
-		}
-	}
 }
 
-Event UpdateActorDebug(SHPlayerController Controller, OLGame CurrentGame, SHHero SpeedPawn)
+Event UpdateActorDebug()
 {
-	Local OLCheckpoint Checkpoint;
-	local OLGameplayMarker GameplayMarker;
-	local OLPickableObject PickableObject;
-	local OLEnemyPawn EnemyPawn;
-	local SkeletalMeshActor SkeletalMesh0;
-	local OLDoor Door;
-	local string string;
 	local string PlayerDebug;
-	local SequenceObject KismetCheckpoint;
-	local bool IsCalledInKismet;
-	local vector Forward;
-	local vector Right;
-	local vector Up;
-	local vector NewLocationForward;
-	local vector NewLocationRight;
 
 	if (Controller.bIsModDebugEnabled)
 	{
@@ -288,7 +274,7 @@ Event Save_Position_Interface()
 		Case Funny:
 		AddLocalizedButtonDisplay("EveryoneFatherMartinFunny", Controller.bShouldMartinReplaceEnemyModels, "MartinifyToggle",vect2d(15, 25),,, StartClip, EndClip );
 		AddLocalizedButtonDisplay("EveryoneWieldFatherMartin", Controller.bShouldWieldFatherMartin, "ToogleWieldFatherMartin",,true);
-		AddLocalizedButtonDisplay("WernickeSkipFunny", Controller.bIsWernickeSkipEnabled, "ToggleSHOption WernickeSkip", , true);
+		AddLocalizedButtonDisplay("WernickeSkipFunny", DisplaySHOption("WernickeSkip"), "ToggleSHOption WernickeSkip", , true);
 		AddLocalizedButtonDisplay("FreeBhopsFunny", Controller.bShouldMakeBhopsFree, "FreeBhop", , true);
 		AddLocalizedButtonDisplay("OL2BandageFunny", Controller.bIsOL2BandageSimulatorEnabled, "SimulateBandages", , true);
 		AddLocalizedButtonDisplay("OL2StaminaFunny", Controller.bIsOL2StaminaSimulatorEnabled, "SimulateOL2Stamina", , true);
@@ -345,9 +331,14 @@ Event Save_Position_Interface()
 	DrawMouse();
 }
 
-Exec Function bool ToggleSHOption(Name Option, optional Int Toggle=INDEX_NONE, optional bool bShouldExecute=true)
+Exec Function bool ToggleSHOption(coerce Name Option, optional Int Toggle=INDEX_NONE, optional bool bShouldExecute=true)
 {
 	Return SHPlayerController(PlayerOwner).CachedOptions.ToggleSHOption(Option, Toggle, bShouldExecute);
+}
+
+Exec Function bool DisplaySHOption(coerce Name Option)
+{
+	Return SHPlayerController(PlayerOwner).CachedOptions.GetSHBool(Option);
 }
 
 Exec Function SetSHDebugOption(Name Option, Int Bool)
