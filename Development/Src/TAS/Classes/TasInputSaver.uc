@@ -33,9 +33,6 @@ event Tick(Float DeltaTime)
     if(IsRecording)
     {
         ElapsedRecordingTime += DeltaTime;
-    } else if(IsPlayback)
-    {
-        PlaybackTime += DeltaTime;
     }
 }
 

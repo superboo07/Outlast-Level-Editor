@@ -51,7 +51,8 @@ event Tick(float DeltaTime)
 				if(TASInput.Recording.Inputs[InputIndex].Time <= TASInput.PlaybackTime)
 				{
 					`log("Executing input " $ InputIndex);
-					ConsoleCommand(FindCommandFromBind(TASInput.Recording.Inputs[InputIndex].KeyPress));
+					//ConsoleCommand(FindCommandFromBind(TASInput.Recording.Inputs[InputIndex].KeyPress));
+					ExecuteCustomBinding(TASInput.Recording.Inputs[InputIndex].KeyPress.Name, TASInput.Recording.Inputs[InputIndex].InputEvent, Bindings);
 					TASInput.CurrentPlaybackInputIndex++;
 					`log("Input index: " $ (InputIndex++));
 				}
@@ -274,7 +275,6 @@ function bool ExecuteCustomBinding(Name Key, EInputEvent Event, Array<Keybind> K
 		{
 			ConsoleCommand( FindCommandWithExternalBinding(Bind, Event, Keybinds) ); //Execute the final command as an console command
 			//Const variables can't be set directly by unrealscript, but using the console command function to set them using the set command still works.
-			ConsoleCommand("Set TasPlayerInput bUsingGamepad true"); 
 			return True;
 		}
 	}
