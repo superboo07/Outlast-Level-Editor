@@ -1,15 +1,12 @@
 class TasRecording extends Actor;
 
 var Name Checkpoint;
+var array<TasInput> Inputs;
 
-var array<TasInput> SavedInputs;
-
-function ExportRecording(array<TasInput> Inputs, string FileName)
+function ExportRecording(string FileName)
 {
-    Checkpoint='Test';
-    SavedInputs=Inputs;
     class'Engine'.static.GetEngine().BasicSaveObject(Self, "../../OLGame/User/" $ FileName $ ".OLTAS", false, 1);
-    `log("Saving TAS");
+    `log("Saving TAS to " $ FileName);
 }
 
 /**
@@ -28,7 +25,7 @@ function DebugPrintSavedRecordingToLog(string FileName)
     `log("Checkpoint: " $ Checkpoint);
     `log("--------------------------------------------");
 
-    foreach SavedInputs(Input)
+    foreach Inputs(Input)
     {
         `log("  KeyBind: " $ Input.KeyPress.Name);
         `log("  InputType: " $ Input.InputEvent);

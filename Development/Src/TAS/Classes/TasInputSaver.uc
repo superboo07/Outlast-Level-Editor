@@ -15,53 +15,65 @@ struct TasInput
     var Axis Axis;
 };
 
-var Array<TasInput> CurrentSavedInputs;
+var bool IsRecording;
+var OLGame CurrentGame;
 var Engine Engine;
 var TasRecording Recording;
 var float SavedDeltaTime;
-var JsonObject JSON;
 
 event Tick(Float DeltaTime)
 {
     SavedDeltaTime=DeltaTime;
 }
 
-event onInitiallize()
+event OnInitialize()
 {
+    CurrentGame = TasGame(WorldInfo.Game);
     Engine=class'Engine'.static.GetEngine();
+    IsRecording = false;
 }
 
-function Input(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
+function RecordInput(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
 {
     local TasInput Input;
 
-    if (InputEvent==IE_Repeat) {return;}
+    if (InputEvent==IE_Repeat) 
+    {
+        return;
+    }
 
     Input.KeyPress = KeyPress;
     Input.InputEvent = InputEvent;
     Input.Axis.bWasAxis = bWasAxis;
     Input.Time=SavedDeltaTime;
 
-    CurrentSavedInputs.AddItem(Input);
-
-    /*`log("---------------");
-    `log("Key: " $ KeyPress.Name);
-    `log("InputEvent: " $ InputEvent);*/
+    Recording.Inputs.AddItem(Input);
 
     return;
 }
 
-function SaveRecording()
+function StartRecording()
 {
-    if (Recording==None)
+    if (Recording == None)
     {
-        `log("Need to make Recording");
+        Recording = Spawn( Class'TasRecording' );
+        IsRecording = true;
     }
-    Recording = Spawn( Class'TasRecording' );
+    Recording.Inputs.Length = 0;
+    Recording.Checkpoint = CurrentGame.CurrentCheckpointName;
+    `log("Started TAS Recording");
+}
 
-    Recording.ExportRecording(CurrentSavedInputs, "Funni");
+function StopRecording()
+{
+    IsRecording = false;
+    if (Recording == None)
+    {
+        return;
+    }
 
-    return;
+    Recording.ExportRecording("Inputs");
+    `log("Stopped TAS Recording");
 }
 
 function LogRecording()
