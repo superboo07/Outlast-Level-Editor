@@ -35,12 +35,6 @@ event PlayerInput(float DeltaTime)
 	//bWantsToSimulateController = SHHUD(HUD).GetSHDebugOption( 'SimulateController' );
 	Turning=Vect2D(aMouseX, aMouseY);
 	Movement=Vect2d(aBaseY,aStrafe);
-
-	if (TASInput==None)
-	{
-		`log("Tas Input is Invalid");
-		TASInput=TasInputSaver( DynamicLoadObject("TAS.TasInputSaver", Class'TAS.TasInputSaver') );
-	}
 }
 
 function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDepressed = 1.f, bool bGamepad = FALSE )
