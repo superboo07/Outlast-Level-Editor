@@ -60,14 +60,6 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 		{
 			case IE_Pressed:
 			`log("Pressed: " $ Key);
-			if (Key=='M')
-			{
-				TestRecordSave();
-			}
-			if (Key=='L')
-			{
-				TASInput.LogRecording();
-			}
 			break;
 
 			case IE_Released:
@@ -145,6 +137,12 @@ exec function TestRecordSave()
 {
 	TASInput.SaveRecording();
 }
+
+exec function LogRecording()
+{
+	TASInput.LogRecording();
+}
+
 
 function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> Patcher)
 {
