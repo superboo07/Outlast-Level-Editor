@@ -301,7 +301,7 @@ function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEv
 		Binds=Bindings;
 		goto CheckAgain;
 	}
-	index = InStr(Bind.Command, " | onRelease ");
+	index = InStr(Bind.Command, " | onrelease ");
 	if (index==Index_None)
 	{
 		if (InputEvent==IE_Pressed) {return Bind.Command;} //return command once
@@ -309,7 +309,7 @@ function string FindCommandWithExternalBinding(keybind Bind, EInputEvent InputEv
 	}
 	else
 	{
-		StringArray = SplitString(Bind.Command, " | onRelease ", true); //Split the string between the onRelease command.
+		StringArray = SplitString(Bind.Command, " | onrelease ", true); //Split the string between the onRelease command.
 		Switch (InputEvent)
 		{
 			Case IE_Pressed:
