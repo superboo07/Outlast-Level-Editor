@@ -37,7 +37,7 @@ event PlayerInput(float DeltaTime)
 	Movement=Vect2d(aBaseY,aStrafe);
 }
 
-function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDepressed = 1.f, bool bGamepad = FALSE )
+function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDepressed = 1.f, bool bGamepad = FALSE)
 {
 	local KeyBind Bind;
 	local Array<keybind> SavedBindings;
@@ -48,21 +48,10 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 		TASInput=Spawn(Class'TAS.TasInputSaver');
 	}
 
-	if(Inputs.Find(Key) != -1) 
+	if(TASInput.IsRecording == true)
 	{
-		switch(Event) 
-		{
-			case IE_Pressed:
-			`log("Pressed: " $ Key);
-			break;
-
-			case IE_Released:
-			`log("Released: " $ Key);
-			break;
-		}
+		TASInput.RecordInput(GetKeyBindFromKey(Key), Event, false);
 	}
-
-	TASInput.Input(GetKeyBindFromKey(Key), Event, false);
 
 	return false;
 
@@ -127,9 +116,14 @@ function bool Key( int ControllerId, name Key, EInputEvent Event, float AmountDe
 	return false;*/
 }
 
-exec function TestRecordSave()
+exec function StartRecord()
 {
-	TASInput.SaveRecording();
+	TASInput.StartRecording();
+}
+
+exec function StopRecord()
+{
+	TASInput.StopRecording();
 }
 
 exec function LogRecording()
