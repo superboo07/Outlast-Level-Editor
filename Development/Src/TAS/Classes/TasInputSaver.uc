@@ -15,7 +15,7 @@ struct TasInput
     var Axis Axis;
 };
 
-var bool IsRecording;
+var bool bIsRecording;
 var bool IsPlayback;
 
 var OLGame CurrentGame;
@@ -30,7 +30,7 @@ var int MaxPlaybackInputs;
 
 event Tick(Float DeltaTime)
 {
-    if(IsRecording)
+    if(bIsRecording)
     {
         ElapsedRecordingTime += DeltaTime;
     }
@@ -40,7 +40,7 @@ event OnInitialize()
 {
     CurrentGame = TasGame(WorldInfo.Game);
     Engine=class'Engine'.static.GetEngine();
-    IsRecording = false;
+    bIsRecording = false;
     ElapsedRecordingTime = 0;
     PlaybackTime = 0;
     CurrentPlaybackInputIndex = 0;
@@ -67,10 +67,11 @@ function RecordInput(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
 
 function StartRecording()
 {
+    if (bIsRecording) {`log("Already Recording"); return;}
     if (Recording == None)
     {
         Recording = Spawn( Class'TasRecording' );
-        IsRecording = true;
+        bIsRecording = true;
     }
     Recording.Inputs.Length = 0;
     Recording.Checkpoint = CurrentGame.CurrentCheckpointName;
@@ -80,7 +81,8 @@ function StartRecording()
 
 function StopRecording()
 {
-    IsRecording = false;
+    if (!bIsRecording) {`log("Please start a recording before ending"); return;}
+    bIsRecording = false;
     if (Recording == None)
     {
         return;

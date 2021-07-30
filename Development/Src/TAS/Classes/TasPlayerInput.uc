@@ -23,7 +23,7 @@ event PlayerInput(float DeltaTime)
 	SavedDeltaTime=DeltaTime;
 	// Handle mouse
 	// Ensure we have a valid HUD
-	if (myHUD != None /*&& SHHud(myHUD).Show_Menu==true*/ && !UsingGamepad() )
+	if (myHUD != None && !UsingGamepad() )
 	{
 		// Add the aMouseX to the mouse position and clamp it within the viewport width
 		MousePosition.X = Clamp(MousePosition.X + aMouseX, 0, myHUD.SizeX);
@@ -78,7 +78,7 @@ function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDep
 		TASInput=Spawn(Class'TAS.TasInputSaver');
 	}
 
-	if(TASInput.IsRecording == true)
+	if(TASInput.bIsRecording == true)
 	{
 		KeyPress = GetKeyBindFromKey(Key);
 		if(!(KeyPress.Command == "StartRecord" || KeyPress.Command == "StopRecord" || KeyPress.Command == "LogRecording"))
@@ -89,65 +89,6 @@ function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDep
 
 	return false;
 
-	//if (Key=='LeftMouseButton' && SHHud(HUD).Show_Menu==true) {Clicking=!Clicking;}
-	/*if (SHHud(HUD).Show_Menu==true)
-	{
-		Switch (Event)
-		{
-			Case IE_Pressed:
-				if (!SHHud(myHUD).GetSHDebugOption('SimulateController') ) //Make sure Simulate Controller is off
-				{
-					switch (key)
-					{
-						case 'Enter':
-						SHHud(HUD).Commit();
-						break;
-
-						case 'Backspace':
-						SHHud(HUD).Command = Left(SHHud(HUD).Command, len(SHHud(HUD).Command)-1);
-						break;
-
-						Case 'LeftMouseButton':
-						bLeftClick=True;
-						break;
-					}
-				}
-				else
-				{
-					ExecuteCustomBinding(Key, Event, ControllerDebugBinds);
-				}
-			break;
-
-			Case IE_Released:
-				switch (key)
-				{
-					Case 'LeftMouseButton':
-					SHHud(HUD).Click();
-					bLeftClick=False;
-					break;
-				}
-			break;
-		}
-		foreach Bindings(Bind)
-		{
-			if (Bind.Name==Key)
-			{
-				Switch(Bind.Command)
-				{
-					Case "SH_Console":
-					bLeftClick=false;
-					return False;
-				}
-			}
-		}
-		ExecuteCustomBinding(Key, Event, ControllerBinds);
-		return true;
-	}
-	else if (Outer.bIsOL2BandageSimulatorEnabled)
-	{
-		return ExecuteCustomBinding( Key, Event, PatchBindingArray(GetControllerBind(), BandageBinds) );
-	}
-	return false;*/
 }
 
 exec function StartRecord()
