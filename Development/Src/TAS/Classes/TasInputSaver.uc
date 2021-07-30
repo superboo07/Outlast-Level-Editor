@@ -19,8 +19,11 @@ var bool bIsRecording;
 var bool IsPlayback;
 
 var OLGame CurrentGame;
+var OLHero Hero;
 var Engine Engine;
 var TasRecording Recording;
+
+var TasPlayerInput Input;
 
 var float ElapsedRecordingTime;
 var float PlaybackTime;
@@ -38,7 +41,6 @@ event Tick(Float DeltaTime)
 
 event OnInitialize()
 {
-    CurrentGame = TasGame(WorldInfo.Game);
     Engine=class'Engine'.static.GetEngine();
     bIsRecording = false;
     ElapsedRecordingTime = 0;
@@ -68,12 +70,16 @@ function RecordInput(Keybind KeyPress, EInputEvent InputEvent, bool bWasAxis)
 function StartRecording()
 {
     if (bIsRecording) {`log("Already Recording"); return;}
+
     if (Recording == None)
     {
         Recording = Spawn( Class'TasRecording' );
     }
+
     Recording.Inputs.Length = 0;
     Recording.Checkpoint = CurrentGame.CurrentCheckpointName;
+	Recording.SavedPosition.Location=Hero.Location;
+	Recording.SavedPosition.Rotation=Vect2D(Hero.Rotation.Yaw, Hero.Camera.ViewCS.Pitch);
     ElapsedRecordingTime = 0;
     bIsRecording = true;
     `log("Started TAS Recording");
@@ -104,6 +110,9 @@ function StartPlayback()
     `log("Max inputs: " $ MaxPlaybackInputs);
     CurrentPlaybackInputIndex = 0;
     PlaybackTime = 0;
+    Hero.SetLocation( Recording.SavedPosition.Location );
+	Hero.SetRotation( MakeRotator( Hero.Rotation.Pitch, Recording.SavedPosition.Rotation.X, Hero.Rotation.Roll ) );
+	Hero.Camera.ViewCS.Pitch=Recording.SavedPosition.Rotation.Y;
 
     IsPlayback = true;
 }

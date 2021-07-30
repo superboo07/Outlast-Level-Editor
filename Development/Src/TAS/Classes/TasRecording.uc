@@ -1,7 +1,15 @@
 class TasRecording extends Actor;
 
+struct Saved_Position
+{
+	var vector Location;
+	var Vector2D Rotation;
+	var string Name;
+};
+
 var Name Checkpoint;
 var array<TasInput> Inputs;
+var Saved_Position SavedPosition;
 
 function ExportRecording(string FileName)
 {
@@ -30,6 +38,7 @@ function DebugPrintSavedRecordingToLog(string FileName)
 
     `log("Printing file '" $ FileName $ "' to the log");
     `log("Checkpoint: " $ Checkpoint);
+    `log("Starting Location: " $ SavedPosition.Location);
     `log("--------------------------------------------");
 
     foreach Inputs(Input)

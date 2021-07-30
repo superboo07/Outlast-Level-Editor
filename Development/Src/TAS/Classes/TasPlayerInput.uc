@@ -37,6 +37,15 @@ event PlayerInput(float DeltaTime)
 	//bWantsToSimulateController = SHHUD(HUD).GetSHDebugOption( 'SimulateController' );
 	Turning=Vect2D(aMouseX, aMouseY);
 	Movement=Vect2d(aBaseY,aStrafe);
+
+	if (TASInput==None)
+	{
+		`log("Tas Input is Invalid");
+		TASInput=Spawn(Class'TAS.TasInputSaver');
+		TasInput.Input=Self;
+		TasInput.Hero=Outer.HeroPawn;
+		TasInput.CurrentGame=TasGame(WorldInfo.Game);
+	}
 }
 
 event Tick(float DeltaTime)
@@ -71,12 +80,6 @@ function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDep
 	local KeyBind Bind;
 	local KeyBind KeyPress;
 	local Array<keybind> SavedBindings;
-
-	if (TASInput==None)
-	{
-		`log("Tas Input is Invalid");
-		TASInput=Spawn(Class'TAS.TasInputSaver');
-	}
 
 	if(TASInput.bIsRecording == true)
 	{
