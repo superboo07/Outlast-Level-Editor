@@ -9,6 +9,13 @@ function ExportRecording(string FileName)
     `log("Saving TAS to " $ FileName);
 }
 
+function LoadRecording(string FileName)
+{
+    `log("Loading TAS Recording: " $ FileName);
+    class'Engine'.static.GetEngine().BasicLoadObject(Self, "../../OLGame/User/" $ FileName $ ".OLTAS", false, 1);
+    `log("Loaded Recording");
+}
+
 /**
  * Dumps the TAS file to the log
  * 

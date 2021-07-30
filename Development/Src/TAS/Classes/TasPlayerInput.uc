@@ -37,9 +37,35 @@ event PlayerInput(float DeltaTime)
 	Movement=Vect2d(aBaseY,aStrafe);
 }
 
+event Tick(float DeltaTime)
+{
+	local int InputIndex;
+	if(TASInput != None)
+	{
+		if(TASInput.IsPlayback == true)
+		{
+			InputIndex = TASInput.CurrentPlaybackInputIndex;
+			if(InputIndex < TASInput.MaxPlaybackInputs)
+			{
+				`log("Checking input " $ InputIndex $ ". Time: " $ TASInput.PlaybackTime);
+				if(TASInput.Recording.Inputs[InputIndex].Time <= TASInput.PlaybackTime)
+				{
+					`log("Executing input " $ InputIndex);
+					ConsoleCommand(FindCommandFromBind(TASInput.Recording.Inputs[InputIndex].KeyPress));
+					TASInput.CurrentPlaybackInputIndex++;
+					`log("Input index: " $ (InputIndex++));
+				}
+			}
+			if(DeltaTime > 0)
+				TASInput.PlaybackTime += DeltaTime;
+		}
+	}
+}
+
 function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDepressed = 1.f, bool bGamepad = FALSE)
 {
 	local KeyBind Bind;
+	local KeyBind KeyPress;
 	local Array<keybind> SavedBindings;
 
 	if (TASInput==None)
@@ -50,7 +76,11 @@ function bool Key(int ControllerId, name Key, EInputEvent Event, float AmountDep
 
 	if(TASInput.IsRecording == true)
 	{
-		TASInput.RecordInput(GetKeyBindFromKey(Key), Event, false);
+		KeyPress = GetKeyBindFromKey(Key);
+		if(!(KeyPress.Command == "StartRecord" || KeyPress.Command == "StopRecord" || KeyPress.Command == "LogRecording"))
+		{
+			TASInput.RecordInput(GetKeyBindFromKey(Key), Event, false);
+		}
 	}
 
 	return false;
@@ -126,11 +156,20 @@ exec function StopRecord()
 	TASInput.StopRecording();
 }
 
+exec function StartPlaying()
+{
+	TASInput.StartPlayback();
+}
+
+exec function StopPlaying()
+{
+	TASInput.StopPlayback();
+}
+
 exec function LogRecording()
 {
 	TASInput.LogRecording();
 }
-
 
 function Array<Keybind> PatchBindingArray(Array<Keybind> Target, Array<Keybind> Patcher)
 {
