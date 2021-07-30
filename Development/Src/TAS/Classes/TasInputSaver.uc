@@ -71,11 +71,11 @@ function StartRecording()
     if (Recording == None)
     {
         Recording = Spawn( Class'TasRecording' );
-        bIsRecording = true;
     }
     Recording.Inputs.Length = 0;
     Recording.Checkpoint = CurrentGame.CurrentCheckpointName;
     ElapsedRecordingTime = 0;
+    bIsRecording = true;
     `log("Started TAS Recording");
 }
 
