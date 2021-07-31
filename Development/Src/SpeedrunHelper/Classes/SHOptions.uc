@@ -6,12 +6,12 @@ Struct SHVariable
 	var name Option;
 	var bool Bool;
 	var Class<SHModifier> ModifierString;
-	var Class<SHModifier> ModClass;
 	var SHModifier Modifier;
 };
 
 var config Array<SHVariable> SavedVariables;
 var SHPlayerController PlayerController;
+var SHHero Hero;
 
 Event onInitialize()
 {
@@ -21,11 +21,14 @@ Event onInitialize()
 	{
 		if (Variable.Modifier==None)
 		{
-			//SavedVariables[Index].ModClass = Option.ModifierString;
 			Variable.Modifier = Spawn( Variable.ModifierString, self );
-			SavedVariables[Index] = Variable;
+			//Variable.Modifier.ValidateInteraction();
 			`log("FUCK");
 		}
+		Variable.Modifier.SetBase(Hero);
+
+		UpdateModifierVariables(Variable);
+		SavedVariables[Index] = Variable;
 
 		if (Variable.Bool==True)
 		{
@@ -35,7 +38,14 @@ Event onInitialize()
 	}
 }
 
-Function Bool GetSHBool(Name Option)
+Function UpdateModifierVariables(Out SHVariable Variable)
+{
+	Variable.Modifier.Hero=Hero;
+	Variable.Modifier.Controller=PlayerController;
+	Variable.Modifier.Game=SHGame(Worldinfo.Game);
+}
+
+Function Bool GetSHBool(coerce Name Option)
 {
 	local Int Index;
 
@@ -122,12 +132,18 @@ Function ExecuteSHOption(int Index)
 
     if (Option.Bool)
     {
-        Option.Modifier.StartTimer();
+        if ( !Option.Modifier.StartTimer() ) 
+		{
+			option.bool=false;
+			goto End;
+		}
     }
 	else
 	{
 		Option.Modifier.EndTimer();
 	}
+
+	End:
 
 	SavedVariables[Index] = Option;
 }

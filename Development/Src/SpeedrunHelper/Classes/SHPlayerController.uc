@@ -54,6 +54,8 @@ Event InitializeHelper(SHHero Pawn)
 	SpeedPawn=Pawn;
 	CachedOptions=SHGame(Worldinfo.Game).SHOptions;
 	CachedOptions.PlayerController=self;
+	CachedOptions.Hero=Pawn;
+	CachedOptions.onInitialize();
 	if ( bShouldHaveInfiniteBattery ) { EnableInfiniteBattery(); }
 	if ( HasOL2SimulatorEnabled() ) { Pawn.EnableOL2Simulator(); }
 	if (PlayerModel!=PM_NoOverride) { WorldInfo.Game.SetTimer(0.0005, false, 'LoadCurrent', self); }
@@ -89,11 +91,6 @@ Exec Function OpenConsoleMenu(int Selection)
 		break;
 	}
 	return;
-}
-
-Exec Function FreeBhop()
-{
-	bShouldMakeBhopsFree=!bShouldMakeBhopsFree;
 }
 
 Exec Function SimulateBandages()

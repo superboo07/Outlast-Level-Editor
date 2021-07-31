@@ -84,7 +84,7 @@ var config float CursorScale, CursorOutline;
 var config RGBA BackgroundColor, DefaultTextColor, ButtonColor, ButtonHoveredColor, CommandLineColor, CommandLineTextColor, CursorColor, CursorOutlineColor;
 
 var bool Show_Menu, Pressed, AlreadyCommited;
-var string Command, DebugPreviousMove;
+var string Command, DebugPreviousMove, PlayerDebug;
 var array<ButtonStruct> Buttons;
 var ButtonStruct Previous_Button;
 var Menu CurrentMenu, PreviousMenu;
@@ -110,9 +110,9 @@ Function String LocalizedString(String Tag, Optional String Catagory="Text")
 function DrawHUD() //Called every frame
 {
 	local SHOptions.SHVariable Variable;
-	local string PlayerDebug;
 
 	Super.DrawHUD(); //Run Parent Function First
+	PlayerDebug="";
 
 	Controller = SHPlayerController(PlayerOwner); //Cast to SHPlayerController using 'PlayerOwner'
 	CurrentGame = SHGame(WorldInfo.Game);
@@ -135,6 +135,8 @@ function DrawHUD() //Called every frame
 			Variable.Modifier.onDrawHUD(Self);
 		}
 	}
+
+	ScreenTextDraw(PlayerDebug, vect2d(0,25), MakeRGBA(255,255,255));
 
 	if (Controller.Collision_Type_Override!=Normal && OLHero(Controller.Pawn).CylinderComponent.CollisionRadius==30)
 	{
@@ -264,7 +266,7 @@ Event Save_Position_Interface()
 		AddLocalizedButtonDisplay("FreecamCheat", !Controller.UsingFirstPersonCamera(), "ToogleFreeCam",, true);
 		AddLocalizedButton("TeleportToFreecamCheat", "Teleporttofreecam",, true );
 		AddLocalizedButtonDisplay("PlayerColliderSizeCheat", SHPlayerController(PlayerOwner).Collision_Type_Override, "SetMenu Collision",, true );
-		AddLocalizedButtonDisplay("GodmodeCheat", Controller.bGodMode, "ToggleGod",, true );
+		AddLocalizedButtonDisplay("GodmodeCheat", DisplaySHOption("GodMode"), "ToggleSHOption GodMode",, true );
 		AddLocalizedButtonDisplay("ToggleDeathBoundsCheat", Controller.bDisableKillBound, "ToogleKillBound",, true );
 		AddLocalizedButtonDisplay("UnlockAllDoorsCheat", Controller.bShouldUnlockAllDoors, "UnlockDoorsToggle",, true );
 		AddLocalizedButtonDisplay("InfiniteBatteryCheat", Controller.bShouldHaveInfiniteBattery, "ToogleInfiniteBattery",, true );
@@ -275,8 +277,8 @@ Event Save_Position_Interface()
 		AddLocalizedButtonDisplay("EveryoneFatherMartinFunny", Controller.bShouldMartinReplaceEnemyModels, "MartinifyToggle",vect2d(15, 25),,, StartClip, EndClip );
 		AddLocalizedButtonDisplay("EveryoneWieldFatherMartin", Controller.bShouldWieldFatherMartin, "ToogleWieldFatherMartin",,true);
 		AddLocalizedButtonDisplay("WernickeSkipFunny", DisplaySHOption("WernickeSkip"), "ToggleSHOption WernickeSkip", , true);
-		AddLocalizedButtonDisplay("FreeBhopsFunny", Controller.bShouldMakeBhopsFree, "FreeBhop", , true);
-		AddLocalizedButtonDisplay("OL2BandageFunny", Controller.bIsOL2BandageSimulatorEnabled, "SimulateBandages", , true);
+		AddLocalizedButtonDisplay("FreeBhopsFunny", DisplaySHOption("FreeBHops"), "ToggleSHOption FreeBHops", , true);
+		AddLocalizedButtonDisplay("OL2BandageFunny", DisplaySHOption("OL2BandageSim"), "ToggleSHOption OL2BandageSim", , true);
 		AddLocalizedButtonDisplay("OL2StaminaFunny", Controller.bIsOL2StaminaSimulatorEnabled, "SimulateOL2Stamina", , true);
 		AddLocalizedButtonDisplay("SeizureFunny", Controller.SpeedPawn.bShouldSeizure,"ToggleSeizure",,True);
 		AddLocalizedButton("BackText", "SetMenu Normal", , true);
@@ -322,7 +324,7 @@ Event Save_Position_Interface()
 		break;
 
 		Case SHDebug:
-		AddLocalizedButton("ModDebugInfo", "ShowModDebug", vect2d(15, 25),,, StartClip, EndClip );
+		AddLocalizedButton("ModDebugInfo", "ToggleSHOption ModDebugView", vect2d(15, 25),,, StartClip, EndClip );
 		AddButton("SimulateController", "SetSHDebugOption SimulateController -1" $ GetSHDebugOption('SimulateController'), , true);
 		AddLocalizedButton("BackText", "SetMenu Normal", , true);
 		break;

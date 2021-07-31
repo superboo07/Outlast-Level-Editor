@@ -77,23 +77,24 @@ function PossessedBy(Controller C, bool bVehicleTransition)
 
 event TakeDamage(int Damage, Controller InstigatedBy, Vector HitLocation, Vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-	if (!SpeedController.bGodMode)
-	{
-		Super.TakeDamage(Damage, InstigatedBy, HitLocation, Momentum, DamageType, HitInfo, DamageCauser);
-		if (Health-Damage<=RequireBandageAtHealth)
-		{
-			WorldInfo.Game.SetTimer(0.01, false, 'RemoveBandage', self);
-		}
-	}
+	onTakeDamage(Damage, InstigatedBy, HitLocation, Momentum, DamageType, HitInfo, DamageCauser);
+}
+
+delegate onTakeDamage(int Damage, Controller InstigatedBy, Vector HitLocation, Vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
+{
+	super.TakeDamage(Damage, InstigatedBy, HitLocation, Momentum, DamageType, HitInfo, DamageCauser);
+	
 }
 
 function TakeFallingDamage()
 {
-	if (!SpeedController.bGodMode)
-	{
-		NativeTakeFallingDamage();
-		WorldInfo.Game.SetTimer(0.00001, false, 'BandageFallDamage', self);
-	}
+	onTakeFallingDamage();
+	//WorldInfo.Game.SetTimer(0.00001, false, 'BandageFallDamage', self);
+}
+
+delegate onTakeFallingDamage()
+{
+	super.TakeFallingDamage();
 }
 
 Function BandageFallDamage()
@@ -130,13 +131,13 @@ Function EnableOL2Simulator()
 
 event Landed(Vector HitNormal, Actor FloorActor)
 {
-	local Vector Impulse;
-	if (!SpeedController.bShouldMakeBhopsFree)
-	{
-		super.Landed(HitNormal, FloorActor);
-		return;
-	}
+	onLanded(HitNormal, FloorActor);
 	TakeFallingDamage();
+}
+
+Delegate onLanded(Vector HitNormal, Actor FloorActor)
+{
+	super.Landed(HitNormal, FloorActor);
 }
 
 event RemoveBandage()
@@ -429,7 +430,7 @@ Function StaminaRotationTick()
 	}
 }
 
-exec Function Bandage()
+/*exec Function Bandage()
 {
 	if (SpeedController.bIsOL2BandageSimulatorEnabled && bNeedsBandage && !bHasBandage && LocomotionMode==LM_Walk)
 	{
@@ -438,7 +439,7 @@ exec Function Bandage()
 		WorldInfo.Game.SetTimer(BandageTime, false, 'BandageFinish', self);
 		BandagePlayStartAudio();
 	}
-}
+}*/
 
 exec Function ToggleSeizure()
 {
@@ -460,7 +461,7 @@ function Seizure()
 	WorldInfo.Game.SetTimer(0.000000000001, false, 'Seizure', self);
 }
 
-exec Function StopBandage()
+/*exec Function StopBandage()
 {
 	if (SpeedController.bIsOL2BandageSimulatorEnabled && bNeedsBandage && !bHasBandage)
 	{
@@ -470,7 +471,7 @@ exec Function StopBandage()
 		BisBandaging=false;
 		BandageAudioEmitter.Stop();
 	}
-}
+}*/
 
 Function BandagePlayStartAudio()
 {
@@ -562,11 +563,6 @@ DefaultProperties
 	begin object name=HeadMeshComp
 		LightEnvironment=DynamicLightEnvironmentComponent'MyLightEnvironment'
 	End Object
-
-	begin object name=BandageAudioComponent class=AudioComponent 
-	End Object
-	BandageAudioEmitter=BandageAudioComponent
-	Components.Add(BandageAudioComponent)
 
 	begin object name=FunctionHolder class=OLSpeedFunctions
 	End Object

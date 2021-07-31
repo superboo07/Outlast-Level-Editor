@@ -17,8 +17,6 @@ event InitGame( string Options, out string ErrorMessage )
 event PostBeginPlay()
 {
 	local Controller C;
-
-	SHOptions.onInitialize();
 	
 	foreach WorldInfo.AllControllers(class'Controller', C)
 	{

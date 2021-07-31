@@ -1,6 +1,7 @@
 Class SHActorDebugView extends SHModifier;
 
-var config array<String> Ignore_Actors;
+var config array<String> IgnoreActors;
+var config Float MaxViewDistance;
 
 Event onDisable()
 {
@@ -36,7 +37,7 @@ Event onTimer()
 		Location = GameplayMarker.Location;
 		ignore=false;
 
-		if (Ignore_Actors.Find(String(GameplayMarker.Class))!=Index_NONE ) { break; } //Check if Ignore_Actor array contains this class, if it does tell it to fuck off.
+		if (IgnoreActors.Find(String(GameplayMarker.Class))!=Index_NONE ) { break; } //Check if Ignore_Actor array contains this class, if it does tell it to fuck off.
 
 		Just_Spawned = Spawn(Class'SpriteView', GameplayMarker, 'idc', Location);
 		Just_Spawned.SetBase(GameplayMarker);
@@ -111,12 +112,12 @@ Event onDrawHUD(SHHUD Caller)
 			}*/
 			String = String $ "\nIsCalledInKismet: " $ IsCalledInKismet;
 			if (Caller.CurrentGame.CurrentCheckpointName==Checkpoint.CheckpointName) {string = string $ "\nCurrent Checkpoint";} //If the Current Chapter is equal to the ChapterName of this Checkpoint, print Current Chapter.
-			Caller.WorldTextDraw(string, Checkpoint.location, Caller.Controller.Max_View_Distance, 200, vect(100,0,0));
+			Caller.WorldTextDraw(string, Checkpoint.location, MaxViewDistance, 200, vect(100,0,0));
 		}
 
 		foreach AllActors(class'OLGameplayMarker', GameplayMarker)
 		{
-			if ( Caller.ContainsString( Caller.controller.Ignore_Actors, String(GameplayMarker.Class) ) ) { break; } //Check if the Ignore_Actor array from the player controller contains this class, if it does tell it to fuck off.
+			if ( IgnoreActors.find(string(GameplayMarker.Class))!=INDEX_NONE ) { break; } //Check if the Ignore_Actor array from the player controller contains this class, if it does tell it to fuck off.
 
 			string = string(GameplayMarker.class) $ "\n";
 			if (GameplayMarker.BEnabled)
@@ -152,7 +153,7 @@ Event onDrawHUD(SHHUD Caller)
 				Default: goto Print; break;
 			}
 			Print: 
-			Caller.WorldTextDraw(string, GameplayMarker.location, Caller.Controller.Max_View_Distance, 200, vect(100,0,0));
+			Caller.WorldTextDraw(string, GameplayMarker.location, MaxViewDistance, 200, vect(100,0,0));
 		}
 
 		foreach dynamicactors(Class'OLPickableObject', PickableObject)
@@ -182,7 +183,7 @@ Event onDrawHUD(SHHUD Caller)
 
 					Default: Goto Print;
 				}
-				Print: Caller.WorldTextDraw(string, PickableObject.location, Caller.Controller.Max_View_Distance, 150, vect(0,0,0));
+				Print: Caller.WorldTextDraw(string, PickableObject.location, MaxViewDistance, 150, vect(0,0,0));
 			}
 		}
 
@@ -190,16 +191,16 @@ Event onDrawHUD(SHHUD Caller)
 		{
 			string = string(EnemyPawn.class) $ "\n";
 			string = string $ "Should Attack: " $ EnemyPawn.Modifiers.bShouldAttack $ "\nDisableKnockbackFromPlayer: " $ EnemyPawn.Modifiers.bDisableKnockbackFromPlayer $ "\nEnemy Mode: " $ EnemyPawn.EnemyMode $ "\nBehavior Tree: " $ EnemyPawn.BehaviorTree;
-			Caller.WorldTextDraw(string, EnemyPawn.location, Caller.Controller.Max_View_Distance, 200, vect(0,-450,0));
+			Caller.WorldTextDraw(string, EnemyPawn.location, MaxViewDistance, 200, vect(0,-450,0));
 		}
 
 		foreach dynamicactors(Class'OLDoor', Door)
 		{
 			String = Door.Class $ "\nDoes Collide: " $ Door.CollisionComponent.CollideActors $ "\nIs Locked: " $ Door.bLocked $ "\nDoor State: " $ Door.DoorState;
-			Caller.WorldTextDraw(String, Door.location, Caller.Controller.Max_View_Distance, 200, vect(0,-450,0));
+			Caller.WorldTextDraw(String, Door.location, MaxViewDistance, 200, vect(0,-450,0));
 		}
 
 	}
 
-	Caller.ScreenTextDraw(PlayerDebug, vect2d(0,25), Caller.MakeRGBA(255,255,255));
+	Caller.PlayerDebug = Caller.PlayerDebug $ PlayerDebug;
 }
