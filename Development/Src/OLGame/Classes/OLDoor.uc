@@ -9,8 +9,7 @@ class OLDoor extends Actor
     native
     placeable
     hidecategories(Navigation)
-    classgroup(OL,Ingredient)
-    implements(Interface_NavMeshPathObject,Interface_NavMeshPathObstacle);
+    classgroup(OL,Ingredient);
 
 enum EOLDoorType
 {

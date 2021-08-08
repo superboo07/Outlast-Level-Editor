@@ -9,8 +9,7 @@ class OLBashableObject extends Actor
     native
     placeable
     hidecategories(Navigation)
-    classgroup(OL,Ingredient)
-    implements(Interface_NavMeshPathObject);
+    classgroup(OL,Ingredient);
 
 enum EOLBashableType
 {

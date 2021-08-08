@@ -8,8 +8,7 @@
 class OLAIVaultMarker extends OLGameplayMarker
     native
     placeable
-    hidecategories(Navigation)
-    implements(Interface_NavMeshPathObject);
+    hidecategories(Navigation);
 
 var() float VaultWidth;
 var() int NonChaseCostMultiplier;

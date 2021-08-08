@@ -8,8 +8,7 @@
 class OLLedgeMarker extends OLGameplayMarker
     native
     placeable
-    hidecategories(Navigation)
-    implements(Interface_NavMeshPathObject);
+    hidecategories(Navigation);
 
 var() OLLedgeMarker Next;
 var transient OLLedgeMarker Prev;
