@@ -42,3 +42,5 @@ The workspace also includes build tasks that allow you to compile, and launch th
 
 P.S If you use Visual Studio Code, I highly recommend using the unreal script plugin by Eliot, it's really good, and makes programming in unreal script way easier. 
 https://marketplace.visualstudio.com/items?itemName=EliotVU.uc
+
+Steam Guide: https://steamcommunity.com/sharedfiles/filedetails/?id=2477722721
