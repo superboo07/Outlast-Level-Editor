@@ -346,10 +346,11 @@ var float DefaultAirControl;
 var float DestinationPredictionFactor;
 var float DestinationPredictionMax;
 var name FloorMaterialGroup;
-// var AkEvent FootStepSound_Walk;
+var AkEvent FootStepSound_Walk;
+var AkEvent FootStepSound_Run;
 var const string SubtitleName;
 var float PendingAnimSetUpdateTime;
-
+var OLAnimNodeSlot FullBodyAnimSlot;
 // Export UOLPawn::execIsSpecialMoveCompleted(FFrame&, void* const)
 native function bool IsSpecialMoveCompleted();
 
