@@ -368,6 +368,7 @@ var MaterialInstanceConstant FootstepBarefeetDecalMatR1;
 var MaterialInstanceConstant FootstepBarefeetDecalMatR2;
 var MaterialInstanceConstant CameraScreenMat;
 var name CameraScreenParamName;
+var OLAnimNodeSlot ShadowProxyFullBodyAnimSlot;
 var AnimNodeSlot RightArmAnimSlot;
 var AnimNodeSlot ShadowProxyRightArmAnimSlot;
 var AnimNodeSlot LeftArmAnimSlot;
